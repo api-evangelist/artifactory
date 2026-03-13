@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jfrog.com/schemas/artifactory-file-info.json",
+  "title": "Artifactory File Info",
+  "description": "Schema for artifact file information returned by the Artifactory storage API, including metadata, checksums, and download URI.",
+  "type": "object",
+  "properties": {
+    "repo": {
+      "type": "string",
+      "description": "Repository key where the file is stored.",
+      "examples": ["libs-release-local"]
+    },
+    "path": {
+      "type": "string",
+      "description": "Path to the file within the repository.",
+      "examples": ["/org/example/mylib/1.0/mylib-1.0.jar"]
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the file was first created."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "Username of the user who created/deployed the file."
+    },
+    "lastModified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last modification."
+    },
+    "modifiedBy": {
+      "type": "string",
+      "description": "Username of the user who last modified the file."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last update (including metadata changes)."
+    },
+    "downloadUri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Direct download URI for the artifact."
+    },
+    "remoteUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Remote URL if this is a cached remote artifact."
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the file.",
+      "examples": ["application/java-archive", "application/octet-stream", "text/xml"]
+    },
+    "size": {
+      "type": ["string", "integer"],
+      "description": "File size in bytes. May be returned as a string or integer."
+    },
+    "checksums": {
+      "$ref": "#/$defs/checksums",
+      "description": "Checksums computed by Artifactory."
+    },
+    "originalChecksums": {
+      "$ref": "#/$defs/checksums",
+      "description": "Checksums as provided during deployment (before Artifactory verification)."
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "API URI for this file info resource."
+    }
+  },
+  "$defs": {
+    "checksums": {
+      "type": "object",
+      "description": "File checksums in multiple hash algorithms.",
+      "properties": {
+        "sha1": {
+          "type": "string",
+          "description": "SHA-1 hash of the file content.",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 hash of the file content.",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "md5": {
+          "type": "string",
+          "description": "MD5 hash of the file content.",
+          "pattern": "^[a-f0-9]{32}$"
+        }
+      }
+    }
+  }
+}

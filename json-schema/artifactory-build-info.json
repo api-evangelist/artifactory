@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jfrog.com/schemas/artifactory-build-info.json",
+  "title": "Artifactory Build Info",
+  "description": "Schema for JFrog Artifactory build information, representing a CI/CD build record including modules, artifacts, dependencies, and environment details.",
+  "type": "object",
+  "required": ["version", "name", "number", "started"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Build info JSON schema version.",
+      "examples": ["1.0.1"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Build name identifier.",
+      "examples": ["my-application"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Build number (version string).",
+      "examples": ["123", "1.0.0-SNAPSHOT"]
+    },
+    "type": {
+      "type": "string",
+      "description": "Build type corresponding to the build tool used.",
+      "enum": [
+        "GENERIC",
+        "MAVEN",
+        "GRADLE",
+        "IVY",
+        "ANT",
+        "NPM",
+        "NUGET",
+        "GO",
+        "PIP",
+        "DOCKER"
+      ]
+    },
+    "agent": {
+      "type": "object",
+      "description": "Information about the CI server agent.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Agent name (e.g., Jenkins, TeamCity, GitHub Actions).",
+          "examples": ["Jenkins", "GitHub Actions"]
+        },
+        "version": {
+          "type": "string",
+          "description": "Agent version."
+        }
+      }
+    },
+    "buildAgent": {
+      "type": "object",
+      "description": "Information about the build tool agent.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Build tool name (e.g., MAVEN, GRADLE, NPM).",
+          "examples": ["MAVEN", "GRADLE"]
+        },
+        "version": {
+          "type": "string",
+          "description": "Build tool version."
+        }
+      }
+    },
+    "started": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the build started."
+    },
+    "durationMillis": {
+      "type": "integer",
+      "description": "Build duration in milliseconds.",
+      "minimum": 0
+    },
+    "principal": {
+      "type": "string",
+      "description": "The user principal who triggered the build."
+    },
+    "artifactoryPrincipal": {
+      "type": "string",
+      "description": "The Artifactory user associated with the build."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the build in the CI server."
+    },
+    "vcsRevision": {
+      "type": "string",
+      "description": "VCS revision (e.g., Git commit SHA).",
+      "examples": ["a1b2c3d4e5f6"]
+    },
+    "vcsUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "VCS repository URL."
+    },
+    "vcs": {
+      "type": "array",
+      "description": "Detailed VCS information for multi-module builds.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "string",
+            "description": "VCS revision/commit."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "VCS repository URL."
+          },
+          "branch": {
+            "type": "string",
+            "description": "VCS branch name."
+          },
+          "message": {
+            "type": "string",
+            "description": "Commit message."
+          }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "description": "Build modules, each representing a logical unit of the build.",
+      "items": {
+        "$ref": "#/$defs/module"
+      }
+    },
+    "statuses": {
+      "type": "array",
+      "description": "Build promotion status history.",
+      "items": {
+        "$ref": "#/$defs/status"
+      }
+    },
+    "properties": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Build-level custom properties."
+    },
+    "buildDependencies": {
+      "type": "array",
+      "description": "Other builds this build depends on.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the dependency build."
+          },
+          "number": {
+            "type": "string",
+            "description": "Number of the dependency build."
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start time of the dependency build."
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "module": {
+      "type": "object",
+      "description": "A build module representing a logical unit (e.g., a Maven module).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Module identifier (e.g., groupId:artifactId:version for Maven).",
+          "examples": ["com.example:my-module:1.0.0"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Module type."
+        },
+        "artifacts": {
+          "type": "array",
+          "description": "Artifacts produced by this module.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "Dependencies consumed by this module.",
+          "items": {
+            "$ref": "#/$defs/dependency"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Module-level custom properties."
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "description": "An artifact produced by a build module.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Artifact type/extension.",
+          "examples": ["jar", "pom", "war", "tar.gz"]
+        },
+        "sha1": {
+          "type": "string",
+          "description": "SHA-1 checksum.",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 checksum.",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "md5": {
+          "type": "string",
+          "description": "MD5 checksum.",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Artifact file name.",
+          "examples": ["my-module-1.0.0.jar"]
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Artifact-level properties."
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "description": "A dependency consumed by a build module.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Dependency type/extension.",
+          "examples": ["jar", "pom"]
+        },
+        "sha1": {
+          "type": "string",
+          "description": "SHA-1 checksum.",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 checksum.",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "md5": {
+          "type": "string",
+          "description": "MD5 checksum.",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "id": {
+          "type": "string",
+          "description": "Dependency identifier.",
+          "examples": ["org.apache.commons:commons-lang3:3.12.0"]
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Dependency scopes.",
+          "examples": [["compile", "runtime"]]
+        },
+        "requestedBy": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "Dependency path showing which modules requested this dependency."
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "A build promotion status record.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Promotion status label.",
+          "examples": ["Staged", "Released", "Rolled-back"]
+        },
+        "comment": {
+          "type": "string",
+          "description": "Comment associated with the status change."
+        },
+        "repository": {
+          "type": "string",
+          "description": "Target repository for this promotion."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the status was applied."
+        },
+        "user": {
+          "type": "string",
+          "description": "Artifactory user who applied the status."
+        },
+        "ciUser": {
+          "type": "string",
+          "description": "CI server user who triggered the promotion."
+        }
+      }
+    }
+  }
+}

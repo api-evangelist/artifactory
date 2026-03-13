@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jfrog.com/schemas/artifactory-permission-target.json",
+  "title": "Artifactory Permission Target",
+  "description": "Schema for JFrog Artifactory permission targets (V2), defining access control rules for repositories and builds. Permission targets map users and groups to specific permissions on repository and build resources.",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name for the permission target.",
+      "examples": ["release-deployers", "dev-team-access"]
+    },
+    "repo": {
+      "$ref": "#/$defs/permissionSection",
+      "description": "Repository permissions section defining access to repository artifacts."
+    },
+    "build": {
+      "$ref": "#/$defs/permissionSection",
+      "description": "Build permissions section defining access to build information."
+    }
+  },
+  "$defs": {
+    "permissionSection": {
+      "type": "object",
+      "description": "A permission section for either repositories or builds.",
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "description": "List of repository or build repository keys this permission applies to. Use 'ANY' for all repositories, 'ANY LOCAL' for all local repos, 'ANY REMOTE' for all remote repos.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            ["libs-release-local", "libs-snapshot-local"],
+            ["ANY"],
+            ["ANY LOCAL"]
+          ]
+        },
+        "actions": {
+          "type": "object",
+          "description": "Permission actions mapped to users and groups.",
+          "properties": {
+            "users": {
+              "type": "object",
+              "description": "Map of usernames to their permission actions.",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/permissionAction"
+                }
+              },
+              "examples": [
+                {
+                  "admin-user": ["manage", "read", "write", "annotate", "delete"],
+                  "deployer": ["read", "write", "annotate"]
+                }
+              ]
+            },
+            "groups": {
+              "type": "object",
+              "description": "Map of group names to their permission actions.",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/permissionAction"
+                }
+              },
+              "examples": [
+                {
+                  "dev-team": ["read", "write", "annotate"],
+                  "readers": ["read"]
+                }
+              ]
+            }
+          }
+        },
+        "includePatterns": {
+          "type": "array",
+          "description": "Artifact path patterns to include in this permission scope.",
+          "items": {
+            "type": "string"
+          },
+          "default": ["**"],
+          "examples": [["**"], ["com/example/**"]]
+        },
+        "excludePatterns": {
+          "type": "array",
+          "description": "Artifact path patterns to exclude from this permission scope.",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "examples": [[], ["com/internal/**"]]
+        }
+      }
+    },
+    "permissionAction": {
+      "type": "string",
+      "description": "A permission action that can be granted to users or groups.",
+      "enum": [
+        "read",
+        "write",
+        "annotate",
+        "delete",
+        "manage",
+        "managedXrayMeta",
+        "distribute"
+      ]
+    }
+  }
+}

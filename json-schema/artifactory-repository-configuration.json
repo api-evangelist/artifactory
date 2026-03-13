@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jfrog.com/schemas/artifactory-repository-configuration.json",
+  "title": "Artifactory Repository Configuration",
+  "description": "Configuration schema for JFrog Artifactory repositories including local, remote, virtual, and federated types.",
+  "type": "object",
+  "required": ["key", "rclass"],
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Unique repository identifier. Must be lowercase and can contain letters, digits, hyphens, dots, and underscores.",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$",
+      "examples": ["libs-release-local", "npm-remote", "docker-virtual"]
+    },
+    "rclass": {
+      "type": "string",
+      "description": "Repository class that determines repository behavior.",
+      "enum": ["local", "remote", "virtual", "federated"]
+    },
+    "packageType": {
+      "type": "string",
+      "description": "The package type this repository handles.",
+      "enum": [
+        "maven",
+        "gradle",
+        "ivy",
+        "sbt",
+        "helm",
+        "cocoapods",
+        "opkg",
+        "rpm",
+        "nuget",
+        "cran",
+        "gems",
+        "npm",
+        "bower",
+        "debian",
+        "composer",
+        "pypi",
+        "docker",
+        "vagrant",
+        "gitlfs",
+        "go",
+        "conan",
+        "chef",
+        "puppet",
+        "generic",
+        "cargo",
+        "conda",
+        "swift",
+        "terraform"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the repository.",
+      "maxLength": 1024
+    },
+    "notes": {
+      "type": "string",
+      "description": "Internal notes about the repository (not visible to end users).",
+      "maxLength": 1024
+    },
+    "includesPattern": {
+      "type": "string",
+      "description": "Comma-separated list of artifact path patterns to include.",
+      "default": "**/*"
+    },
+    "excludesPattern": {
+      "type": "string",
+      "description": "Comma-separated list of artifact path patterns to exclude.",
+      "default": ""
+    },
+    "repoLayoutRef": {
+      "type": "string",
+      "description": "Repository layout reference name.",
+      "examples": ["maven-2-default", "npm-default", "simple-default"]
+    },
+    "handleReleases": {
+      "type": "boolean",
+      "description": "Whether this repository handles release artifacts.",
+      "default": true
+    },
+    "handleSnapshots": {
+      "type": "boolean",
+      "description": "Whether this repository handles snapshot artifacts.",
+      "default": false
+    },
+    "maxUniqueSnapshots": {
+      "type": "integer",
+      "description": "Maximum number of unique snapshots to retain. 0 means unlimited.",
+      "minimum": 0,
+      "default": 0
+    },
+    "suppressPomConsistencyChecks": {
+      "type": "boolean",
+      "description": "Whether to suppress POM consistency checks for Maven artifacts.",
+      "default": false
+    },
+    "blackedOut": {
+      "type": "boolean",
+      "description": "Whether the repository is blacked out (all access denied).",
+      "default": false
+    },
+    "propertySets": {
+      "type": "array",
+      "description": "List of property set names to associate with this repository.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "archiveBrowsingEnabled": {
+      "type": "boolean",
+      "description": "Whether browsing of archive contents is enabled.",
+      "default": false
+    },
+    "xrayIndex": {
+      "type": "boolean",
+      "description": "Whether JFrog Xray indexing is enabled for this repository.",
+      "default": false
+    },
+    "environments": {
+      "type": "array",
+      "description": "List of environments this repository is associated with.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["DEV", "PROD"]]
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the remote repository (only for remote repositories)."
+    },
+    "username": {
+      "type": "string",
+      "description": "Username for authenticating with the remote repository."
+    },
+    "password": {
+      "type": "string",
+      "description": "Password for authenticating with the remote repository."
+    },
+    "proxy": {
+      "type": "string",
+      "description": "Proxy key for remote repository connections."
+    },
+    "remoteRepoChecksumPolicyType": {
+      "type": "string",
+      "description": "Checksum policy for remote repository.",
+      "enum": [
+        "generate-if-absent",
+        "fail",
+        "ignore-and-generate",
+        "pass-thru"
+      ]
+    },
+    "unusedArtifactsCleanupPeriodHours": {
+      "type": "integer",
+      "description": "Hours to keep unused artifacts before cleanup. 0 means disabled.",
+      "minimum": 0,
+      "default": 0
+    },
+    "assumedOfflinePeriodSecs": {
+      "type": "integer",
+      "description": "Seconds to assume remote is offline after a failure.",
+      "minimum": 0,
+      "default": 300
+    },
+    "retrievalCachePeriodSecs": {
+      "type": "integer",
+      "description": "Seconds to cache retrieval results from remote.",
+      "minimum": 0,
+      "default": 7200
+    },
+    "missedRetrievalCachePeriodSecs": {
+      "type": "integer",
+      "description": "Seconds to cache missed retrieval attempts.",
+      "minimum": 0,
+      "default": 1800
+    },
+    "repositories": {
+      "type": "array",
+      "description": "List of repository keys resolved by this virtual repository.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "defaultDeploymentRepo": {
+      "type": "string",
+      "description": "Default deployment repository for virtual repository deployments."
+    },
+    "dockerApiVersion": {
+      "type": "string",
+      "description": "Docker API version for Docker repositories.",
+      "enum": ["V1", "V2"]
+    },
+    "forceNugetAuthentication": {
+      "type": "boolean",
+      "description": "Whether to force authentication for NuGet repositories.",
+      "default": false
+    },
+    "enableTokenAuthentication": {
+      "type": "boolean",
+      "description": "Whether token authentication is enabled for Docker repositories.",
+      "default": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "rclass": { "const": "remote" }
+        },
+        "required": ["rclass"]
+      },
+      "then": {
+        "required": ["url"]
+      }
+    }
+  ]
+}
