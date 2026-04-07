@@ -46,7 +46,7 @@ paths:
   /v2/:
     get:
       operationId: checkApiVersion
-      summary: API Version Check
+      summary: JFrog Artifactory API Version Check
       description: >-
         Check that the registry implements the Docker Registry HTTP API V2.
         Returns 200 OK if the registry supports V2.
@@ -72,7 +72,7 @@ paths:
   /v2/_catalog:
     get:
       operationId: listRepositories
-      summary: List Repositories
+      summary: JFrog Artifactory List Repositories
       description: Returns a list of repositories available in the registry.
       tags:
         - Catalog
@@ -104,7 +104,7 @@ paths:
   /v2/{name}/tags/list:
     get:
       operationId: listTags
-      summary: List Image Tags
+      summary: JFrog Artifactory List Image Tags
       description: Returns the list of tags for a specific image repository.
       tags:
         - Tags
@@ -139,7 +139,7 @@ paths:
   /v2/{name}/manifests/{reference}:
     get:
       operationId: getManifest
-      summary: Get Image Manifest
+      summary: JFrog Artifactory Get Image Manifest
       description: >-
         Retrieves the manifest for an image identified by name and reference
         (tag or digest). The Accept header determines the manifest format returned.
@@ -182,7 +182,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: putManifest
-      summary: Push Image Manifest
+      summary: JFrog Artifactory Push Image Manifest
       description: >-
         Pushes an image manifest to the registry. The manifest must reference
         layers that have already been uploaded.
@@ -218,7 +218,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteManifest
-      summary: Delete Image Manifest
+      summary: JFrog Artifactory Delete Image Manifest
       description: Deletes the manifest identified by name and reference (must be a digest).
       tags:
         - Manifests
@@ -241,7 +241,7 @@ paths:
   /v2/{name}/blobs/{digest}:
     get:
       operationId: getBlob
-      summary: Get Blob (Layer)
+      summary: JFrog Artifactory Get Blob (Layer)
       description: Retrieves a blob (layer) from the registry by its digest.
       tags:
         - Blobs
@@ -277,7 +277,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     head:
       operationId: checkBlobExists
-      summary: Check Blob Exists
+      summary: JFrog Artifactory Check Blob Exists
       description: Checks if a blob exists in the registry without downloading it.
       tags:
         - Blobs
@@ -305,7 +305,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteBlob
-      summary: Delete Blob
+      summary: JFrog Artifactory Delete Blob
       description: Deletes a blob from the registry by its digest.
       tags:
         - Blobs
@@ -327,7 +327,7 @@ paths:
   /v2/{name}/blobs/uploads/:
     post:
       operationId: initiateUpload
-      summary: Initiate Blob Upload
+      summary: JFrog Artifactory Initiate Blob Upload
       description: >-
         Initiates a blob upload. Returns a session URL for uploading data.
         Supports monolithic upload via digest query parameter or chunked
@@ -385,7 +385,7 @@ paths:
   /v2/{name}/blobs/uploads/{uuid}:
     patch:
       operationId: uploadBlobChunk
-      summary: Upload Blob Chunk
+      summary: JFrog Artifactory Upload Blob Chunk
       description: Uploads a chunk of data for the specified upload session.
       tags:
         - Blobs
@@ -432,7 +432,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: completeUpload
-      summary: Complete Blob Upload
+      summary: JFrog Artifactory Complete Blob Upload
       description: >-
         Completes the upload session and creates the blob. The final
         chunk may be included in this request.
@@ -477,7 +477,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: cancelUpload
-      summary: Cancel Blob Upload
+      summary: JFrog Artifactory Cancel Blob Upload
       description: Cancels an in-progress blob upload.
       tags:
         - Blobs
@@ -497,7 +497,7 @@ paths:
   /api/docker/{repoKey}/v2/promote:
     post:
       operationId: promoteDockerImage
-      summary: Promote Docker Image
+      summary: JFrog Artifactory Promote Docker Image
       description: >-
         Artifactory-specific extension to promote a Docker image from one
         repository to another. This is useful for promoting images through

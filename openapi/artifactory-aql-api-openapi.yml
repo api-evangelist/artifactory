@@ -37,7 +37,7 @@ paths:
   /api/search/aql:
     post:
       operationId: executeAqlQuery
-      summary: Execute AQL Query
+      summary: JFrog Artifactory Execute AQL Query
       description: >-
         Executes an Artifactory Query Language (AQL) query and returns matching
         results. AQL supports querying across multiple domains including items

@@ -46,7 +46,7 @@ paths:
   /api/system/ping:
     get:
       operationId: systemPing
-      summary: System Health Ping
+      summary: JFrog Artifactory System Health Ping
       description: Returns a simple "OK" if Artifactory is accessible. Used for health checks.
       tags:
         - System & Configuration
@@ -62,7 +62,7 @@ paths:
   /api/system/version:
     get:
       operationId: getSystemVersion
-      summary: Get Version Information
+      summary: JFrog Artifactory Get Version Information
       description: Returns the Artifactory version and revision information along with enabled addons.
       tags:
         - System & Configuration
@@ -78,7 +78,7 @@ paths:
   /api/system/configuration:
     get:
       operationId: getSystemConfiguration
-      summary: Get System Configuration
+      summary: JFrog Artifactory Get System Configuration
       description: Returns the global system configuration XML (artifactory.config.xml).
       tags:
         - System & Configuration
@@ -95,7 +95,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
     patch:
       operationId: updateSystemConfiguration
-      summary: Update System Configuration
+      summary: JFrog Artifactory Update System Configuration
       description: Applies a YAML patch to update specific parts of the system configuration.
       tags:
         - System & Configuration
@@ -117,7 +117,7 @@ paths:
   /api/system/licenses:
     get:
       operationId: getLicenseInfo
-      summary: Get License Information
+      summary: JFrog Artifactory Get License Information
       description: Returns the license details for the current Artifactory instance.
       tags:
         - System & Configuration
@@ -133,7 +133,7 @@ paths:
   /api/storage/{repoKey}/{itemPath}:
     get:
       operationId: getStorageInfo
-      summary: Get File or Folder Info
+      summary: JFrog Artifactory Get File or Folder Info
       description: >-
         Returns storage information for a file or folder. For files, returns
         checksums, size, timestamps, and download URI. For folders, returns
@@ -159,7 +159,7 @@ paths:
   /api/repositories:
     get:
       operationId: listRepositories
-      summary: List All Repositories
+      summary: JFrog Artifactory List All Repositories
       description: Returns a list of all repositories configured in the system, optionally filtered by type or package type.
       tags:
         - Repositories
@@ -193,7 +193,7 @@ paths:
   /api/repositories/{repoKey}:
     get:
       operationId: getRepository
-      summary: Get Repository Configuration
+      summary: JFrog Artifactory Get Repository Configuration
       description: Returns the configuration for a single repository identified by its key.
       tags:
         - Repositories
@@ -212,7 +212,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: createOrReplaceRepository
-      summary: Create or Replace Repository
+      summary: JFrog Artifactory Create or Replace Repository
       description: Creates a new repository or replaces an existing one with the provided configuration.
       tags:
         - Repositories
@@ -239,7 +239,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
     post:
       operationId: updateRepository
-      summary: Update Repository Configuration
+      summary: JFrog Artifactory Update Repository Configuration
       description: Updates an existing repository configuration. Only provided fields are updated.
       tags:
         - Repositories
@@ -266,7 +266,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteRepository
-      summary: Delete Repository
+      summary: JFrog Artifactory Delete Repository
       description: Removes a repository configuration. Content is deleted unless backed up.
       tags:
         - Repositories
@@ -288,7 +288,7 @@ paths:
   /{repoKey}/{itemPath}:
     get:
       operationId: retrieveArtifact
-      summary: Retrieve Artifact
+      summary: JFrog Artifactory Retrieve Artifact
       description: Downloads a specific artifact from the given repository and path.
       tags:
         - Artifacts & Storage
@@ -309,7 +309,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: deployArtifact
-      summary: Deploy Artifact
+      summary: JFrog Artifactory Deploy Artifact
       description: >-
         Deploys an artifact to the specified repository and path. Supports setting
         properties and checksums via headers.
@@ -362,7 +362,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
     delete:
       operationId: deleteArtifact
-      summary: Delete Artifact
+      summary: JFrog Artifactory Delete Artifact
       description: Deletes an artifact or folder from the specified repository and path.
       tags:
         - Artifacts & Storage
@@ -381,7 +381,7 @@ paths:
   /api/copy/{srcRepoKey}/{srcItemPath}:
     post:
       operationId: copyArtifact
-      summary: Copy Artifact
+      summary: JFrog Artifactory Copy Artifact
       description: Copies an artifact or folder from one location to another.
       tags:
         - Artifacts & Storage
@@ -432,7 +432,7 @@ paths:
   /api/move/{srcRepoKey}/{srcItemPath}:
     post:
       operationId: moveArtifact
-      summary: Move Artifact
+      summary: JFrog Artifactory Move Artifact
       description: Moves an artifact or folder from one location to another.
       tags:
         - Artifacts & Storage
@@ -483,7 +483,7 @@ paths:
   /api/search/artifact:
     get:
       operationId: searchArtifactByName
-      summary: Artifact Search (Quick Search)
+      summary: JFrog Artifactory Artifact Search (Quick Search)
       description: Searches for artifacts by name in the specified repositories.
       tags:
         - Search
@@ -511,7 +511,7 @@ paths:
   /api/search/gavc:
     get:
       operationId: searchByGAVC
-      summary: GAVC Search
+      summary: JFrog Artifactory GAVC Search
       description: Searches for Maven artifacts by groupId, artifactId, version, and classifier coordinates.
       tags:
         - Search
@@ -553,7 +553,7 @@ paths:
   /api/search/checksum:
     get:
       operationId: searchByChecksum
-      summary: Checksum Search
+      summary: JFrog Artifactory Checksum Search
       description: Searches for artifacts matching a specific checksum (SHA-1, SHA-256, or MD5).
       tags:
         - Search
@@ -590,7 +590,7 @@ paths:
   /api/search/prop:
     get:
       operationId: searchByProperty
-      summary: Property Search
+      summary: JFrog Artifactory Property Search
       description: Searches for artifacts with specific properties.
       tags:
         - Search
@@ -612,7 +612,7 @@ paths:
   /api/search/dates:
     get:
       operationId: searchByDate
-      summary: Date-based Search
+      summary: JFrog Artifactory Date-based Search
       description: Searches for artifacts created or modified within a date range.
       tags:
         - Search
@@ -651,7 +651,7 @@ paths:
   /api/search/creation:
     get:
       operationId: searchByCreationDate
-      summary: Creation Date Search
+      summary: JFrog Artifactory Creation Date Search
       description: Searches for artifacts created in a specific date range.
       tags:
         - Search
@@ -685,7 +685,7 @@ paths:
   /api/security/users:
     get:
       operationId: listUsers
-      summary: List Users
+      summary: JFrog Artifactory List Users
       description: Returns a list of all users in the system.
       tags:
         - Security
@@ -705,7 +705,7 @@ paths:
   /api/security/users/{username}:
     get:
       operationId: getUser
-      summary: Get User Details
+      summary: JFrog Artifactory Get User Details
       description: Returns the details for a specific user.
       tags:
         - Security
@@ -729,7 +729,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: createOrReplaceUser
-      summary: Create or Replace User
+      summary: JFrog Artifactory Create or Replace User
       description: Creates a new user or replaces an existing one.
       tags:
         - Security
@@ -757,7 +757,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     delete:
       operationId: deleteUser
-      summary: Delete User
+      summary: JFrog Artifactory Delete User
       description: Deletes an existing user.
       tags:
         - Security
@@ -778,7 +778,7 @@ paths:
   /api/security/groups:
     get:
       operationId: listGroups
-      summary: List Groups
+      summary: JFrog Artifactory List Groups
       description: Returns a list of all groups in the system.
       tags:
         - Security
@@ -796,7 +796,7 @@ paths:
   /api/security/groups/{groupName}:
     get:
       operationId: getGroup
-      summary: Get Group Details
+      summary: JFrog Artifactory Get Group Details
       description: Returns the details for a specific group.
       tags:
         - Security
@@ -820,7 +820,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: createOrReplaceGroup
-      summary: Create or Replace Group
+      summary: JFrog Artifactory Create or Replace Group
       description: Creates a new group or replaces an existing one.
       tags:
         - Security
@@ -848,7 +848,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     delete:
       operationId: deleteGroup
-      summary: Delete Group
+      summary: JFrog Artifactory Delete Group
       description: Deletes an existing group.
       tags:
         - Security
@@ -869,7 +869,7 @@ paths:
   /api/security/permissions:
     get:
       operationId: listPermissionTargets
-      summary: List Permission Targets
+      summary: JFrog Artifactory List Permission Targets
       description: Returns a list of all permission targets in the system.
       tags:
         - Security
@@ -887,7 +887,7 @@ paths:
   /api/security/permissions/{permissionName}:
     get:
       operationId: getPermissionTarget
-      summary: Get Permission Target
+      summary: JFrog Artifactory Get Permission Target
       description: Returns the details for a specific permission target.
       tags:
         - Security
@@ -911,7 +911,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: createOrReplacePermissionTarget
-      summary: Create or Replace Permission Target
+      summary: JFrog Artifactory Create or Replace Permission Target
       description: Creates a new permission target or replaces an existing one.
       tags:
         - Security
@@ -939,7 +939,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     delete:
       operationId: deletePermissionTarget
-      summary: Delete Permission Target
+      summary: JFrog Artifactory Delete Permission Target
       description: Deletes an existing permission target.
       tags:
         - Security
@@ -960,7 +960,7 @@ paths:
   /api/security/token:
     post:
       operationId: createAccessToken
-      summary: Create Access Token
+      summary: JFrog Artifactory Create Access Token
       description: Creates an access token for authenticating with Artifactory.
       tags:
         - Security
@@ -1002,7 +1002,7 @@ paths:
   /api/security/apiKey:
     get:
       operationId: getApiKey
-      summary: Get API Key
+      summary: JFrog Artifactory Get API Key
       description: Returns the API key for the currently authenticated user.
       tags:
         - Security
@@ -1021,7 +1021,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     put:
       operationId: createApiKey
-      summary: Create API Key
+      summary: JFrog Artifactory Create API Key
       description: Creates a new API key for the currently authenticated user.
       tags:
         - Security
@@ -1040,7 +1040,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     delete:
       operationId: revokeApiKey
-      summary: Revoke API Key
+      summary: JFrog Artifactory Revoke API Key
       description: Revokes the API key for the currently authenticated user.
       tags:
         - Security
@@ -1052,7 +1052,7 @@ paths:
   /api/storage/{repoKey}/{itemPath}?properties:
     get:
       operationId: getItemProperties
-      summary: Get Item Properties
+      summary: JFrog Artifactory Get Item Properties
       description: Returns the properties set on a file or folder.
       tags:
         - Artifacts & Storage
@@ -1077,7 +1077,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: setItemProperties
-      summary: Set Item Properties
+      summary: JFrog Artifactory Set Item Properties
       description: Sets properties on a file or folder. Replaces any existing properties with the specified names.
       tags:
         - Artifacts & Storage
@@ -1106,7 +1106,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteItemProperties
-      summary: Delete Item Properties
+      summary: JFrog Artifactory Delete Item Properties
       description: Deletes specific properties from a file or folder.
       tags:
         - Artifacts & Storage
@@ -1129,7 +1129,7 @@ paths:
   /api/replications/{repoKey}:
     get:
       operationId: getReplicationConfig
-      summary: Get Replication Configuration
+      summary: JFrog Artifactory Get Replication Configuration
       description: Returns the replication configuration for a repository.
       tags:
         - Replication
@@ -1148,7 +1148,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       operationId: createOrReplaceReplication
-      summary: Create or Replace Replication
+      summary: JFrog Artifactory Create or Replace Replication
       description: Creates or replaces the replication configuration for a local repository.
       tags:
         - Replication
@@ -1169,7 +1169,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     delete:
       operationId: deleteReplication
-      summary: Delete Replication
+      summary: JFrog Artifactory Delete Replication
       description: Deletes the replication configuration for a repository.
       tags:
         - Replication
@@ -1185,7 +1185,7 @@ paths:
   /api/system/storage:
     get:
       operationId: getStorageSummary
-      summary: Get Storage Summary
+      summary: JFrog Artifactory Get Storage Summary
       description: Returns a summary of storage usage across all repositories.
       tags:
         - System & Configuration
