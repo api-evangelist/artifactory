@@ -30,18 +30,16 @@ security:
   - BearerAuth: []
   - BasicAuth: []
 tags:
-  - name: Base
-    description: API version check and health
-  - name: Catalog
-    description: List available repositories
-  - name: Tags
-    description: List and manage image tags
-  - name: Manifests
-    description: Push and pull image manifests
-  - name: Blobs
-    description: Push and pull image layers (blobs)
   - name: Artifactory Extensions
     description: Artifactory-specific Docker API extensions
+  - name: Base
+    description: API version check and health
+  - name: Blobs
+    description: Push and pull image layers (blobs)
+  - name: Catalog
+    description: List available repositories
+  - name: Manifests
+    description: Push and pull image manifests
 paths:
   /v2/:
     get:
@@ -106,8 +104,7 @@ paths:
       operationId: listTags
       summary: JFrog Artifactory List Image Tags
       description: Returns the list of tags for a specific image repository.
-      tags:
-        - Tags
+      tags: []
       parameters:
         - $ref: '#/components/parameters/ImageName'
         - name: n

@@ -8,14 +8,14 @@ created: '2024-01-15'
 modified: '2026-03-04'
 specificationVersion: '0.16'
 tags:
-  - artifacts
-  - repository
-  - devops
-  - ci/cd
-  - package management
-  - docker registry
-  - maven
-  - npm
+  - Artifacts
+  - Ci/Cd
+  - Devops
+  - Docker Registry
+  - Maven
+  - Npm
+  - Package Management
+  - Repository
 apis:
   - name: Artifactory REST API
     description: >-
@@ -26,9 +26,9 @@ apis:
     humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
     version: v1
     tags:
-      - rest
-      - artifacts
-      - repositories
+      - Artifacts
+      - Repositories
+      - Rest
     properties:
       - type: Documentation
         url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
@@ -51,37 +51,32 @@ apis:
     description: >-
       Advanced search API using a SQL-like query language for finding artifacts.
     baseURL: https://artifactory.example.com/artifactory/api/search/aql
-    humanURL: 
-      https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+    humanURL: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
     version: v1
     tags:
-      - search
-      - query
-      - aql
+      - Aql
+      - Query
+      - Search
     properties:
       - type: Documentation
-        url: 
-          https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
       - type: OpenAPI
         url: openapi/artifactory-aql-api-openapi.yml
       - type: Examples
-        url: 
-          https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
   - name: Artifactory Docker Registry API
     description: >-
       Docker Registry v2 API for managing Docker images.
     baseURL: https://artifactory.example.com/artifactory/api/docker
-    humanURL: 
-      https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+    humanURL: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
     version: v2
     tags:
-      - docker
-      - containers
-      - registry
+      - Containers
+      - Docker
+      - Registry
     properties:
       - type: Documentation
-        url: 
-          https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
       - type: OpenAPI
         url: openapi/artifactory-docker-registry-api-openapi.yml
   - name: Artifactory Build Integration API
@@ -91,9 +86,9 @@ apis:
     humanURL: https://jfrog.com/help/r/jfrog-rest-apis/builds
     version: v1
     tags:
-      - builds
-      - ci/cd
-      - integration
+      - Builds
+      - Ci/Cd
+      - Integration
     properties:
       - type: Documentation
         url: https://jfrog.com/help/r/jfrog-rest-apis/builds
@@ -127,8 +122,7 @@ common:
   - type: Documentation
     url: https://jfrog.com/help/
   - type: Getting Started
-    url: 
-      https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
   - type: Authentication
     url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
   - type: Support

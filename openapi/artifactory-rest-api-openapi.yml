@@ -30,18 +30,18 @@ security:
   - ApiKeyAuth: []
   - BasicAuth: []
 tags:
-  - name: System & Configuration
-    description: System health, version, and configuration management
-  - name: Repositories
-    description: Create, read, update, and delete repositories
   - name: Artifacts & Storage
     description: Deploy, retrieve, copy, move, and delete artifacts
+  - name: Replication
+    description: Repository replication configuration and management
+  - name: Repositories
+    description: Create, read, update, and delete repositories
   - name: Search
     description: Search for artifacts using various criteria
   - name: Security
     description: Users, groups, permissions, and tokens
-  - name: Replication
-    description: Repository replication configuration and management
+  - name: System & Configuration
+    description: System health, version, and configuration management
 paths:
   /api/system/ping:
     get:
