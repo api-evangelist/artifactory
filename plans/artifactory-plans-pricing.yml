@@ -4,177 +4,197 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: JFrog Artifactory
 providerId: artifactory
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Artifacts
   - DevOps
   - CI/CD
   - Docker Registry
-  - Maven
   - Package Management
   - Repository
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: JFrog prices Artifactory by SaaS subscription tier with included base consumption (storage)
+  plus tiered overage on storage. Self-managed plans are sold annually by server count. Per-API-call
+  pricing is not published; APIs are included with the platform subscription.
+sources:
+  - https://jfrog.com/pricing/
 plans:
-  - id: artifactory-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the JFrog Artifactory API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+  - id: artifactory-pro-saas
+    name: Pro (SaaS)
+    type: subscription
+    description: SaaS Artifactory entry tier including 25 GB base consumption.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
+      - label: Subscription
+        name: subscription_pro
+        type: subscription
+        metric: month
+        limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
         unit: 1
-        price: '0.00'
+        price: $50/month (limited-time, regular $150/month)
         userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
+      - label: Included Storage
+        name: storage_included
+        type: quota
+        metric: gb
+        limit: 25
+        timeFrame: month
         geo: global
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
         unit: 1
-        price: '0.00'
+        price: included
+        userMultiplied: false
+      - label: Storage Overage
+        name: storage_overage
+        type: tiered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: $0.33–$1.25/GB (tiered by volume)
         userMultiplied: false
     elements:
-      - name: Public Documentation
+      - name: Universal Binary Repository
+      - name: Container Registry
+      - name: ML Model Registry
+      - name: CI/CD Integration
       - name: Community Support
-      - name: Sandbox Access
-      - name: Artifactory REST API
-      - name: Artifactory Query Language (AQL) API
-      - name: Artifactory Docker Registry API
-      - name: Artifactory Build Integration API
-  - id: artifactory-pro
-    name: Professional
-    type: paid
-    description: Production tier for JFrog Artifactory. Provides higher quotas, priority support, and
-      access to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
+  - id: artifactory-enterprise-x-saas
+    name: Enterprise X (SaaS)
+    type: subscription
+    description: SaaS Artifactory tier with HA, federation, SSO/SAML, SCA scanning, and 24/7 SLA support.
+      Includes 125 GB base consumption.
     entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Subscription
+        name: subscription_ent_x
+        type: subscription
+        metric: month
         limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: starting at $950/month
+        userMultiplied: false
+      - label: Included Storage
+        name: storage_included
+        type: quota
+        metric: gb
+        limit: 125
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Storage Overage
+        name: storage_overage
+        type: tiered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: $0.33–$1.25/GB (tiered by volume)
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Artifactory REST API
-      - name: Artifactory Query Language (AQL) API
-      - name: Artifactory Docker Registry API
-      - name: Artifactory Build Integration API
-  - id: artifactory-enterprise
-    name: Enterprise
+      - name: High Availability (99.9% Uptime)
+      - name: Artifact Federation
+      - name: Automated Cleanup
+      - name: SSO/SAML
+      - name: GitHub Integration
+      - name: SCA Scanning
+      - name: ML Model Security
+      - name: 24/7 SLA Support
+  - id: artifactory-enterprise-plus-saas
+    name: Enterprise+ (SaaS)
     type: enterprise
-    description: Custom-negotiated tier for JFrog Artifactory. Includes dedicated capacity, contractual
-      SLAs, security review, data residency options, and named technical account management.
+    description: SaaS tier with multisite federation, distribution, advanced network topologies, AppTrust
+      governance, and 24/7 high-touch support with technical account lead.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Subscription
+        name: subscription_ent_plus
+        type: subscription
+        metric: month
         limit: -1
         timeFrame: month
-        geo: configurable
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
+        geo: global
         unit: 1
         price: custom
         userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://artifactory.example.com/artifactory/api
-          - https://artifactory.example.com/artifactory/api/search/aql
-          - https://artifactory.example.com/artifactory/api/docker
-          - https://artifactory.example.com/artifactory/api/build
+      - label: Included Storage
+        name: storage_included
+        type: quota
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
         unit: 1
         price: custom
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Artifactory REST API
-      - name: Artifactory Query Language (AQL) API
-      - name: Artifactory Docker Registry API
-      - name: Artifactory Build Integration API
+      - name: Multisite Federation
+      - name: Distribution
+      - name: Advanced Network Topologies
+      - name: Release Integrity
+      - name: AppTrust Governance
+      - name: 24/7 High Touch Support
+      - name: Technical Account Lead
+  - id: artifactory-pro-x-self-managed
+    name: Pro X (Self-Managed)
+    type: subscription
+    description: Self-managed Artifactory annual subscription, sold per server.
+    entries:
+      - label: Annual Subscription
+        name: subscription_self_pro_x
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: starting at $27,000/year (1 server)
+        userMultiplied: false
+    elements:
+      - name: Self-Hosted Deployment
+      - name: Single Server
+  - id: artifactory-enterprise-x-self-managed
+    name: Enterprise X (Self-Managed)
+    type: subscription
+    description: Self-managed Enterprise X annual subscription with multi-server cluster.
+    entries:
+      - label: Annual Subscription
+        name: subscription_self_ent_x
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: starting at $51,000/year (3 servers)
+        userMultiplied: false
+    elements:
+      - name: Self-Hosted Deployment
+      - name: 3-Server Cluster
+      - name: HA Configuration
+  - id: artifactory-enterprise-plus-self-managed
+    name: Enterprise+ (Self-Managed)
+    type: enterprise
+    description: Self-managed Enterprise+ for 6+ servers with custom-negotiated terms.
+    entries:
+      - label: Annual Subscription
+        name: subscription_self_ent_plus
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom (6+ servers)
+        userMultiplied: false
+    elements:
+      - name: Self-Hosted Deployment
+      - name: 6+ Servers
+      - name: Custom Terms
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
