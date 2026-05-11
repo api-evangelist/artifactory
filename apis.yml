@@ -220,6 +220,11 @@ common:
         description: >-
           Native integration with JFrog Pipelines for end-to-end CI/CD
           orchestration using Artifactory as the artifact store.
+  - type: Integrations
+    url: https://jfrog.com/integrations/
+integrations:
+  - name: Docker
+  - name: Maven
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
