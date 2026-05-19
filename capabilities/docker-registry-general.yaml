@@ -1,0 +1,84 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Docker Registry API
+  description: 'JFrog Artifactory Docker Registry API. 1 operations. Lead operation: JFrog Artifactory List Image Tags. Self-contained
+    Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-registry-general
+    baseUri: https://{server}
+    description: JFrog Artifactory Docker Registry API business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-name-tags-list
+      path: /v2/{name}/tags/list
+      operations:
+      - name: listtags
+        method: GET
+        description: JFrog Artifactory List Image Tags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: n
+          in: query
+          type: integer
+          description: Maximum number of entries to return
+        - name: last
+          in: query
+          type: string
+          description: Last tag name for pagination
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-registry-general-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Docker Registry API. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v2/{name}/tags/list
+      name: v2-name-tags-list
+      description: REST surface for v2-name-tags-list.
+      operations:
+      - method: GET
+        name: listtags
+        description: JFrog Artifactory List Image Tags
+        call: docker-registry-general.listtags
+        with:
+          n: rest.n
+          last: rest.last
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-registry-general-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Docker Registry API. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-list-image-tags
+      description: JFrog Artifactory List Image Tags
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-registry-general.listtags
+      with:
+        n: tools.n
+        last: tools.last
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,233 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory REST API — System & Configuration
+  description: 'JFrog Artifactory REST API — System & Configuration. 6 operations. Lead operation: JFrog Artifactory Get System
+    Configuration. Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - System & Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-system-configuration
+    baseUri: https://{server}/artifactory
+    description: JFrog Artifactory REST API — System & Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: api-system-configuration
+      path: /api/system/configuration
+      operations:
+      - name: getsystemconfiguration
+        method: GET
+        description: JFrog Artifactory Get System Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesystemconfiguration
+        method: PATCH
+        description: JFrog Artifactory Update System Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-system-licenses
+      path: /api/system/licenses
+      operations:
+      - name: getlicenseinfo
+        method: GET
+        description: JFrog Artifactory Get License Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-system-ping
+      path: /api/system/ping
+      operations:
+      - name: systemping
+        method: GET
+        description: JFrog Artifactory System Health Ping
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-system-storage
+      path: /api/system/storage
+      operations:
+      - name: getstoragesummary
+        method: GET
+        description: JFrog Artifactory Get Storage Summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-system-version
+      path: /api/system/version
+      operations:
+      - name: getsystemversion
+        method: GET
+        description: JFrog Artifactory Get Version Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-system-configuration-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory REST API — System & Configuration. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/system/configuration
+      name: api-system-configuration
+      description: REST surface for api-system-configuration.
+      operations:
+      - method: GET
+        name: getsystemconfiguration
+        description: JFrog Artifactory Get System Configuration
+        call: rest-system-configuration.getsystemconfiguration
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatesystemconfiguration
+        description: JFrog Artifactory Update System Configuration
+        call: rest-system-configuration.updatesystemconfiguration
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/system/licenses
+      name: api-system-licenses
+      description: REST surface for api-system-licenses.
+      operations:
+      - method: GET
+        name: getlicenseinfo
+        description: JFrog Artifactory Get License Information
+        call: rest-system-configuration.getlicenseinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/system/ping
+      name: api-system-ping
+      description: REST surface for api-system-ping.
+      operations:
+      - method: GET
+        name: systemping
+        description: JFrog Artifactory System Health Ping
+        call: rest-system-configuration.systemping
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/system/storage
+      name: api-system-storage
+      description: REST surface for api-system-storage.
+      operations:
+      - method: GET
+        name: getstoragesummary
+        description: JFrog Artifactory Get Storage Summary
+        call: rest-system-configuration.getstoragesummary
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/system/version
+      name: api-system-version
+      description: REST surface for api-system-version.
+      operations:
+      - method: GET
+        name: getsystemversion
+        description: JFrog Artifactory Get Version Information
+        call: rest-system-configuration.getsystemversion
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-system-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory REST API — System & Configuration. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-get-system-configuration
+      description: JFrog Artifactory Get System Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.getsystemconfiguration
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-update-system-configuration
+      description: JFrog Artifactory Update System Configuration
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.updatesystemconfiguration
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-license-information
+      description: JFrog Artifactory Get License Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.getlicenseinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-system-health-ping
+      description: JFrog Artifactory System Health Ping
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.systemping
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-storage-summary
+      description: JFrog Artifactory Get Storage Summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.getstoragesummary
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-version-information
+      description: JFrog Artifactory Get Version Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-system-configuration.getsystemversion
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Docker Registry API — Artifactory Extensions
+  description: 'JFrog Artifactory Docker Registry API — Artifactory Extensions. 1 operations. Lead operation: JFrog Artifactory
+    Promote Docker Image. Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Artifactory Extensions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-registry-artifactory-extensions
+    baseUri: https://{server}
+    description: JFrog Artifactory Docker Registry API — Artifactory Extensions business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: api-docker-repoKey-v2-promote
+      path: /api/docker/{repoKey}/v2/promote
+      operations:
+      - name: promotedockerimage
+        method: POST
+        description: JFrog Artifactory Promote Docker Image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: repoKey
+          in: path
+          type: string
+          description: Source repository key
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-registry-artifactory-extensions-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Docker Registry API — Artifactory Extensions. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/docker/{repokey}/v2/promote
+      name: api-docker-repokey-v2-promote
+      description: REST surface for api-docker-repoKey-v2-promote.
+      operations:
+      - method: POST
+        name: promotedockerimage
+        description: JFrog Artifactory Promote Docker Image
+        call: docker-registry-artifactory-extensions.promotedockerimage
+        with:
+          repoKey: rest.repoKey
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-registry-artifactory-extensions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Docker Registry API — Artifactory Extensions. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-promote-docker-image
+      description: JFrog Artifactory Promote Docker Image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-registry-artifactory-extensions.promotedockerimage
+      with:
+        repoKey: tools.repoKey
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

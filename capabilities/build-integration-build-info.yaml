@@ -1,0 +1,153 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Build Integration API — Build Info
+  description: 'JFrog Artifactory Build Integration API — Build Info. 3 operations. Lead operation: Publish Build Info. Self-contained
+    Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Build Info
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: build-integration-build-info
+    baseUri: https://{server}/artifactory
+    description: JFrog Artifactory Build Integration API — Build Info business capability. Self-contained, no shared references.
+    resources:
+    - name: api-build
+      path: /api/build
+      operations:
+      - name: publishbuildinfo
+        method: PUT
+        description: Publish Build Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-build-buildName
+      path: /api/build/{buildName}
+      operations:
+      - name: getbuildruns
+        method: GET
+        description: Get Build Runs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-build-buildName-buildNumber
+      path: /api/build/{buildName}/{buildNumber}
+      operations:
+      - name: getbuildinfo
+        method: GET
+        description: Get Build Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: started
+          in: query
+          type: string
+          description: Build start time filter in ISO8601 format. Useful when multiple builds share the same number.
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: build-integration-build-info-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Build Integration API — Build Info. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/build
+      name: api-build
+      description: REST surface for api-build.
+      operations:
+      - method: PUT
+        name: publishbuildinfo
+        description: Publish Build Info
+        call: build-integration-build-info.publishbuildinfo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/build/{buildname}
+      name: api-build-buildname
+      description: REST surface for api-build-buildName.
+      operations:
+      - method: GET
+        name: getbuildruns
+        description: Get Build Runs
+        call: build-integration-build-info.getbuildruns
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/build/{buildname}/{buildnumber}
+      name: api-build-buildname-buildnumber
+      description: REST surface for api-build-buildName-buildNumber.
+      operations:
+      - method: GET
+        name: getbuildinfo
+        description: Get Build Information
+        call: build-integration-build-info.getbuildinfo
+        with:
+          started: rest.started
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: build-integration-build-info-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Build Integration API — Build Info. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: publish-build-info
+      description: Publish Build Info
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: build-integration-build-info.publishbuildinfo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-build-runs
+      description: Get Build Runs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: build-integration-build-info.getbuildruns
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-build-information
+      description: Get Build Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: build-integration-build-info.getbuildinfo
+      with:
+        started: tools.started
+      outputParameters:
+      - type: object
+        mapping: $.

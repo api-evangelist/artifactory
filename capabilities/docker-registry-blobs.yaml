@@ -1,0 +1,343 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Docker Registry API — Blobs
+  description: 'JFrog Artifactory Docker Registry API — Blobs. 7 operations. Lead operation: JFrog Artifactory Initiate Blob
+    Upload. Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Blobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-registry-blobs
+    baseUri: https://{server}
+    description: JFrog Artifactory Docker Registry API — Blobs business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-name-blobs-uploads
+      path: /v2/{name}/blobs/uploads/
+      operations:
+      - name: initiateupload
+        method: POST
+        description: JFrog Artifactory Initiate Blob Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: digest
+          in: query
+          type: string
+          description: If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic
+            upload.
+        - name: mount
+          in: query
+          type: string
+          description: Digest of blob to mount from another repository
+        - name: from
+          in: query
+          type: string
+          description: Source repository for cross-repo mount
+    - name: v2-name-blobs-uploads-uuid
+      path: /v2/{name}/blobs/uploads/{uuid}
+      operations:
+      - name: uploadblobchunk
+        method: PATCH
+        description: JFrog Artifactory Upload Blob Chunk
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: uuid
+          in: path
+          type: string
+          description: Upload session UUID
+          required: true
+        - name: Content-Range
+          in: header
+          type: string
+          description: Range of bytes being uploaded
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: completeupload
+        method: PUT
+        description: JFrog Artifactory Complete Blob Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: uuid
+          in: path
+          type: string
+          description: Upload session UUID
+          required: true
+        - name: digest
+          in: query
+          type: string
+          description: Expected digest of the complete blob
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: cancelupload
+        method: DELETE
+        description: JFrog Artifactory Cancel Blob Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: uuid
+          in: path
+          type: string
+          description: Upload session UUID
+          required: true
+    - name: v2-name-blobs-digest
+      path: /v2/{name}/blobs/{digest}
+      operations:
+      - name: getblob
+        method: GET
+        description: JFrog Artifactory Get Blob (Layer)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: digest
+          in: path
+          type: string
+          description: Blob digest
+          required: true
+      - name: checkblobexists
+        method: HEAD
+        description: JFrog Artifactory Check Blob Exists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: digest
+          in: path
+          type: string
+          description: Blob digest
+          required: true
+      - name: deleteblob
+        method: DELETE
+        description: JFrog Artifactory Delete Blob
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: digest
+          in: path
+          type: string
+          description: Blob digest
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-registry-blobs-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Docker Registry API — Blobs. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v2/{name}/blobs/uploads
+      name: v2-name-blobs-uploads
+      description: REST surface for v2-name-blobs-uploads.
+      operations:
+      - method: POST
+        name: initiateupload
+        description: JFrog Artifactory Initiate Blob Upload
+        call: docker-registry-blobs.initiateupload
+        with:
+          digest: rest.digest
+          mount: rest.mount
+          from: rest.from
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/{name}/blobs/uploads/{uuid}
+      name: v2-name-blobs-uploads-uuid
+      description: REST surface for v2-name-blobs-uploads-uuid.
+      operations:
+      - method: PATCH
+        name: uploadblobchunk
+        description: JFrog Artifactory Upload Blob Chunk
+        call: docker-registry-blobs.uploadblobchunk
+        with:
+          uuid: rest.uuid
+          Content-Range: rest.Content-Range
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: completeupload
+        description: JFrog Artifactory Complete Blob Upload
+        call: docker-registry-blobs.completeupload
+        with:
+          uuid: rest.uuid
+          digest: rest.digest
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: cancelupload
+        description: JFrog Artifactory Cancel Blob Upload
+        call: docker-registry-blobs.cancelupload
+        with:
+          uuid: rest.uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/{name}/blobs/{digest}
+      name: v2-name-blobs-digest
+      description: REST surface for v2-name-blobs-digest.
+      operations:
+      - method: GET
+        name: getblob
+        description: JFrog Artifactory Get Blob (Layer)
+        call: docker-registry-blobs.getblob
+        with:
+          digest: rest.digest
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: HEAD
+        name: checkblobexists
+        description: JFrog Artifactory Check Blob Exists
+        call: docker-registry-blobs.checkblobexists
+        with:
+          digest: rest.digest
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteblob
+        description: JFrog Artifactory Delete Blob
+        call: docker-registry-blobs.deleteblob
+        with:
+          digest: rest.digest
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-registry-blobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Docker Registry API — Blobs. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-initiate-blob-upload
+      description: JFrog Artifactory Initiate Blob Upload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-registry-blobs.initiateupload
+      with:
+        digest: tools.digest
+        mount: tools.mount
+        from: tools.from
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-upload-blob-chunk
+      description: JFrog Artifactory Upload Blob Chunk
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-registry-blobs.uploadblobchunk
+      with:
+        uuid: tools.uuid
+        Content-Range: tools.Content-Range
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-complete-blob-upload
+      description: JFrog Artifactory Complete Blob Upload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: docker-registry-blobs.completeupload
+      with:
+        uuid: tools.uuid
+        digest: tools.digest
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-cancel-blob-upload
+      description: JFrog Artifactory Cancel Blob Upload
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-registry-blobs.cancelupload
+      with:
+        uuid: tools.uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-blob-layer
+      description: JFrog Artifactory Get Blob (Layer)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-registry-blobs.getblob
+      with:
+        digest: tools.digest
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-check-blob-exists
+      description: JFrog Artifactory Check Blob Exists
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: docker-registry-blobs.checkblobexists
+      with:
+        digest: tools.digest
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-delete-blob
+      description: JFrog Artifactory Delete Blob
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: docker-registry-blobs.deleteblob
+      with:
+        digest: tools.digest
+      outputParameters:
+      - type: object
+        mapping: $.

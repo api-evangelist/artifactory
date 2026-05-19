@@ -1,0 +1,212 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory REST API — Repositories
+  description: 'JFrog Artifactory REST API — Repositories. 5 operations. Lead operation: JFrog Artifactory List All Repositories.
+    Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Repositories
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-repositories
+    baseUri: https://{server}/artifactory
+    description: JFrog Artifactory REST API — Repositories business capability. Self-contained, no shared references.
+    resources:
+    - name: api-repositories
+      path: /api/repositories
+      operations:
+      - name: listrepositories
+        method: GET
+        description: JFrog Artifactory List All Repositories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Filter by repository type
+        - name: packageType
+          in: query
+          type: string
+          description: Filter by package type (e.g., maven, docker, npm, pypi, etc.)
+    - name: api-repositories-repoKey
+      path: /api/repositories/{repoKey}
+      operations:
+      - name: getrepository
+        method: GET
+        description: JFrog Artifactory Get Repository Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorreplacerepository
+        method: PUT
+        description: JFrog Artifactory Create or Replace Repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updaterepository
+        method: POST
+        description: JFrog Artifactory Update Repository Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleterepository
+        method: DELETE
+        description: JFrog Artifactory Delete Repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-repositories-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory REST API — Repositories. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/repositories
+      name: api-repositories
+      description: REST surface for api-repositories.
+      operations:
+      - method: GET
+        name: listrepositories
+        description: JFrog Artifactory List All Repositories
+        call: rest-repositories.listrepositories
+        with:
+          type: rest.type
+          packageType: rest.packageType
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/repositories/{repokey}
+      name: api-repositories-repokey
+      description: REST surface for api-repositories-repoKey.
+      operations:
+      - method: GET
+        name: getrepository
+        description: JFrog Artifactory Get Repository Configuration
+        call: rest-repositories.getrepository
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: createorreplacerepository
+        description: JFrog Artifactory Create or Replace Repository
+        call: rest-repositories.createorreplacerepository
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: updaterepository
+        description: JFrog Artifactory Update Repository Configuration
+        call: rest-repositories.updaterepository
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleterepository
+        description: JFrog Artifactory Delete Repository
+        call: rest-repositories.deleterepository
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-repositories-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory REST API — Repositories. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-list-all-repositories
+      description: JFrog Artifactory List All Repositories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-repositories.listrepositories
+      with:
+        type: tools.type
+        packageType: tools.packageType
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-repository-configuration
+      description: JFrog Artifactory Get Repository Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-repositories.getrepository
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-create-replace-repository
+      description: JFrog Artifactory Create or Replace Repository
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rest-repositories.createorreplacerepository
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-update-repository-configuration
+      description: JFrog Artifactory Update Repository Configuration
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: rest-repositories.updaterepository
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-delete-repository
+      description: JFrog Artifactory Delete Repository
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: rest-repositories.deleterepository
+      outputParameters:
+      - type: object
+        mapping: $.

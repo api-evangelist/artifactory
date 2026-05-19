@@ -1,0 +1,440 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory REST API — Artifacts & Storage
+  description: 'JFrog Artifactory REST API — Artifacts & Storage. 9 operations. Lead operation: JFrog Artifactory Copy Artifact.
+    Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Artifacts & Storage
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-artifacts-storage
+    baseUri: https://{server}/artifactory
+    description: JFrog Artifactory REST API — Artifacts & Storage business capability. Self-contained, no shared references.
+    resources:
+    - name: api-copy-srcRepoKey-srcItemPath
+      path: /api/copy/{srcRepoKey}/{srcItemPath}
+      operations:
+      - name: copyartifact
+        method: POST
+        description: JFrog Artifactory Copy Artifact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: srcRepoKey
+          in: path
+          type: string
+          description: Source repository key
+          required: true
+        - name: srcItemPath
+          in: path
+          type: string
+          description: Source item path
+          required: true
+        - name: to
+          in: query
+          type: string
+          description: Destination path in format /repoKey/path
+          required: true
+        - name: dry
+          in: query
+          type: integer
+          description: If 1, performs a dry run without actual copy
+        - name: suppressLayouts
+          in: query
+          type: integer
+          description: If 1, suppresses cross-layout translation
+    - name: api-move-srcRepoKey-srcItemPath
+      path: /api/move/{srcRepoKey}/{srcItemPath}
+      operations:
+      - name: moveartifact
+        method: POST
+        description: JFrog Artifactory Move Artifact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: srcRepoKey
+          in: path
+          type: string
+          description: Source repository key
+          required: true
+        - name: srcItemPath
+          in: path
+          type: string
+          description: Source item path
+          required: true
+        - name: to
+          in: query
+          type: string
+          description: Destination path in format /repoKey/path
+          required: true
+        - name: dry
+          in: query
+          type: integer
+          description: If 1, performs a dry run without actual move
+        - name: suppressLayouts
+          in: query
+          type: integer
+          description: If 1, suppresses cross-layout translation
+    - name: api-storage-repoKey-itemPath
+      path: /api/storage/{repoKey}/{itemPath}
+      operations:
+      - name: getstorageinfo
+        method: GET
+        description: JFrog Artifactory Get File or Folder Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-storage-repoKey-itemPath}?properties
+      path: /api/storage/{repoKey}/{itemPath}?properties
+      operations:
+      - name: getitemproperties
+        method: GET
+        description: JFrog Artifactory Get Item Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: properties
+          in: query
+          type: string
+          description: Comma-separated list of property names to retrieve. Omit for all.
+      - name: setitemproperties
+        method: PUT
+        description: JFrog Artifactory Set Item Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: properties
+          in: query
+          type: string
+          description: Properties to set in format key1=value1;key2=value2
+          required: true
+        - name: recursive
+          in: query
+          type: integer
+          description: Apply properties recursively to folder children
+      - name: deleteitemproperties
+        method: DELETE
+        description: JFrog Artifactory Delete Item Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: properties
+          in: query
+          type: string
+          description: Comma-separated list of property names to delete
+          required: true
+    - name: repoKey-itemPath
+      path: /{repoKey}/{itemPath}
+      operations:
+      - name: retrieveartifact
+        method: GET
+        description: JFrog Artifactory Retrieve Artifact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deployartifact
+        method: PUT
+        description: JFrog Artifactory Deploy Artifact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Checksum-Sha1
+          in: header
+          type: string
+          description: SHA1 checksum of the artifact for verification
+        - name: X-Checksum-Sha256
+          in: header
+          type: string
+          description: SHA256 checksum of the artifact for verification
+        - name: X-Checksum-Md5
+          in: header
+          type: string
+          description: MD5 checksum of the artifact for verification
+        - name: X-Checksum-Deploy
+          in: header
+          type: boolean
+          description: If true, deploy by checksum. Artifact content is not required if the checksum already exists in the
+            system.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteartifact
+        method: DELETE
+        description: JFrog Artifactory Delete Artifact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-artifacts-storage-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory REST API — Artifacts & Storage. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/copy/{srcrepokey}/{srcitempath}
+      name: api-copy-srcrepokey-srcitempath
+      description: REST surface for api-copy-srcRepoKey-srcItemPath.
+      operations:
+      - method: POST
+        name: copyartifact
+        description: JFrog Artifactory Copy Artifact
+        call: rest-artifacts-storage.copyartifact
+        with:
+          srcRepoKey: rest.srcRepoKey
+          srcItemPath: rest.srcItemPath
+          to: rest.to
+          dry: rest.dry
+          suppressLayouts: rest.suppressLayouts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/move/{srcrepokey}/{srcitempath}
+      name: api-move-srcrepokey-srcitempath
+      description: REST surface for api-move-srcRepoKey-srcItemPath.
+      operations:
+      - method: POST
+        name: moveartifact
+        description: JFrog Artifactory Move Artifact
+        call: rest-artifacts-storage.moveartifact
+        with:
+          srcRepoKey: rest.srcRepoKey
+          srcItemPath: rest.srcItemPath
+          to: rest.to
+          dry: rest.dry
+          suppressLayouts: rest.suppressLayouts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/storage/{repokey}/{itempath}
+      name: api-storage-repokey-itempath
+      description: REST surface for api-storage-repoKey-itemPath.
+      operations:
+      - method: GET
+        name: getstorageinfo
+        description: JFrog Artifactory Get File or Folder Info
+        call: rest-artifacts-storage.getstorageinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/storage/{repokey}/itempath-properties
+      name: api-storage-repokey-itempath-properties
+      description: REST surface for api-storage-repoKey-itemPath}?properties.
+      operations:
+      - method: GET
+        name: getitemproperties
+        description: JFrog Artifactory Get Item Properties
+        call: rest-artifacts-storage.getitemproperties
+        with:
+          properties: rest.properties
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setitemproperties
+        description: JFrog Artifactory Set Item Properties
+        call: rest-artifacts-storage.setitemproperties
+        with:
+          properties: rest.properties
+          recursive: rest.recursive
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteitemproperties
+        description: JFrog Artifactory Delete Item Properties
+        call: rest-artifacts-storage.deleteitemproperties
+        with:
+          properties: rest.properties
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{repokey}/{itempath}
+      name: repokey-itempath
+      description: REST surface for repoKey-itemPath.
+      operations:
+      - method: GET
+        name: retrieveartifact
+        description: JFrog Artifactory Retrieve Artifact
+        call: rest-artifacts-storage.retrieveartifact
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: deployartifact
+        description: JFrog Artifactory Deploy Artifact
+        call: rest-artifacts-storage.deployartifact
+        with:
+          X-Checksum-Sha1: rest.X-Checksum-Sha1
+          X-Checksum-Sha256: rest.X-Checksum-Sha256
+          X-Checksum-Md5: rest.X-Checksum-Md5
+          X-Checksum-Deploy: rest.X-Checksum-Deploy
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteartifact
+        description: JFrog Artifactory Delete Artifact
+        call: rest-artifacts-storage.deleteartifact
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-artifacts-storage-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory REST API — Artifacts & Storage. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-copy-artifact
+      description: JFrog Artifactory Copy Artifact
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: rest-artifacts-storage.copyartifact
+      with:
+        srcRepoKey: tools.srcRepoKey
+        srcItemPath: tools.srcItemPath
+        to: tools.to
+        dry: tools.dry
+        suppressLayouts: tools.suppressLayouts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-move-artifact
+      description: JFrog Artifactory Move Artifact
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: rest-artifacts-storage.moveartifact
+      with:
+        srcRepoKey: tools.srcRepoKey
+        srcItemPath: tools.srcItemPath
+        to: tools.to
+        dry: tools.dry
+        suppressLayouts: tools.suppressLayouts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-file-folder
+      description: JFrog Artifactory Get File or Folder Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-artifacts-storage.getstorageinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-get-item-properties
+      description: JFrog Artifactory Get Item Properties
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-artifacts-storage.getitemproperties
+      with:
+        properties: tools.properties
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-set-item-properties
+      description: JFrog Artifactory Set Item Properties
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rest-artifacts-storage.setitemproperties
+      with:
+        properties: tools.properties
+        recursive: tools.recursive
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-delete-item-properties
+      description: JFrog Artifactory Delete Item Properties
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: rest-artifacts-storage.deleteitemproperties
+      with:
+        properties: tools.properties
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-retrieve-artifact
+      description: JFrog Artifactory Retrieve Artifact
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-artifacts-storage.retrieveartifact
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-deploy-artifact
+      description: JFrog Artifactory Deploy Artifact
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rest-artifacts-storage.deployartifact
+      with:
+        X-Checksum-Sha1: tools.X-Checksum-Sha1
+        X-Checksum-Sha256: tools.X-Checksum-Sha256
+        X-Checksum-Md5: tools.X-Checksum-Md5
+        X-Checksum-Deploy: tools.X-Checksum-Deploy
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jfrog-artifactory-delete-artifact
+      description: JFrog Artifactory Delete Artifact
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: rest-artifacts-storage.deleteartifact
+      outputParameters:
+      - type: object
+        mapping: $.

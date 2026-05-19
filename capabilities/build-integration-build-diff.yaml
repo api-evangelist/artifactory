@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Build Integration API — Build Diff
+  description: 'JFrog Artifactory Build Integration API — Build Diff. 1 operations. Lead operation: Get Build Diff. Self-contained
+    Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Build Diff
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: build-integration-build-diff
+    baseUri: https://{server}/artifactory
+    description: JFrog Artifactory Build Integration API — Build Diff business capability. Self-contained, no shared references.
+    resources:
+    - name: api-build-diff-buildName-buildNumber
+      path: /api/build/diff/{buildName}/{buildNumber}
+      operations:
+      - name: getbuilddiff
+        method: GET
+        description: Get Build Diff
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: otherNumber
+          in: query
+          type: string
+          description: The other build number to compare against
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: build-integration-build-diff-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Build Integration API — Build Diff. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/build/diff/{buildname}/{buildnumber}
+      name: api-build-diff-buildname-buildnumber
+      description: REST surface for api-build-diff-buildName-buildNumber.
+      operations:
+      - method: GET
+        name: getbuilddiff
+        description: Get Build Diff
+        call: build-integration-build-diff.getbuilddiff
+        with:
+          otherNumber: rest.otherNumber
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: build-integration-build-diff-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Build Integration API — Build Diff. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: get-build-diff
+      description: Get Build Diff
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: build-integration-build-diff.getbuilddiff
+      with:
+        otherNumber: tools.otherNumber
+      outputParameters:
+      - type: object
+        mapping: $.

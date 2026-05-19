@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JFrog Artifactory Docker Registry API — Catalog
+  description: 'JFrog Artifactory Docker Registry API — Catalog. 1 operations. Lead operation: JFrog Artifactory List Repositories.
+    Self-contained Naftiko capability covering one Artifactory business surface.'
+  tags:
+  - Artifactory
+  - Catalog
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ARTIFACTORY_API_KEY: ARTIFACTORY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: docker-registry-catalog
+    baseUri: https://{server}
+    description: JFrog Artifactory Docker Registry API — Catalog business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-_catalog
+      path: /v2/_catalog
+      operations:
+      - name: listrepositories
+        method: GET
+        description: JFrog Artifactory List Repositories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: n
+          in: query
+          type: integer
+          description: Maximum number of entries to return
+        - name: last
+          in: query
+          type: string
+          description: Last repository name for pagination
+    authentication:
+      type: bearer
+      token: '{{env.ARTIFACTORY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: docker-registry-catalog-rest
+    port: 8080
+    description: REST adapter for JFrog Artifactory Docker Registry API — Catalog. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v2/catalog
+      name: v2-catalog
+      description: REST surface for v2-_catalog.
+      operations:
+      - method: GET
+        name: listrepositories
+        description: JFrog Artifactory List Repositories
+        call: docker-registry-catalog.listrepositories
+        with:
+          n: rest.n
+          last: rest.last
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: docker-registry-catalog-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JFrog Artifactory Docker Registry API — Catalog. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: jfrog-artifactory-list-repositories
+      description: JFrog Artifactory List Repositories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: docker-registry-catalog.listrepositories
+      with:
+        n: tools.n
+        last: tools.last
+      outputParameters:
+      - type: object
+        mapping: $.
