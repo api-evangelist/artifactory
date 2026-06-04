@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Compare Build Versions
+  summary: Confirm a build exists, then diff it against a previous build number.
+  description: >-
+    A build comparison flow for JFrog Artifactory. The workflow reads the build
+    info for a given build name and number to confirm it exists, then computes
+    the diff between that build and a prior build number, surfacing added,
+    updated, and removed artifacts and dependencies. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryBuildApi
+  url: ../openapi/artifactory-build-integration-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: compare-build-versions
+  summary: Verify a build then diff it against an earlier build number.
+  description: >-
+    Fetches the build info for the current build number to confirm it exists,
+    then runs a diff against another build number to report what changed.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - buildName
+    - buildNumber
+    - otherNumber
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      buildName:
+        type: string
+        description: The name of the build.
+      buildNumber:
+        type: string
+        description: The current build number to diff from.
+      otherNumber:
+        type: string
+        description: The earlier build number to compare against.
+  steps:
+  - stepId: getBuild
+    description: >-
+      Read the build info for the current build number to confirm it exists
+      before computing a diff.
+    operationId: getBuildInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    - name: buildNumber
+      in: path
+      value: $inputs.buildNumber
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      buildInfo: $response.body#/buildInfo
+  - stepId: diffBuilds
+    description: >-
+      Compute the difference between the current build number and the earlier
+      build number to report changed artifacts and dependencies.
+    operationId: getBuildDiff
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    - name: buildNumber
+      in: path
+      value: $inputs.buildNumber
+    - name: otherNumber
+      in: query
+      value: $inputs.otherNumber
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      artifacts: $response.body#/artifacts
+  outputs:
+    buildInfo: $steps.getBuild.outputs.buildInfo
+    diffArtifacts: $steps.diffBuilds.outputs.artifacts

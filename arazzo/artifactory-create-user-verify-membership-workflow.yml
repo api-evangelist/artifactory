@@ -1,0 +1,109 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Create User and Verify Membership
+  summary: Create a group, create a user in that group, then read the user back to verify.
+  description: >-
+    A user-provisioning-with-verification flow for JFrog Artifactory. The
+    workflow creates a group, creates a user assigned to that group, and then
+    reads the user details back to confirm the group membership was applied.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-user-and-verify-membership
+  summary: Create a group and a user in it, then verify the user's groups.
+  description: >-
+    Creates a group, creates a user belonging to that group, and reads the user
+    details to verify the group membership.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - groupName
+    - username
+    - email
+    - password
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      groupName:
+        type: string
+        description: The group to create and assign the user to.
+      username:
+        type: string
+        description: The username to create.
+      email:
+        type: string
+        description: The email address for the new user.
+      password:
+        type: string
+        description: The initial password for the new user.
+  steps:
+  - stepId: createGroup
+    description: Create the group the user will belong to.
+    operationId: createOrReplaceGroup
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: groupName
+      in: path
+      value: $inputs.groupName
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.groupName
+        description: Group created for membership verification.
+        autoJoin: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      groupStatus: $statusCode
+  - stepId: createUser
+    description: Create the user and assign it to the group.
+    operationId: createOrReplaceUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: username
+      in: path
+      value: $inputs.username
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.username
+        email: $inputs.email
+        password: $inputs.password
+        admin: false
+        profileUpdatable: true
+        groups:
+        - $inputs.groupName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      userStatus: $statusCode
+  - stepId: verifyUser
+    description: >-
+      Read the user details back to confirm the group membership was applied.
+    operationId: getUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: username
+      in: path
+      value: $inputs.username
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groups: $response.body#/groups
+      email: $response.body#/email
+  outputs:
+    userStatus: $steps.createUser.outputs.userStatus
+    groups: $steps.verifyUser.outputs.groups

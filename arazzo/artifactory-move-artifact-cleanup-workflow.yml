@@ -1,0 +1,95 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Move Artifact and Clean Up
+  summary: Move an artifact to a new repository path and verify the destination.
+  description: >-
+    A relocation flow for JFrog Artifactory. The workflow moves an artifact from
+    a source repository path to a destination path (the move both copies and
+    removes the original in a single operation) and then reads the destination
+    storage info to confirm the relocation. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: move-artifact-and-clean-up
+  summary: Move an artifact to a new location and verify it arrived.
+  description: >-
+    Moves an artifact from a source repository path to a destination path and
+    reads the destination storage info to verify the move completed.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - srcRepoKey
+    - srcItemPath
+    - destRepoKey
+    - destItemPath
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      srcRepoKey:
+        type: string
+        description: Source repository key to move the artifact from.
+      srcItemPath:
+        type: string
+        description: Source artifact path within the source repository.
+      destRepoKey:
+        type: string
+        description: Destination repository key to move the artifact to.
+      destItemPath:
+        type: string
+        description: Destination artifact path within the destination repository.
+  steps:
+  - stepId: moveArtifact
+    description: >-
+      Move the artifact from its source location to the destination path,
+      removing the original in the process.
+    operationId: moveArtifact
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: srcRepoKey
+      in: path
+      value: $inputs.srcRepoKey
+    - name: srcItemPath
+      in: path
+      value: $inputs.srcItemPath
+    - name: to
+      in: query
+      value: "/$inputs.destRepoKey/$inputs.destItemPath"
+    - name: dry
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      messages: $response.body#/messages
+  - stepId: verifyDestination
+    description: >-
+      Read the destination storage info to confirm the moved artifact now lives
+      at its new location.
+    operationId: getStorageInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.destRepoKey
+    - name: itemPath
+      in: path
+      value: $inputs.destItemPath
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downloadUri: $response.body#/downloadUri
+      size: $response.body#/size
+  outputs:
+    moveMessages: $steps.moveArtifact.outputs.messages
+    downloadUri: $steps.verifyDestination.outputs.downloadUri

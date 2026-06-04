@@ -1,0 +1,122 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory GAVC Search and Tag
+  summary: Find a Maven artifact by GAVC coordinates, then set properties on it.
+  description: >-
+    A Maven release-tagging flow for JFrog Artifactory. The workflow runs a GAVC
+    coordinate search to locate a Maven artifact, branches on whether a match was
+    found, and when one exists attaches release metadata properties to the
+    artifact at the supplied repository path. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: gavc-search-and-tag
+  summary: Locate a Maven artifact by GAVC and tag it with properties.
+  description: >-
+    Searches for a Maven artifact by group, artifact, and version coordinates
+    and, when found, sets release metadata properties on it.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - groupId
+    - artifactId
+    - version
+    - repoKey
+    - itemPath
+    - propertyString
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      groupId:
+        type: string
+        description: Maven groupId to search for.
+      artifactId:
+        type: string
+        description: Maven artifactId to search for.
+      version:
+        type: string
+        description: Maven version to search for.
+      repoKey:
+        type: string
+        description: Repository key where the matching artifact lives.
+      itemPath:
+        type: string
+        description: Artifact path within the repository to tag.
+      propertyString:
+        type: string
+        description: Properties to set in key1=value1;key2=value2 format.
+  steps:
+  - stepId: searchByGavc
+    description: >-
+      Search for the Maven artifact by its group, artifact, and version
+      coordinates.
+    operationId: searchByGAVC
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: g
+      in: query
+      value: $inputs.groupId
+    - name: a
+      in: query
+      value: $inputs.artifactId
+    - name: v
+      in: query
+      value: $inputs.version
+    - name: repos
+      in: query
+      value: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+    onSuccess:
+    - name: found
+      type: goto
+      stepId: tagArtifact
+      criteria:
+      - context: $response.body
+        condition: $.results.length > 0
+        type: jsonpath
+    - name: notFound
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.results.length == 0
+        type: jsonpath
+  - stepId: tagArtifact
+    description: >-
+      Set the supplied release metadata properties on the located Maven
+      artifact.
+    operationId: setItemProperties
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    - name: properties
+      in: query
+      value: $inputs.propertyString
+    - name: recursive
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      tagStatus: $statusCode
+  outputs:
+    searchResults: $steps.searchByGavc.outputs.results
+    tagStatus: $steps.tagArtifact.outputs.tagStatus

@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory AQL Find and Delete Artifact
+  summary: Run an AQL query to find an artifact, then delete the first match if any.
+  description: >-
+    A cleanup-by-query flow for JFrog Artifactory. The workflow executes an
+    Artifactory Query Language (AQL) query to locate artifacts, branches on
+    whether any results were returned, and when a match exists deletes the first
+    matching artifact by its repository and path. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryAqlApi
+  url: ../openapi/artifactory-aql-api-openapi.yml
+  type: openapi
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: aql-find-and-delete-artifact
+  summary: Find artifacts via AQL and delete the first match when one exists.
+  description: >-
+    Executes an AQL query, and when at least one item is returned, deletes the
+    first matching artifact identified by its repo and path.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - aqlQuery
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      aqlQuery:
+        type: string
+        description: >-
+          The AQL query string to execute (e.g.
+          items.find({"repo":"libs-release-local","name":{"$match":"*.tmp"}})).
+  steps:
+  - stepId: runAql
+    description: >-
+      Execute the AQL query to locate candidate artifacts for deletion.
+    operationId: executeAqlQuery
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: text/plain
+      payload: $inputs.aqlQuery
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      matchedRepo: $response.body#/results/0/repo
+      matchedPath: $response.body#/results/0/path
+      matchedName: $response.body#/results/0/name
+    onSuccess:
+    - name: hasMatch
+      type: goto
+      stepId: deleteMatch
+      criteria:
+      - context: $response.body
+        condition: $.results.length > 0
+        type: jsonpath
+    - name: noMatch
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.results.length == 0
+        type: jsonpath
+  - stepId: deleteMatch
+    description: >-
+      Delete the first matching artifact using the repository and path returned
+      by the AQL query.
+    operationId: deleteArtifact
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $steps.runAql.outputs.matchedRepo
+    - name: itemPath
+      in: path
+      value: $steps.runAql.outputs.matchedPath
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      deleteStatus: $statusCode
+  outputs:
+    matchedName: $steps.runAql.outputs.matchedName
+    deleteStatus: $steps.deleteMatch.outputs.deleteStatus

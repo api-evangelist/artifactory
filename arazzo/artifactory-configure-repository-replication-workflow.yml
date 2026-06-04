@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Configure Repository Replication
+  summary: Create a local repository then set up scheduled push replication for it.
+  description: >-
+    A replication-provisioning flow for JFrog Artifactory. The workflow creates
+    a local repository and then configures scheduled push replication from that
+    repository to a remote Artifactory target, reading the replication config
+    back to confirm it was applied. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: configure-repository-replication
+  summary: Create a repository and configure scheduled replication, then verify it.
+  description: >-
+    Creates a local repository, configures scheduled push replication to a
+    target URL, and reads the replication configuration back to confirm it was
+    saved.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - repoKey
+    - packageType
+    - replicationUrl
+    - cronExp
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      repoKey:
+        type: string
+        description: The local repository key to create and replicate.
+      packageType:
+        type: string
+        description: The package type for the repository (e.g. maven, npm, generic).
+      replicationUrl:
+        type: string
+        description: The target Artifactory repository URL to replicate to.
+      replicationUsername:
+        type: string
+        description: Username for authenticating against the replication target.
+      replicationPassword:
+        type: string
+        description: Password for authenticating against the replication target.
+      cronExp:
+        type: string
+        description: Cron expression controlling the replication schedule.
+  steps:
+  - stepId: createRepository
+    description: Create the local repository that will be the replication source.
+    operationId: createOrReplaceRepository
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    requestBody:
+      contentType: application/json
+      payload:
+        key: $inputs.repoKey
+        rclass: local
+        packageType: $inputs.packageType
+        description: Local repository created for replication.
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      repositoryStatus: $statusCode
+  - stepId: configureReplication
+    description: >-
+      Configure scheduled push replication from the local repository to the
+      target URL.
+    operationId: createOrReplaceReplication
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.replicationUrl
+        username: $inputs.replicationUsername
+        password: $inputs.replicationPassword
+        enabled: true
+        cronExp: $inputs.cronExp
+        syncDeletes: true
+        syncProperties: true
+        repoKey: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      replicationStatus: $statusCode
+  - stepId: verifyReplication
+    description: >-
+      Read the replication configuration back to confirm the schedule and target
+      were saved.
+    operationId: getReplicationConfig
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      replicationConfig: $response.body
+  outputs:
+    repositoryStatus: $steps.createRepository.outputs.repositoryStatus
+    replicationConfig: $steps.verifyReplication.outputs.replicationConfig

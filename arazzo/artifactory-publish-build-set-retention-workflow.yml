@@ -1,0 +1,107 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Publish Build and Set Retention
+  summary: Publish build info, list the build runs, then apply a retention policy.
+  description: >-
+    A build lifecycle-management flow for JFrog Artifactory. The workflow
+    publishes build info, lists the runs recorded for that build name to confirm
+    it exists, and then applies a retention policy that bounds how many builds
+    are kept. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryBuildApi
+  url: ../openapi/artifactory-build-integration-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: publish-build-and-set-retention
+  summary: Publish build info, list its runs, and set a retention policy.
+  description: >-
+    Publishes a build, lists the runs for that build name to verify it was
+    recorded, and configures a retention policy capping the number of retained
+    builds.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - buildName
+    - buildNumber
+    - started
+    - retentionCount
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      buildName:
+        type: string
+        description: The name of the build.
+      buildNumber:
+        type: string
+        description: The build number (version).
+      started:
+        type: string
+        description: The build start timestamp in ISO8601 format.
+      retentionCount:
+        type: integer
+        description: Maximum number of builds to keep (-1 means unlimited).
+  steps:
+  - stepId: publishBuild
+    description: Publish the build info record for the named build and number.
+    operationId: publishBuildInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        version: "1.0.1"
+        name: $inputs.buildName
+        number: $inputs.buildNumber
+        started: $inputs.started
+        type: GENERIC
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      publishStatus: $statusCode
+  - stepId: listRuns
+    description: >-
+      List the runs recorded for the build name to confirm the publish was
+      captured before configuring retention.
+    operationId: getBuildRuns
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      buildsNumbers: $response.body#/buildsNumbers
+  - stepId: setRetention
+    description: >-
+      Apply a retention policy that keeps at most the requested number of builds
+      and deletes their artifacts on cleanup.
+    operationId: setBuildRetention
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    requestBody:
+      contentType: application/json
+      payload:
+        deleteBuildArtifacts: true
+        count: $inputs.retentionCount
+        buildNumbersNotToBeDiscarded: []
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      retentionStatus: $statusCode
+  outputs:
+    buildsNumbers: $steps.listRuns.outputs.buildsNumbers
+    retentionStatus: $steps.setRetention.outputs.retentionStatus

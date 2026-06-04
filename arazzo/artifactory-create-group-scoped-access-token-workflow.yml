@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Create Group-Scoped Access Token
+  summary: Create a group, then mint an access token scoped to that group for a user.
+  description: >-
+    A credential-provisioning flow for JFrog Artifactory. The workflow creates a
+    group and then mints an access token for a user scoped to membership of that
+    group, returning the token string ready for use as a Bearer credential.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-group-scoped-access-token
+  summary: Provision a group and issue a group-scoped access token for a user.
+  description: >-
+    Creates a group, then creates an access token whose scope grants membership
+    of that group to the named user.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - groupName
+    - username
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token used to authenticate the provisioning calls.
+      groupName:
+        type: string
+        description: The group to create and scope the new token to.
+      username:
+        type: string
+        description: The username the access token will represent.
+      expiresIn:
+        type: integer
+        description: Token lifetime in seconds (0 means no expiration).
+  steps:
+  - stepId: createGroup
+    description: Create the group that the access token will be scoped to.
+    operationId: createOrReplaceGroup
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: groupName
+      in: path
+      value: $inputs.groupName
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.groupName
+        description: Group scoped for token-based automation access.
+        autoJoin: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      groupStatus: $statusCode
+  - stepId: createToken
+    description: >-
+      Mint an access token for the user scoped to membership of the group that
+      was just created.
+    operationId: createAccessToken
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/x-www-form-urlencoded
+      payload:
+        username: $inputs.username
+        scope: "member-of-groups:$inputs.groupName"
+        expires_in: $inputs.expiresIn
+        refreshable: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      token: $response.body#/access_token
+      tokenType: $response.body#/token_type
+      tokenScope: $response.body#/scope
+      refreshToken: $response.body#/refresh_token
+  outputs:
+    token: $steps.createToken.outputs.token
+    tokenScope: $steps.createToken.outputs.tokenScope

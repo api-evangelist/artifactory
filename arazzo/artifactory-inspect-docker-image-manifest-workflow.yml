@@ -1,0 +1,89 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Inspect Docker Image Manifest
+  summary: List an image's tags, then fetch the manifest for the first tag found.
+  description: >-
+    A Docker inspection flow for JFrog Artifactory. The workflow lists the tags
+    available for an image, branches on whether any tags were returned, and when
+    at least one tag exists fetches the v2 manifest for the first tag so its
+    layers and config can be examined. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryDockerApi
+  url: ../openapi/artifactory-docker-registry-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inspect-docker-image-manifest
+  summary: List image tags then fetch the manifest for the first tag.
+  description: >-
+    Lists the tags for a Docker image and, when at least one tag is present,
+    retrieves the manifest for the first tag.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - name
+    properties:
+      accessToken:
+        type: string
+        description: Bearer token for authenticating with the Artifactory Docker registry.
+      name:
+        type: string
+        description: The Docker image name/path (e.g. library/nginx).
+  steps:
+  - stepId: listTags
+    description: List the tags available for the image.
+    operationId: listTags
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: name
+      in: path
+      value: $inputs.name
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstTag: $response.body#/tags/0
+      tags: $response.body#/tags
+    onSuccess:
+    - name: hasTags
+      type: goto
+      stepId: getManifest
+      criteria:
+      - context: $response.body
+        condition: $.tags.length > 0
+        type: jsonpath
+    - name: noTags
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.tags.length == 0
+        type: jsonpath
+  - stepId: getManifest
+    description: >-
+      Retrieve the v2 manifest for the first tag so its config and layers can be
+      inspected.
+    operationId: getManifest
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: name
+      in: path
+      value: $inputs.name
+    - name: reference
+      in: path
+      value: $steps.listTags.outputs.firstTag
+    - name: Accept
+      in: header
+      value: application/vnd.docker.distribution.manifest.v2+json
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      manifest: $response.body
+  outputs:
+    tags: $steps.listTags.outputs.tags
+    manifest: $steps.getManifest.outputs.manifest

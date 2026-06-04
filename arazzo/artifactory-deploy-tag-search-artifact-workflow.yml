@@ -1,0 +1,112 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Deploy, Tag, and Search Artifact
+  summary: Deploy an artifact, attach metadata properties to it, then find it by property.
+  description: >-
+    A metadata-driven JFrog Artifactory flow. The workflow deploys an artifact
+    to a repository path, sets descriptive properties on the deployed item, and
+    then runs a property search to confirm the artifact is discoverable by the
+    metadata that was just attached. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: deploy-tag-and-search-artifact
+  summary: Deploy an artifact, set properties on it, and find it via property search.
+  description: >-
+    Uploads an artifact, attaches a property to the deployed item, and then
+    issues a property search scoped to the repository to verify discoverability.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - repoKey
+    - itemPath
+    - artifactContent
+    - propertyString
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      repoKey:
+        type: string
+        description: The repository key the artifact lives in.
+      itemPath:
+        type: string
+        description: The path within the repository to deploy and tag.
+      artifactContent:
+        type: string
+        description: The raw artifact bytes to deploy.
+      propertyString:
+        type: string
+        description: Properties to set in key1=value1;key2=value2 format.
+  steps:
+  - stepId: deployArtifact
+    description: Upload the artifact content to the requested repository path.
+    operationId: deployArtifact
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    requestBody:
+      contentType: application/octet-stream
+      payload: $inputs.artifactContent
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deployedPath: $response.body#/path
+      downloadUri: $response.body#/downloadUri
+  - stepId: setProperties
+    description: >-
+      Attach the supplied metadata properties to the deployed item so it can be
+      located by property search.
+    operationId: setItemProperties
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    - name: properties
+      in: query
+      value: $inputs.propertyString
+    - name: recursive
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      propertiesStatus: $statusCode
+  - stepId: searchByProperty
+    description: >-
+      Run a property search scoped to the repository to confirm the freshly
+      tagged artifact is discoverable.
+    operationId: searchByProperty
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repos
+      in: query
+      value: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+  outputs:
+    downloadUri: $steps.deployArtifact.outputs.downloadUri
+    searchResults: $steps.searchByProperty.outputs.results

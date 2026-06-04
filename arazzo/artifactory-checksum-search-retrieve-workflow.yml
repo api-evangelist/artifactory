@@ -1,0 +1,94 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Checksum Search and Retrieve
+  summary: Find an artifact by its SHA-256 checksum, then read its storage info.
+  description: >-
+    A dedup-and-locate flow for JFrog Artifactory. The workflow searches for an
+    artifact by its SHA-256 checksum, branches on whether a match was found, and
+    when one exists fetches the storage info for the first result so its
+    download URI and size can be reported. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: checksum-search-and-retrieve
+  summary: Locate an artifact by checksum and read its storage info.
+  description: >-
+    Searches for an artifact by SHA-256 checksum and, when a match is found,
+    reads the storage info for the first matching repository and path.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - sha256
+    - repoKey
+    - itemPath
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      sha256:
+        type: string
+        description: The SHA-256 checksum to search for.
+      repoKey:
+        type: string
+        description: The repository key where the matching artifact is expected.
+      itemPath:
+        type: string
+        description: The artifact path within the repository to read storage info for.
+  steps:
+  - stepId: searchByChecksum
+    description: Search for artifacts whose SHA-256 checksum matches the supplied value.
+    operationId: searchByChecksum
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: sha256
+      in: query
+      value: $inputs.sha256
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+    onSuccess:
+    - name: found
+      type: goto
+      stepId: readStorage
+      criteria:
+      - context: $response.body
+        condition: $.results.length > 0
+        type: jsonpath
+    - name: notFound
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.results.length == 0
+        type: jsonpath
+  - stepId: readStorage
+    description: >-
+      Read the storage info for the matching artifact to report its download URI
+      and size.
+    operationId: getStorageInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downloadUri: $response.body#/downloadUri
+      size: $response.body#/size
+  outputs:
+    searchResults: $steps.searchByChecksum.outputs.results
+    downloadUri: $steps.readStorage.outputs.downloadUri

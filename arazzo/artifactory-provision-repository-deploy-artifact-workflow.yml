@@ -1,0 +1,122 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Provision Repository and Deploy Artifact
+  summary: Create a local repository, deploy an artifact into it, and verify the deployment.
+  description: >-
+    A foundational JFrog Artifactory onboarding flow. The workflow creates (or
+    replaces) a local repository with the desired package type, uploads an
+    artifact to a path inside that repository, and then reads the storage
+    information back to confirm the artifact landed with the expected checksums.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-repository-and-deploy-artifact
+  summary: Create a local repository then deploy and verify an artifact in it.
+  description: >-
+    Creates a local repository, deploys a binary artifact to a path within it,
+    and reads back the file storage info to verify the upload succeeded.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - repoKey
+    - packageType
+    - itemPath
+    - artifactContent
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      repoKey:
+        type: string
+        description: The repository key to create (e.g. libs-release-local).
+      packageType:
+        type: string
+        description: The package type for the repository (e.g. maven, npm, docker, generic).
+      description:
+        type: string
+        description: Optional human-readable description for the repository.
+      itemPath:
+        type: string
+        description: The path within the repository to deploy the artifact to.
+      artifactContent:
+        type: string
+        description: The raw artifact bytes to deploy.
+  steps:
+  - stepId: createRepository
+    description: >-
+      Create or replace a local repository with the requested key and package
+      type so artifacts have a place to be deployed.
+    operationId: createOrReplaceRepository
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    requestBody:
+      contentType: application/json
+      payload:
+        key: $inputs.repoKey
+        rclass: local
+        packageType: $inputs.packageType
+        description: $inputs.description
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      repositoryResult: $response.body
+  - stepId: deployArtifact
+    description: >-
+      Upload the artifact content to the requested path inside the newly
+      created repository.
+    operationId: deployArtifact
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    requestBody:
+      contentType: application/octet-stream
+      payload: $inputs.artifactContent
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      downloadUri: $response.body#/downloadUri
+      deployedPath: $response.body#/path
+      sha256: $response.body#/checksums/sha256
+  - stepId: verifyStorage
+    description: >-
+      Read the storage info for the deployed path to confirm the artifact is
+      present and report its checksums and size.
+    operationId: getStorageInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    - name: itemPath
+      in: path
+      value: $inputs.itemPath
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      verifiedDownloadUri: $response.body#/downloadUri
+      verifiedSize: $response.body#/size
+      verifiedSha256: $response.body#/checksums/sha256
+  outputs:
+    repositoryResult: $steps.createRepository.outputs.repositoryResult
+    downloadUri: $steps.deployArtifact.outputs.downloadUri
+    verifiedSha256: $steps.verifyStorage.outputs.verifiedSha256

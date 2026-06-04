@@ -1,0 +1,126 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Publish and Promote Build
+  summary: Publish build info to Artifactory and promote the build to a release repository.
+  description: >-
+    A CI/CD release flow for JFrog Artifactory. The workflow publishes build
+    information for a named build and number, reads back the published build
+    info to confirm it was recorded, and then promotes the build by copying its
+    artifacts from a staging repository to a release repository. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryBuildApi
+  url: ../openapi/artifactory-build-integration-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: publish-and-promote-build
+  summary: Publish build info, verify it, then promote the build to release.
+  description: >-
+    Publishes build info, fetches it back to confirm it was stored, and promotes
+    the build artifacts from a source repository to a target release repository.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - buildName
+    - buildNumber
+    - started
+    - sourceRepo
+    - targetRepo
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      buildName:
+        type: string
+        description: The name of the build.
+      buildNumber:
+        type: string
+        description: The build number (version).
+      started:
+        type: string
+        description: The build start timestamp in ISO8601 format.
+      sourceRepo:
+        type: string
+        description: The staging repository the build artifacts currently live in.
+      targetRepo:
+        type: string
+        description: The release repository to promote the build artifacts to.
+  steps:
+  - stepId: publishBuild
+    description: >-
+      Publish the build info record so Artifactory tracks the artifacts and
+      metadata for this build name and number.
+    operationId: publishBuildInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        version: "1.0.1"
+        name: $inputs.buildName
+        number: $inputs.buildNumber
+        started: $inputs.started
+        type: GENERIC
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      publishStatus: $statusCode
+  - stepId: getPublishedBuild
+    description: >-
+      Read the published build info back to confirm it was recorded before
+      promoting it.
+    operationId: getBuildInfo
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    - name: buildNumber
+      in: path
+      value: $inputs.buildNumber
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      buildInfo: $response.body#/buildInfo
+  - stepId: promoteBuild
+    description: >-
+      Promote the build by copying its artifacts from the source staging
+      repository to the target release repository.
+    operationId: promoteBuild
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: buildName
+      in: path
+      value: $inputs.buildName
+    - name: buildNumber
+      in: path
+      value: $inputs.buildNumber
+    requestBody:
+      contentType: application/json
+      payload:
+        status: Released
+        comment: Promoted to release via the publish-and-promote workflow.
+        sourceRepo: $inputs.sourceRepo
+        targetRepo: $inputs.targetRepo
+        copy: true
+        artifacts: true
+        dependencies: false
+        failFast: true
+        dryRun: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      promotionStatus: $response.body#/status
+      promotionMessages: $response.body#/messages
+  outputs:
+    buildInfo: $steps.getPublishedBuild.outputs.buildInfo
+    promotionStatus: $steps.promoteBuild.outputs.promotionStatus

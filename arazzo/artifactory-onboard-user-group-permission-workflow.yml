@@ -1,0 +1,137 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Onboard User with Group and Permission
+  summary: Create a user, create a group, and grant the group repository permissions.
+  description: >-
+    A complete access-provisioning flow for JFrog Artifactory. The workflow
+    creates a new user assigned to a group, creates that group, and then creates
+    a permission target that grants the group read and write access to a set of
+    repositories. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-user-group-permission
+  summary: Provision a user, a group, and a repository permission target together.
+  description: >-
+    Creates a group, creates a user that belongs to that group, and creates a
+    permission target granting the group read and write access to the named
+    repositories.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - username
+    - email
+    - password
+    - groupName
+    - permissionName
+    - repositories
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      username:
+        type: string
+        description: The username to create.
+      email:
+        type: string
+        description: The email address for the new user.
+      password:
+        type: string
+        description: The initial password for the new user.
+      groupName:
+        type: string
+        description: The group to create and assign the user to.
+      permissionName:
+        type: string
+        description: The name of the permission target to create.
+      repositories:
+        type: array
+        description: The repository keys the group should be granted access to.
+        items:
+          type: string
+  steps:
+  - stepId: createGroup
+    description: Create the group that the new user will belong to.
+    operationId: createOrReplaceGroup
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: groupName
+      in: path
+      value: $inputs.groupName
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.groupName
+        description: Group provisioned via the onboarding workflow.
+        autoJoin: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      groupStatus: $statusCode
+  - stepId: createUser
+    description: >-
+      Create the user account, assigning it to the group created in the previous
+      step.
+    operationId: createOrReplaceUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: username
+      in: path
+      value: $inputs.username
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.username
+        email: $inputs.email
+        password: $inputs.password
+        admin: false
+        profileUpdatable: true
+        groups:
+        - $inputs.groupName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      userStatus: $statusCode
+  - stepId: grantPermission
+    description: >-
+      Create a permission target granting the group read and write access to the
+      named repositories.
+    operationId: createOrReplacePermissionTarget
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: permissionName
+      in: path
+      value: $inputs.permissionName
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.permissionName
+        repo:
+          repositories: $inputs.repositories
+          actions:
+            groups:
+              $inputs.groupName:
+              - read
+              - write
+          includePatterns:
+          - "**"
+          excludePatterns: []
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      permissionStatus: $statusCode
+  outputs:
+    userStatus: $steps.createUser.outputs.userStatus
+    groupStatus: $steps.createGroup.outputs.groupStatus
+    permissionStatus: $steps.grantPermission.outputs.permissionStatus

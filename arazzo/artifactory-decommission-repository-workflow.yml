@@ -1,0 +1,70 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Decommission Repository
+  summary: Read a repository's config, confirm it exists, then delete it.
+  description: >-
+    A safe teardown flow for JFrog Artifactory. The workflow reads the
+    configuration of a repository to confirm it exists and capture its package
+    type before deleting the repository and its content. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryRestApi
+  url: ../openapi/artifactory-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: decommission-repository
+  summary: Confirm a repository exists, then delete it.
+  description: >-
+    Fetches a repository's configuration to confirm it exists and record its
+    package type, then deletes the repository.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - repoKey
+    properties:
+      accessToken:
+        type: string
+        description: Bearer access token for authenticating with Artifactory.
+      repoKey:
+        type: string
+        description: The repository key to decommission.
+  steps:
+  - stepId: getRepository
+    description: >-
+      Read the repository configuration to confirm it exists and capture its
+      package type before deletion.
+    operationId: getRepository
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      packageType: $response.body#/packageType
+      rclass: $response.body#/rclass
+  - stepId: deleteRepository
+    description: >-
+      Delete the repository and its content now that its configuration has been
+      confirmed.
+    operationId: deleteRepository
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deleteStatus: $statusCode
+  outputs:
+    packageType: $steps.getRepository.outputs.packageType
+    deleteStatus: $steps.deleteRepository.outputs.deleteStatus

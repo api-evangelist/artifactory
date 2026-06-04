@@ -1,0 +1,91 @@
+arazzo: 1.0.1
+info:
+  title: Artifactory Promote Docker Image
+  summary: Promote a Docker image to a target repository, then list its tags to verify.
+  description: >-
+    A Docker release flow for JFrog Artifactory. The workflow uses the
+    Artifactory Docker promotion extension to copy an image and tag from a source
+    repository to a target repository, then lists the image tags in the target
+    repository to confirm the promotion landed. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: artifactoryDockerApi
+  url: ../openapi/artifactory-docker-registry-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: promote-docker-image
+  summary: Promote a Docker image and tag, then verify by listing tags.
+  description: >-
+    Promotes a Docker image and tag from a source repository to a target
+    repository and lists the tags in the target image to confirm the tag exists.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - repoKey
+    - dockerRepository
+    - tag
+    - targetRepo
+    properties:
+      accessToken:
+        type: string
+        description: Bearer token for authenticating with the Artifactory Docker registry.
+      repoKey:
+        type: string
+        description: The source repository key the image currently lives in.
+      dockerRepository:
+        type: string
+        description: The Docker image path/name to promote (e.g. myproject/myimage).
+      tag:
+        type: string
+        description: The image tag to promote.
+      targetRepo:
+        type: string
+        description: The target repository key to promote the image to.
+  steps:
+  - stepId: promoteImage
+    description: >-
+      Promote the Docker image and tag from the source repository to the target
+      repository using the Artifactory promotion extension.
+    operationId: promoteDockerImage
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: repoKey
+      in: path
+      value: $inputs.repoKey
+    requestBody:
+      contentType: application/json
+      payload:
+        targetRepo: $inputs.targetRepo
+        dockerRepository: $inputs.dockerRepository
+        targetDockerRepository: $inputs.dockerRepository
+        tag: $inputs.tag
+        copy: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      promoteStatus: $statusCode
+  - stepId: listTags
+    description: >-
+      List the tags for the promoted image in the target repository to confirm
+      the tag is present.
+    operationId: listTags
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: name
+      in: path
+      value: $inputs.dockerRepository
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      imageName: $response.body#/name
+      tags: $response.body#/tags
+  outputs:
+    promoteStatus: $steps.promoteImage.outputs.promoteStatus
+    tags: $steps.listTags.outputs.tags
