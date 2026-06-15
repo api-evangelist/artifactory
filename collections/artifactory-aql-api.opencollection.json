@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AQL Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Execute AQL Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/search/aql"
+          },
+          "docs": "Executes an Artifactory Query Language (AQL) query and returns matching results. AQL supports querying across multiple domains including items (artifacts), builds, entries, and more. Queries can include filtering, sorting, pagination, and inclusion of related entities.\n\nAQL query syntax follows the pattern:\n`domain.find(criteria).include(fields).sort(sort_criteria).offset(n).limit(n)`\n\nSupported primary domains:\n- **items**: Search for artifacts (files and folders)\n- **builds**: Search for build"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

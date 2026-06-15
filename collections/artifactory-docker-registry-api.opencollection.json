@@ -1,0 +1,438 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Docker Registry API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Base",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory API Version Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/v2/"
+          },
+          "docs": "Check that the registry implements the Docker Registry HTTP API V2. Returns 200 OK if the registry supports V2."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory List Repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/v2/_catalog",
+            "params": [
+              {
+                "name": "n",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entries to return"
+              },
+              {
+                "name": "last",
+                "value": "",
+                "type": "query",
+                "description": "Last repository name for pagination"
+              }
+            ]
+          },
+          "docs": "Returns a list of repositories available in the registry."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory List Image Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/v2/:name/tags/list",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "n",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entries to return"
+              },
+              {
+                "name": "last",
+                "value": "",
+                "type": "query",
+                "description": "Last tag name for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the list of tags for a specific image repository."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Manifests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/v2/:name/manifests/:reference",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Image tag or digest reference"
+              }
+            ]
+          },
+          "docs": "Retrieves the manifest for an image identified by name and reference (tag or digest). The Accept header determines the manifest format returned."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Push Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/v2/:name/manifests/:reference",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Image tag or digest reference"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pushes an image manifest to the registry. The manifest must reference layers that have already been uploaded."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/v2/:name/manifests/:reference",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Manifest digest"
+              }
+            ]
+          },
+          "docs": "Deletes the manifest identified by name and reference (must be a digest)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Blobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Blob (Layer)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/v2/:name/blobs/:digest",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "digest",
+                "value": "",
+                "type": "path",
+                "description": "Blob digest"
+              }
+            ]
+          },
+          "docs": "Retrieves a blob (layer) from the registry by its digest."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/v2/:name/blobs/:digest",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "digest",
+                "value": "",
+                "type": "path",
+                "description": "Blob digest"
+              }
+            ]
+          },
+          "docs": "Deletes a blob from the registry by its digest."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Check Blob Exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://{server}/v2/:name/blobs/:digest",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "digest",
+                "value": "",
+                "type": "path",
+                "description": "Blob digest"
+              }
+            ]
+          },
+          "docs": "Checks if a blob exists in the registry without downloading it."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Initiate Blob Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/v2/:name/blobs/uploads/",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "digest",
+                "value": "",
+                "type": "query",
+                "description": "If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic upload."
+              },
+              {
+                "name": "mount",
+                "value": "",
+                "type": "query",
+                "description": "Digest of blob to mount from another repository"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Source repository for cross-repo mount"
+              }
+            ]
+          },
+          "docs": "Initiates a blob upload. Returns a session URL for uploading data. Supports monolithic upload via digest query parameter or chunked upload via the returned upload URL."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Complete Blob Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/v2/:name/blobs/uploads/:uuid",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "Upload session UUID"
+              },
+              {
+                "name": "digest",
+                "value": "",
+                "type": "query",
+                "description": "Expected digest of the complete blob"
+              }
+            ]
+          },
+          "docs": "Completes the upload session and creates the blob. The final chunk may be included in this request."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Upload Blob Chunk",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{server}/v2/:name/blobs/uploads/:uuid",
+            "headers": [
+              {
+                "name": "Content-Range",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "Upload session UUID"
+              }
+            ]
+          },
+          "docs": "Uploads a chunk of data for the specified upload session."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Cancel Blob Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/v2/:name/blobs/uploads/:uuid",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "Upload session UUID"
+              }
+            ]
+          },
+          "docs": "Cancels an in-progress blob upload."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Artifactory Extensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Promote Docker Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/api/docker/:repoKey/v2/promote",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "Source repository key"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Artifactory-specific extension to promote a Docker image from one repository to another. This is useful for promoting images through staging environments (e.g., dev to staging to production)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,322 @@
+{
+  "item": [
+    {
+      "id": "5e2a8492-b0b9-410a-a87c-b22cefbeac4d",
+      "name": "AQL Search",
+      "description": {
+        "content": "Execute AQL queries to search for artifacts, builds, and entries",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "899e53b2-b214-4085-9cbd-7b816da51508",
+          "name": "JFrog Artifactory Execute AQL Query",
+          "request": {
+            "name": "JFrog Artifactory Execute AQL Query",
+            "description": {
+              "content": "Executes an Artifactory Query Language (AQL) query and returns matching results. AQL supports querying across multiple domains including items (artifacts), builds, entries, and more. Queries can include filtering, sorting, pagination, and inclusion of related entities.\n\nAQL query syntax follows the pattern:\n`domain.find(criteria).include(fields).sort(sort_criteria).offset(n).limit(n)`\n\nSupported primary domains:\n- **items**: Search for artifacts (files and folders)\n- **builds**: Search for build records\n- **entries**: Search for build artifact/dependency entries\n- **build.promotions**: Search for build promotions\n\nExample queries:\n- `items.find({\"repo\":\"libs-release-local\"})` - Find all items in a repo\n- `items.find({\"name\":{\"$match\":\"*.jar\"}})` - Find all JAR files\n- `items.find({\"type\":\"file\",\"size\":{\"$gt\":\"1000000\"}}).sort({\"$desc\":[\"size\"]}).limit(10)` - Top 10 largest files\n- `builds.find({\"name\":\"my-build\"}).include(\"module\")` - Find builds with modules",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "search",
+                "aql"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>"
+            }
+          },
+          "response": [
+            {
+              "id": "8b2fe9d9-ac52-4943-9589-2b5c49e8274b",
+              "name": "AQL query results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "search",
+                    "aql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "items.find({\"repo\":\"libs-release-local\"})"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"repo\": \"libs-release-local\",\n      \"path\": \"org/example/mylib/1.0\",\n      \"name\": \"mylib-1.0.jar\",\n      \"type\": \"folder\",\n      \"size\": 5643,\n      \"created\": \"1983-04-04T08:26:26.595Z\",\n      \"created_by\": \"string\",\n      \"modified\": \"1987-05-27T11:10:51.514Z\",\n      \"modified_by\": \"string\",\n      \"updated\": \"1952-10-28T04:56:02.217Z\",\n      \"depth\": 3094,\n      \"actual_sha1\": \"string\",\n      \"actual_md5\": \"string\",\n      \"original_sha1\": \"string\",\n      \"original_md5\": \"string\",\n      \"sha256\": \"string\",\n      \"virtual_repos\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"stats\": [\n        {\n          \"downloads\": 2898,\n          \"downloaded\": \"1954-05-05T10:35:49.977Z\",\n          \"downloaded_by\": \"string\",\n          \"remote_downloads\": 9407,\n          \"remote_downloaded\": \"2004-08-03T07:22:26.855Z\",\n          \"remote_downloaded_by\": \"string\"\n        },\n        {\n          \"downloads\": 1610,\n          \"downloaded\": \"1948-02-21T04:43:24.310Z\",\n          \"downloaded_by\": \"string\",\n          \"remote_downloads\": 1011,\n          \"remote_downloaded\": \"1949-02-01T18:09:19.331Z\",\n          \"remote_downloaded_by\": \"string\"\n        }\n      ]\n    },\n    {\n      \"repo\": \"libs-release-local\",\n      \"path\": \"org/example/mylib/1.0\",\n      \"name\": \"mylib-1.0.jar\",\n      \"type\": \"folder\",\n      \"size\": 4903,\n      \"created\": \"1969-03-06T01:33:35.223Z\",\n      \"created_by\": \"string\",\n      \"modified\": \"2007-12-25T00:45:38.353Z\",\n      \"modified_by\": \"string\",\n      \"updated\": \"1974-04-13T16:12:07.272Z\",\n      \"depth\": 5647,\n      \"actual_sha1\": \"string\",\n      \"actual_md5\": \"string\",\n      \"original_sha1\": \"string\",\n      \"original_md5\": \"string\",\n      \"sha256\": \"string\",\n      \"virtual_repos\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"stats\": [\n        {\n          \"downloads\": 4539,\n          \"downloaded\": \"1963-10-20T03:31:44.009Z\",\n          \"downloaded_by\": \"string\",\n          \"remote_downloads\": 5297,\n          \"remote_downloaded\": \"1964-08-20T13:56:21.352Z\",\n          \"remote_downloaded_by\": \"string\"\n        },\n        {\n          \"downloads\": 2228,\n          \"downloaded\": \"1992-10-17T21:39:44.547Z\",\n          \"downloaded_by\": \"string\",\n          \"remote_downloads\": 5545,\n          \"remote_downloaded\": \"1973-06-03T14:40:35.017Z\",\n          \"remote_downloaded_by\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"range\": {\n    \"start_pos\": 47,\n    \"end_pos\": 5269,\n    \"total\": 6192\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e45223f-e10a-4892-aeb9-21d6d671aae9",
+              "name": "Invalid AQL query syntax",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "search",
+                    "aql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "items.find({\"repo\":\"libs-release-local\"})"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 4809,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9615,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e37add1-b854-48a9-8fde-21841cb79546",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "search",
+                    "aql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "items.find({\"repo\":\"libs-release-local\"})"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 4809,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9615,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "619326a3-8338-4035-871b-68dd86b2053a",
+              "name": "Forbidden - non-admin users can only query within their permitted repositories unless the query includes repository and path criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "search",
+                    "aql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "items.find({\"repo\":\"libs-release-local\"})"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 4809,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9615,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your JFrog Platform deployment URL",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myserver.jfrog.io",
+      "key": "server"
+    },
+    {
+      "type": "string",
+      "value": "https://{{server}}/artifactory",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8ed321d4-4062-4752-bae1-e22ddf4e1df9",
+    "name": "JFrog Artifactory Query Language (AQL) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+      "type": "text/plain"
+    }
+  }
+}

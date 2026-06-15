@@ -1,0 +1,3356 @@
+{
+  "info": {
+    "_postman_id": "0bdcd878-f7ce-4013-a476-07a0da9910ad",
+    "name": "JFrog Artifactory Docker Registry API",
+    "description": "Docker Registry HTTP API V2 implementation in JFrog Artifactory. Provides endpoints for managing Docker images including pushing and pulling layers and manifests, listing tags, and managing repositories. Artifactory acts as a fully compliant Docker registry with additional features like promotion and property management.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:05:34.000Z",
+    "updatedAt": "2026-06-05T15:05:34.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0bdcd878-f7ce-4013-a476-07a0da9910ad"
+  },
+  "item": [
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "_catalog",
+          "item": [
+            {
+              "name": "JFrog Artifactory List Repositories",
+              "id": "7337afe7-5bd4-420c-867a-833de42ec2d1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/_catalog?n=<integer>&last=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "_catalog"
+                  ],
+                  "query": [
+                    {
+                      "description": "Maximum number of entries to return",
+                      "key": "n",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Last repository name for pagination",
+                      "key": "last",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of repositories available in the registry."
+              },
+              "response": [
+                {
+                  "id": "9a3fdd56-8e25-4df0-939b-ed487ffe6b83",
+                  "name": "Repository list",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/_catalog?n=<integer>&last=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "_catalog"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of entries to return",
+                          "key": "n",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Last repository name for pagination",
+                          "key": "last",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "RFC5988 link to next page of results",
+                        "type": "text/plain"
+                      },
+                      "key": "Link",
+                      "value": "<string>"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-9a3fdd56-8e25-4df0-939b-ed487ffe6b83"
+                },
+                {
+                  "id": "ec530dea-43fe-4f51-98cc-fe99fe049205",
+                  "name": "Authentication required",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/_catalog?n=<integer>&last=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "_catalog"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of entries to return",
+                          "key": "n",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Last repository name for pagination",
+                          "key": "last",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-ec530dea-43fe-4f51-98cc-fe99fe049205"
+                }
+              ],
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-7337afe7-5bd4-420c-867a-833de42ec2d1"
+            }
+          ],
+          "id": "4752ec6a-79a2-4a3a-9de0-a6391dec18fb",
+          "createdAt": "2026-06-05T15:05:35.000Z",
+          "updatedAt": "2026-06-05T15:05:35.000Z",
+          "uid": "35240-4752ec6a-79a2-4a3a-9de0-a6391dec18fb"
+        },
+        {
+          "name": "{name}",
+          "item": [
+            {
+              "name": "tags",
+              "item": [
+                {
+                  "name": "list",
+                  "item": [
+                    {
+                      "name": "JFrog Artifactory List Image Tags",
+                      "id": "65069d6a-9448-45c2-98ba-b7aee6d5929e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/tags/list?n=<integer>&last=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "tags",
+                            "list"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of entries to return",
+                              "key": "n",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Last tag name for pagination",
+                              "key": "last",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "b78e337f-70f1-477f-9cb6-3b6fa2677591",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            }
+                          ]
+                        },
+                        "description": "Returns the list of tags for a specific image repository."
+                      },
+                      "response": [
+                        {
+                          "id": "902aec8e-4b10-488d-a0df-89c99a4c122a",
+                          "name": "Tag list",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/tags/list?n=<integer>&last=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "tags",
+                                "list"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Maximum number of entries to return",
+                                  "key": "n",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Last tag name for pagination",
+                                  "key": "last",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "RFC5988 link to next page of results",
+                                "type": "text/plain"
+                              },
+                              "key": "Link",
+                              "value": "<string>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-902aec8e-4b10-488d-a0df-89c99a4c122a"
+                        },
+                        {
+                          "id": "967dd142-3347-4f76-bae2-4088b49a844f",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/tags/list?n=<integer>&last=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "tags",
+                                "list"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Maximum number of entries to return",
+                                  "key": "n",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Last tag name for pagination",
+                                  "key": "last",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-967dd142-3347-4f76-bae2-4088b49a844f"
+                        },
+                        {
+                          "id": "a1536f76-eee2-4a7e-9fa6-a86b3ba44c51",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/tags/list?n=<integer>&last=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "tags",
+                                "list"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Maximum number of entries to return",
+                                  "key": "n",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Last tag name for pagination",
+                                  "key": "last",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-a1536f76-eee2-4a7e-9fa6-a86b3ba44c51"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-65069d6a-9448-45c2-98ba-b7aee6d5929e"
+                    }
+                  ],
+                  "id": "283fd762-1254-44e2-83df-7f03a341c83a",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-283fd762-1254-44e2-83df-7f03a341c83a"
+                }
+              ],
+              "id": "7f1f5c8c-92a4-42b5-8de0-3cecd7049e72",
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-7f1f5c8c-92a4-42b5-8de0-3cecd7049e72"
+            },
+            {
+              "name": "manifests",
+              "item": [
+                {
+                  "name": "{reference}",
+                  "item": [
+                    {
+                      "name": "JFrog Artifactory Get Image Manifest",
+                      "id": "4b822dfa-8e6b-4782-9285-a4b8bc6aba4e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.docker.distribution.manifest.v2+json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "manifests",
+                            ":reference"
+                          ],
+                          "variable": [
+                            {
+                              "id": "87ed8cc8-6bba-4328-b6e3-530dc47e19b7",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "3ec10e46-2862-4a92-bed6-731ab3345142",
+                              "key": "reference",
+                              "value": "<string>",
+                              "description": "(Required) Image tag or digest reference"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves the manifest for an image identified by name and reference (tag or digest). The Accept header determines the manifest format returned."
+                      },
+                      "response": [
+                        {
+                          "id": "d0f0999a-3356-4b3c-a172-1a6dc2a73653",
+                          "name": "Image manifest",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/vnd.docker.distribution.manifest.v2+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/vnd.docker.distribution.manifest.v2+json"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Digest of the manifest",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Content-Digest",
+                              "value": "<string>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemaVersion\": \"<integer>\",\n  \"mediaType\": \"<string>\",\n  \"config\": {\n    \"mediaType\": \"<string>\",\n    \"size\": \"<integer>\",\n    \"digest\": \"<string>\"\n  },\n  \"layers\": [\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    },\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-d0f0999a-3356-4b3c-a172-1a6dc2a73653"
+                        },
+                        {
+                          "id": "7623f4f9-719a-454c-beba-d3791345e7ca",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-7623f4f9-719a-454c-beba-d3791345e7ca"
+                        },
+                        {
+                          "id": "8130b7ca-5617-4a1c-baf9-42d6991f2cb1",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-8130b7ca-5617-4a1c-baf9-42d6991f2cb1"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-4b822dfa-8e6b-4782-9285-a4b8bc6aba4e"
+                    },
+                    {
+                      "name": "JFrog Artifactory Push Image Manifest",
+                      "id": "203b5eec-9037-4d7b-afcf-f345401e5ac5",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.docker.distribution.manifest.v2+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemaVersion\": \"<integer>\",\n  \"mediaType\": \"<string>\",\n  \"config\": {\n    \"mediaType\": \"<string>\",\n    \"size\": \"<integer>\",\n    \"digest\": \"<string>\"\n  },\n  \"layers\": [\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    },\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "manifests",
+                            ":reference"
+                          ],
+                          "variable": [
+                            {
+                              "id": "dd9ba9f8-e414-4b6c-aac8-97209ec21832",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "b1dd02f6-15ee-49ef-aea5-662353a32f11",
+                              "key": "reference",
+                              "value": "<string>",
+                              "description": "(Required) Image tag or digest reference"
+                            }
+                          ]
+                        },
+                        "description": "Pushes an image manifest to the registry. The manifest must reference layers that have already been uploaded."
+                      },
+                      "response": [
+                        {
+                          "id": "e953db6c-49e4-42a0-9bb4-0142e335bae1",
+                          "name": "Manifest uploaded successfully",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.docker.distribution.manifest.v2+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemaVersion\": \"<integer>\",\n  \"mediaType\": \"<string>\",\n  \"config\": {\n    \"mediaType\": \"<string>\",\n    \"size\": \"<integer>\",\n    \"digest\": \"<string>\"\n  },\n  \"layers\": [\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    },\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Created",
+                          "code": 201,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "URL of the uploaded manifest",
+                                "type": "text/plain"
+                              },
+                              "key": "Location",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Digest of the uploaded manifest",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Content-Digest",
+                              "value": "<string>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-e953db6c-49e4-42a0-9bb4-0142e335bae1"
+                        },
+                        {
+                          "id": "a2d6cf4f-ea6c-4282-9242-4a77a61f4b22",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.docker.distribution.manifest.v2+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemaVersion\": \"<integer>\",\n  \"mediaType\": \"<string>\",\n  \"config\": {\n    \"mediaType\": \"<string>\",\n    \"size\": \"<integer>\",\n    \"digest\": \"<string>\"\n  },\n  \"layers\": [\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    },\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-a2d6cf4f-ea6c-4282-9242-4a77a61f4b22"
+                        },
+                        {
+                          "id": "274adbe6-2c26-4669-95e9-dad718917877",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.docker.distribution.manifest.v2+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemaVersion\": \"<integer>\",\n  \"mediaType\": \"<string>\",\n  \"config\": {\n    \"mediaType\": \"<string>\",\n    \"size\": \"<integer>\",\n    \"digest\": \"<string>\"\n  },\n  \"layers\": [\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    },\n    {\n      \"mediaType\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"digest\": \"<string>\"\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-274adbe6-2c26-4669-95e9-dad718917877"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-203b5eec-9037-4d7b-afcf-f345401e5ac5"
+                    },
+                    {
+                      "name": "JFrog Artifactory Delete Image Manifest",
+                      "id": "c10e65d4-440b-47bb-8a4b-7449203e838c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "manifests",
+                            ":reference"
+                          ],
+                          "variable": [
+                            {
+                              "id": "2f17ed1e-218c-4e56-9ffb-93b7b37783dd",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "4b180bac-3439-4cc6-acbd-56d585bdfbe6",
+                              "key": "reference",
+                              "value": "<string>",
+                              "description": "(Required) Manifest digest"
+                            }
+                          ]
+                        },
+                        "description": "Deletes the manifest identified by name and reference (must be a digest)."
+                      },
+                      "response": [
+                        {
+                          "id": "bd3ffce1-2594-42e6-9ca9-4ee72c6e235c",
+                          "name": "Manifest deleted successfully",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-bd3ffce1-2594-42e6-9ca9-4ee72c6e235c"
+                        },
+                        {
+                          "id": "f2396638-9802-4ebd-9bca-20462153f6b9",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-f2396638-9802-4ebd-9bca-20462153f6b9"
+                        },
+                        {
+                          "id": "0d098288-f50e-4e70-81cb-8458a73a271a",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/manifests/:reference",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "manifests",
+                                ":reference"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "reference"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-0d098288-f50e-4e70-81cb-8458a73a271a"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-c10e65d4-440b-47bb-8a4b-7449203e838c"
+                    }
+                  ],
+                  "id": "587b2342-87a7-45a8-a1fc-4529c179f6fb",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-587b2342-87a7-45a8-a1fc-4529c179f6fb"
+                }
+              ],
+              "id": "2fabb2c0-d325-47d2-8f6a-032bb13862be",
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-2fabb2c0-d325-47d2-8f6a-032bb13862be"
+            },
+            {
+              "name": "blobs",
+              "item": [
+                {
+                  "name": "{digest}",
+                  "item": [
+                    {
+                      "name": "JFrog Artifactory Get Blob (Layer)",
+                      "id": "8fc10e2b-7fe1-4549-9e30-052a3bd53bd7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/octet-stream"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "blobs",
+                            ":digest"
+                          ],
+                          "variable": [
+                            {
+                              "id": "3cdf4f6d-d5ca-4d0f-8b13-6a335b326c34",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "530dd7f7-681a-45e6-aeab-622c9f6fdce0",
+                              "key": "digest",
+                              "value": "<string>",
+                              "description": "(Required) Blob digest"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves a blob (layer) from the registry by its digest."
+                      },
+                      "response": [
+                        {
+                          "id": "03b1b302-955f-41b4-af47-89f86bf212af",
+                          "name": "Blob content",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/octet-stream"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Digest of the blob",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Content-Digest",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Size of the blob in bytes",
+                                "type": "text/plain"
+                              },
+                              "key": "Content-Length",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<binary>",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-03b1b302-955f-41b4-af47-89f86bf212af"
+                        },
+                        {
+                          "id": "487e8dbf-1088-4a75-9927-ad9f5cdb8b38",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-487e8dbf-1088-4a75-9927-ad9f5cdb8b38"
+                        },
+                        {
+                          "id": "1a671e18-48f3-4426-84df-143d19dfd6e5",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-1a671e18-48f3-4426-84df-143d19dfd6e5"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-8fc10e2b-7fe1-4549-9e30-052a3bd53bd7"
+                    },
+                    {
+                      "name": "JFrog Artifactory Check Blob Exists",
+                      "id": "f15e1864-6bde-4c8f-9c67-32422a2e0d46",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "HEAD",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "blobs",
+                            ":digest"
+                          ],
+                          "variable": [
+                            {
+                              "id": "ba7d11c0-8309-4bbb-833d-f158ace395fa",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "2c5f0d0b-fce9-47d4-b9f2-75d5565d4b7b",
+                              "key": "digest",
+                              "value": "<string>",
+                              "description": "(Required) Blob digest"
+                            }
+                          ]
+                        },
+                        "description": "Checks if a blob exists in the registry without downloading it."
+                      },
+                      "response": [
+                        {
+                          "id": "01d1cad2-1c80-427d-b758-e04186f81489",
+                          "name": "Blob exists",
+                          "originalRequest": {
+                            "method": "HEAD",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Digest of the blob",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Content-Digest",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Size of the blob in bytes",
+                                "type": "text/plain"
+                              },
+                              "key": "Content-Length",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-01d1cad2-1c80-427d-b758-e04186f81489"
+                        },
+                        {
+                          "id": "e714c8a9-b6dc-4ecc-8995-c0a765a450db",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "HEAD",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-e714c8a9-b6dc-4ecc-8995-c0a765a450db"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-f15e1864-6bde-4c8f-9c67-32422a2e0d46"
+                    },
+                    {
+                      "name": "JFrog Artifactory Delete Blob",
+                      "id": "2788373a-a8b4-416a-a34e-7edd27d7d837",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "blobs",
+                            ":digest"
+                          ],
+                          "variable": [
+                            {
+                              "id": "6994d411-4fb9-4d14-8f37-af3a59dee20b",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            },
+                            {
+                              "id": "ed791f85-ad73-4f52-b896-63f4a179a59c",
+                              "key": "digest",
+                              "value": "<string>",
+                              "description": "(Required) Blob digest"
+                            }
+                          ]
+                        },
+                        "description": "Deletes a blob from the registry by its digest."
+                      },
+                      "response": [
+                        {
+                          "id": "7bbe0ffe-b83d-491b-9828-1012fe2c3b15",
+                          "name": "Blob deleted successfully",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-7bbe0ffe-b83d-491b-9828-1012fe2c3b15"
+                        },
+                        {
+                          "id": "9334eb6c-4450-40a8-9731-a645e4c08117",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-9334eb6c-4450-40a8-9731-a645e4c08117"
+                        },
+                        {
+                          "id": "1f936632-f0c3-4dc0-9719-a1c8ed9014eb",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/:digest",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                ":digest"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                },
+                                {
+                                  "key": "digest"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-1f936632-f0c3-4dc0-9719-a1c8ed9014eb"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-2788373a-a8b4-416a-a34e-7edd27d7d837"
+                    }
+                  ],
+                  "id": "f217121e-af25-4fff-8722-b7dc76d53341",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-f217121e-af25-4fff-8722-b7dc76d53341"
+                },
+                {
+                  "name": "uploads",
+                  "item": [
+                    {
+                      "name": "{uuid}",
+                      "item": [
+                        {
+                          "name": "JFrog Artifactory Upload Blob Chunk",
+                          "id": "e9ea4f9c-d563-40e3-976f-ea2c3a144e00",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "description": "Range of bytes being uploaded",
+                                "key": "Content-Range",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<binary>"
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ":uuid"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "dca26fdc-19c2-4798-8000-ee9e4c28c6dd",
+                                  "key": "name",
+                                  "value": "<string>",
+                                  "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                                },
+                                {
+                                  "id": "edf9de4e-d9da-4bdc-8e2d-80e0faddebc8",
+                                  "key": "uuid",
+                                  "value": "<string>",
+                                  "description": "(Required) Upload session UUID"
+                                }
+                              ]
+                            },
+                            "description": "Uploads a chunk of data for the specified upload session."
+                          },
+                          "response": [
+                            {
+                              "id": "b964a96b-a26f-4ccb-9559-3175aaa6eae6",
+                              "name": "Chunk accepted",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "description": "Range of bytes being uploaded",
+                                    "key": "Content-Range",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Accepted",
+                              "code": 202,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "URL for the next upload",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "Location",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "Upload session UUID",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "Docker-Upload-UUID",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "Range of bytes received",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "Range",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-b964a96b-a26f-4ccb-9559-3175aaa6eae6"
+                            },
+                            {
+                              "id": "37d15b09-0e9c-4705-8ccd-7430a2a4be03",
+                              "name": "Authentication required",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "description": "Range of bytes being uploaded",
+                                    "key": "Content-Range",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-37d15b09-0e9c-4705-8ccd-7430a2a4be03"
+                            },
+                            {
+                              "id": "b81a5b70-a661-4992-bb73-ba80051e3848",
+                              "name": "Resource not found",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "description": "Range of bytes being uploaded",
+                                    "key": "Content-Range",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-b81a5b70-a661-4992-bb73-ba80051e3848"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-e9ea4f9c-d563-40e3-976f-ea2c3a144e00"
+                        },
+                        {
+                          "name": "JFrog Artifactory Complete Blob Upload",
+                          "id": "9d13850a-2e83-4a7a-94f7-6c84ae028541",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "<binary>"
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid?digest=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ":uuid"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Expected digest of the complete blob",
+                                  "key": "digest",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "dd479671-ddd3-4c0e-883e-ece5a0426bff",
+                                  "key": "name",
+                                  "value": "<string>",
+                                  "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                                },
+                                {
+                                  "id": "4fe2c0ee-5ccb-4ad1-a93c-0529faf91885",
+                                  "key": "uuid",
+                                  "value": "<string>",
+                                  "description": "(Required) Upload session UUID"
+                                }
+                              ]
+                            },
+                            "description": "Completes the upload session and creates the blob. The final chunk may be included in this request."
+                          },
+                          "response": [
+                            {
+                              "id": "04bffced-88f4-4196-b6b5-b14331e75fea",
+                              "name": "Blob upload completed",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid?digest=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Expected digest of the complete blob",
+                                      "key": "digest",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Created",
+                              "code": 201,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "URL of the completed blob",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "Location",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "Digest of the uploaded blob",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "Docker-Content-Digest",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-04bffced-88f4-4196-b6b5-b14331e75fea"
+                            },
+                            {
+                              "id": "9cfb6458-1a25-41ff-8ef4-56a5c92f4fc6",
+                              "name": "Authentication required",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid?digest=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Expected digest of the complete blob",
+                                      "key": "digest",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-9cfb6458-1a25-41ff-8ef4-56a5c92f4fc6"
+                            },
+                            {
+                              "id": "2a9a2f7b-380b-4812-8612-d00bdaf814e4",
+                              "name": "Resource not found",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/octet-stream"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "<binary>"
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid?digest=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Expected digest of the complete blob",
+                                      "key": "digest",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-2a9a2f7b-380b-4812-8612-d00bdaf814e4"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-9d13850a-2e83-4a7a-94f7-6c84ae028541"
+                        },
+                        {
+                          "name": "JFrog Artifactory Cancel Blob Upload",
+                          "id": "8d287e85-5c18-48be-b62d-93245e9238b3",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ":uuid"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "ac28c3a7-a432-4c31-a41f-ee2bf0073ae7",
+                                  "key": "name",
+                                  "value": "<string>",
+                                  "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                                },
+                                {
+                                  "id": "f765ecf2-9239-471e-b863-3a5b201dd86c",
+                                  "key": "uuid",
+                                  "value": "<string>",
+                                  "description": "(Required) Upload session UUID"
+                                }
+                              ]
+                            },
+                            "description": "Cancels an in-progress blob upload."
+                          },
+                          "response": [
+                            {
+                              "id": "1d901e01-d0db-4fb0-abd3-37c6c08dbcb7",
+                              "name": "Upload cancelled",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "No Content",
+                              "code": 204,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-1d901e01-d0db-4fb0-abd3-37c6c08dbcb7"
+                            },
+                            {
+                              "id": "a5aa520a-23fe-470a-a24b-6af92855b663",
+                              "name": "Resource not found",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v2/:name/blobs/uploads/:uuid",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v2",
+                                    ":name",
+                                    "blobs",
+                                    "uploads",
+                                    ":uuid"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "uuid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-a5aa520a-23fe-470a-a24b-6af92855b663"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-8d287e85-5c18-48be-b62d-93245e9238b3"
+                        }
+                      ],
+                      "id": "e06d6689-8bfb-4de0-aa65-8394509d6a33",
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-e06d6689-8bfb-4de0-aa65-8394509d6a33"
+                    },
+                    {
+                      "name": "JFrog Artifactory Initiate Blob Upload",
+                      "id": "7a11feb1-a636-4813-a4a5-2db4cefe9846",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/:name/blobs/uploads/?digest=<string>&mount=<string>&from=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            ":name",
+                            "blobs",
+                            "uploads",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "description": "If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic upload.",
+                              "key": "digest",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Digest of blob to mount from another repository",
+                              "key": "mount",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Source repository for cross-repo mount",
+                              "key": "from",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "f645d105-aef8-4ac2-9ba6-40f1fd34641b",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+                            }
+                          ]
+                        },
+                        "description": "Initiates a blob upload. Returns a session URL for uploading data. Supports monolithic upload via digest query parameter or chunked upload via the returned upload URL."
+                      },
+                      "response": [
+                        {
+                          "id": "0b72d718-a019-413d-90b7-64ed9c788450",
+                          "name": "Blob successfully mounted from another repository",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/?digest=<string>&mount=<string>&from=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic upload.",
+                                  "key": "digest",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Digest of blob to mount from another repository",
+                                  "key": "mount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Source repository for cross-repo mount",
+                                  "key": "from",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Created",
+                          "code": 201,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "URL of the mounted blob",
+                                "type": "text/plain"
+                              },
+                              "key": "Location",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Digest of the mounted blob",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Content-Digest",
+                              "value": "<string>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-0b72d718-a019-413d-90b7-64ed9c788450"
+                        },
+                        {
+                          "id": "f3ef15ee-39b2-4db0-9542-3f67a8b13cf0",
+                          "name": "Upload session started",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/?digest=<string>&mount=<string>&from=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic upload.",
+                                  "key": "digest",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Digest of blob to mount from another repository",
+                                  "key": "mount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Source repository for cross-repo mount",
+                                  "key": "from",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "URL for the upload session",
+                                "type": "text/plain"
+                              },
+                              "key": "Location",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Unique identifier for the upload session",
+                                "type": "text/plain"
+                              },
+                              "key": "Docker-Upload-UUID",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Range of bytes received so far",
+                                "type": "text/plain"
+                              },
+                              "key": "Range",
+                              "value": "<string>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-f3ef15ee-39b2-4db0-9542-3f67a8b13cf0"
+                        },
+                        {
+                          "id": "8addc5d9-02db-45e7-a231-5dac3bac7720",
+                          "name": "Authentication required",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/:name/blobs/uploads/?digest=<string>&mount=<string>&from=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                ":name",
+                                "blobs",
+                                "uploads",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "If provided with mount, attempts cross-repo mount. If provided alone with body, performs monolithic upload.",
+                                  "key": "digest",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Digest of blob to mount from another repository",
+                                  "key": "mount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Source repository for cross-repo mount",
+                                  "key": "from",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-8addc5d9-02db-45e7-a231-5dac3bac7720"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-7a11feb1-a636-4813-a4a5-2db4cefe9846"
+                    }
+                  ],
+                  "id": "4ccaba34-77ac-4518-af27-0925a6a1dee8",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-4ccaba34-77ac-4518-af27-0925a6a1dee8"
+                }
+              ],
+              "id": "19510509-84ee-443a-82a0-8260d12cad05",
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-19510509-84ee-443a-82a0-8260d12cad05"
+            }
+          ],
+          "id": "f047e97d-e826-4535-ba0c-092ebb1943c4",
+          "createdAt": "2026-06-05T15:05:35.000Z",
+          "updatedAt": "2026-06-05T15:05:35.000Z",
+          "uid": "35240-f047e97d-e826-4535-ba0c-092ebb1943c4"
+        },
+        {
+          "name": "JFrog Artifactory API Version Check",
+          "id": "ad5353e7-d041-4d1b-895c-a46fac8d1fcb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v2/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v2",
+                ""
+              ]
+            },
+            "description": "Check that the registry implements the Docker Registry HTTP API V2. Returns 200 OK if the registry supports V2."
+          },
+          "response": [
+            {
+              "id": "49d8ce76-9aea-421e-b4d0-88fbc93c0aa2",
+              "name": "Registry supports V2 API",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "The API version",
+                    "type": "text/plain"
+                  },
+                  "key": "Docker-Distribution-Api-Version",
+                  "value": "<string>"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-49d8ce76-9aea-421e-b4d0-88fbc93c0aa2"
+            },
+            {
+              "id": "4ad6f4ca-35e1-4b86-8c70-618348267992",
+              "name": "Authentication required",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Authentication challenge",
+                    "type": "text/plain"
+                  },
+                  "key": "WWW-Authenticate",
+                  "value": "<string>"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-4ad6f4ca-35e1-4b86-8c70-618348267992"
+            }
+          ],
+          "createdAt": "2026-06-05T15:05:35.000Z",
+          "updatedAt": "2026-06-05T15:05:35.000Z",
+          "uid": "35240-ad5353e7-d041-4d1b-895c-a46fac8d1fcb"
+        }
+      ],
+      "id": "5079dc1a-af63-4bbb-803b-40a78b8b57db",
+      "createdAt": "2026-06-05T15:05:35.000Z",
+      "updatedAt": "2026-06-05T15:05:35.000Z",
+      "uid": "35240-5079dc1a-af63-4bbb-803b-40a78b8b57db"
+    },
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "docker",
+          "item": [
+            {
+              "name": "{repoKey}",
+              "item": [
+                {
+                  "name": "v2",
+                  "item": [
+                    {
+                      "name": "promote",
+                      "item": [
+                        {
+                          "name": "JFrog Artifactory Promote Docker Image",
+                          "id": "2b2f1a23-ef8d-4a6b-8897-10a443a701aa",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "docker",
+                                ":repoKey",
+                                "v2",
+                                "promote"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "1768177b-2c90-4496-a3b1-e3357be985e1",
+                                  "key": "repoKey",
+                                  "value": "<string>",
+                                  "description": "(Required) Source repository key"
+                                }
+                              ]
+                            },
+                            "description": "Artifactory-specific extension to promote a Docker image from one repository to another. This is useful for promoting images through staging environments (e.g., dev to staging to production)."
+                          },
+                          "response": [
+                            {
+                              "id": "84c2061d-3fbf-42dd-9f00-832bf61273ab",
+                              "name": "Image promoted successfully",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "docker",
+                                    ":repoKey",
+                                    "v2",
+                                    "promote"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "repoKey"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-84c2061d-3fbf-42dd-9f00-832bf61273ab"
+                            },
+                            {
+                              "id": "243f5484-fb92-45e9-b7a1-5a6caf425f39",
+                              "name": "Bad request",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "docker",
+                                    ":repoKey",
+                                    "v2",
+                                    "promote"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "repoKey"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-243f5484-fb92-45e9-b7a1-5a6caf425f39"
+                            },
+                            {
+                              "id": "209bc96f-152b-476c-8585-47b826507b28",
+                              "name": "Authentication required",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "docker",
+                                    ":repoKey",
+                                    "v2",
+                                    "promote"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "repoKey"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-209bc96f-152b-476c-8585-47b826507b28"
+                            },
+                            {
+                              "id": "4ae46ef8-6dbc-4aa0-9255-336f63ee9577",
+                              "name": "Insufficient permissions",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "docker",
+                                    ":repoKey",
+                                    "v2",
+                                    "promote"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "repoKey"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-4ae46ef8-6dbc-4aa0-9255-336f63ee9577"
+                            },
+                            {
+                              "id": "5c2f2bf2-93b8-4ba0-9330-43116b75a9e4",
+                              "name": "Resource not found",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"dockerRepository\": \"<string>\",\n  \"targetDockerRepository\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"targetTag\": \"<string>\",\n  \"copy\": false\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/docker/:repoKey/v2/promote",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "docker",
+                                    ":repoKey",
+                                    "v2",
+                                    "promote"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "repoKey"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\",\n      \"detail\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T15:05:35.000Z",
+                              "updatedAt": "2026-06-05T15:05:35.000Z",
+                              "uid": "35240-5c2f2bf2-93b8-4ba0-9330-43116b75a9e4"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:05:35.000Z",
+                          "updatedAt": "2026-06-05T15:05:35.000Z",
+                          "uid": "35240-2b2f1a23-ef8d-4a6b-8897-10a443a701aa"
+                        }
+                      ],
+                      "id": "0ff7b873-8161-4cf5-8318-b7cb56cf4298",
+                      "createdAt": "2026-06-05T15:05:35.000Z",
+                      "updatedAt": "2026-06-05T15:05:35.000Z",
+                      "uid": "35240-0ff7b873-8161-4cf5-8318-b7cb56cf4298"
+                    }
+                  ],
+                  "id": "f3834ba4-ad03-416d-842d-fa0616e2b0f4",
+                  "createdAt": "2026-06-05T15:05:35.000Z",
+                  "updatedAt": "2026-06-05T15:05:35.000Z",
+                  "uid": "35240-f3834ba4-ad03-416d-842d-fa0616e2b0f4"
+                }
+              ],
+              "id": "1c1198a2-f6ba-4132-8393-84482f29ba73",
+              "createdAt": "2026-06-05T15:05:35.000Z",
+              "updatedAt": "2026-06-05T15:05:35.000Z",
+              "uid": "35240-1c1198a2-f6ba-4132-8393-84482f29ba73"
+            }
+          ],
+          "id": "4bd4b0bf-e9fe-49e7-a619-78bd2a8327a9",
+          "createdAt": "2026-06-05T15:05:35.000Z",
+          "updatedAt": "2026-06-05T15:05:35.000Z",
+          "uid": "35240-4bd4b0bf-e9fe-49e7-a619-78bd2a8327a9"
+        }
+      ],
+      "id": "e41affd7-2764-4028-bc47-4f225c26610b",
+      "createdAt": "2026-06-05T15:05:35.000Z",
+      "updatedAt": "2026-06-05T15:05:35.000Z",
+      "uid": "35240-e41affd7-2764-4028-bc47-4f225c26610b"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "server",
+      "value": "myserver.jfrog.io"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{server}}"
+    }
+  ]
+}

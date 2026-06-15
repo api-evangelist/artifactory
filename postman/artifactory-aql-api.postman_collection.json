@@ -1,0 +1,310 @@
+{
+  "info": {
+    "_postman_id": "8521dcd8-edd4-4313-8c0f-ce1d6c7f5a51",
+    "name": "JFrog Artifactory Query Language (AQL) API",
+    "description": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:05:31.000Z",
+    "updatedAt": "2026-06-05T15:05:31.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8521dcd8-edd4-4313-8c0f-ce1d6c7f5a51"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "search",
+          "item": [
+            {
+              "name": "aql",
+              "item": [
+                {
+                  "name": "JFrog Artifactory Execute AQL Query",
+                  "id": "2227cda7-2480-4224-9d51-cf106a9d4f8a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "text/plain"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<string>"
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/search/aql",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "search",
+                        "aql"
+                      ]
+                    },
+                    "description": "Executes an Artifactory Query Language (AQL) query and returns matching results. AQL supports querying across multiple domains including items (artifacts), builds, entries, and more. Queries can include filtering, sorting, pagination, and inclusion of related entities.\n\nAQL query syntax follows the pattern:\n`domain.find(criteria).include(fields).sort(sort_criteria).offset(n).limit(n)`\n\nSupported primary domains:\n- **items**: Search for artifacts (files and folders)\n- **builds**: Search for build records\n- **entries**: Search for build artifact/dependency entries\n- **build.promotions**: Search for build promotions\n\nExample queries:\n- `items.find({\"repo\":\"libs-release-local\"})` - Find all items in a repo\n- `items.find({\"name\":{\"$match\":\"*.jar\"}})` - Find all JAR files\n- `items.find({\"type\":\"file\",\"size\":{\"$gt\":\"1000000\"}}).sort({\"$desc\":[\"size\"]}).limit(10)` - Top 10 largest files\n- `builds.find({\"name\":\"my-build\"}).include(\"module\")` - Find builds with modules"
+                  },
+                  "response": [
+                    {
+                      "id": "e274cd7e-78e3-43f7-bc38-39100c20dd5b",
+                      "name": "AQL query results",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/search/aql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "search",
+                            "aql"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"results\": [\n    {\n      \"repo\": \"<string>\",\n      \"path\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"folder\",\n      \"size\": \"<integer>\",\n      \"created\": \"<dateTime>\",\n      \"created_by\": \"<string>\",\n      \"modified\": \"<dateTime>\",\n      \"modified_by\": \"<string>\",\n      \"updated\": \"<dateTime>\",\n      \"depth\": \"<integer>\",\n      \"actual_sha1\": \"<string>\",\n      \"actual_md5\": \"<string>\",\n      \"original_sha1\": \"<string>\",\n      \"original_md5\": \"<string>\",\n      \"sha256\": \"<string>\",\n      \"virtual_repos\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"properties\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"stats\": [\n        {\n          \"downloads\": \"<integer>\",\n          \"downloaded\": \"<dateTime>\",\n          \"downloaded_by\": \"<string>\",\n          \"remote_downloads\": \"<integer>\",\n          \"remote_downloaded\": \"<dateTime>\",\n          \"remote_downloaded_by\": \"<string>\"\n        },\n        {\n          \"downloads\": \"<integer>\",\n          \"downloaded\": \"<dateTime>\",\n          \"downloaded_by\": \"<string>\",\n          \"remote_downloads\": \"<integer>\",\n          \"remote_downloaded\": \"<dateTime>\",\n          \"remote_downloaded_by\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"repo\": \"<string>\",\n      \"path\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"folder\",\n      \"size\": \"<integer>\",\n      \"created\": \"<dateTime>\",\n      \"created_by\": \"<string>\",\n      \"modified\": \"<dateTime>\",\n      \"modified_by\": \"<string>\",\n      \"updated\": \"<dateTime>\",\n      \"depth\": \"<integer>\",\n      \"actual_sha1\": \"<string>\",\n      \"actual_md5\": \"<string>\",\n      \"original_sha1\": \"<string>\",\n      \"original_md5\": \"<string>\",\n      \"sha256\": \"<string>\",\n      \"virtual_repos\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"properties\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"stats\": [\n        {\n          \"downloads\": \"<integer>\",\n          \"downloaded\": \"<dateTime>\",\n          \"downloaded_by\": \"<string>\",\n          \"remote_downloads\": \"<integer>\",\n          \"remote_downloaded\": \"<dateTime>\",\n          \"remote_downloaded_by\": \"<string>\"\n        },\n        {\n          \"downloads\": \"<integer>\",\n          \"downloaded\": \"<dateTime>\",\n          \"downloaded_by\": \"<string>\",\n          \"remote_downloads\": \"<integer>\",\n          \"remote_downloaded\": \"<dateTime>\",\n          \"remote_downloaded_by\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"range\": {\n    \"start_pos\": \"<integer>\",\n    \"end_pos\": \"<integer>\",\n    \"total\": \"<integer>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:05:31.000Z",
+                      "updatedAt": "2026-06-05T15:05:31.000Z",
+                      "uid": "35240-e274cd7e-78e3-43f7-bc38-39100c20dd5b"
+                    },
+                    {
+                      "id": "75395d33-0931-4671-b6ca-dc4f99f08ffc",
+                      "name": "Invalid AQL query syntax",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/search/aql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "search",
+                            "aql"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:05:31.000Z",
+                      "updatedAt": "2026-06-05T15:05:31.000Z",
+                      "uid": "35240-75395d33-0931-4671-b6ca-dc4f99f08ffc"
+                    },
+                    {
+                      "id": "7ac75bef-da56-4182-a44c-030ce1c88fee",
+                      "name": "Unauthorized - authentication required",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/search/aql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "search",
+                            "aql"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:05:31.000Z",
+                      "updatedAt": "2026-06-05T15:05:31.000Z",
+                      "uid": "35240-7ac75bef-da56-4182-a44c-030ce1c88fee"
+                    },
+                    {
+                      "id": "a6697092-3de1-4c39-852b-988f8c1b1b74",
+                      "name": "Forbidden - non-admin users can only query within their permitted repositories unless the query includes repository and path criteria",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<string>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/search/aql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "search",
+                            "aql"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"status\": \"<integer>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:05:31.000Z",
+                      "updatedAt": "2026-06-05T15:05:31.000Z",
+                      "uid": "35240-a6697092-3de1-4c39-852b-988f8c1b1b74"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:05:31.000Z",
+                  "updatedAt": "2026-06-05T15:05:31.000Z",
+                  "uid": "35240-2227cda7-2480-4224-9d51-cf106a9d4f8a"
+                }
+              ],
+              "id": "92161d30-fe0e-466d-90c8-969cffce606e",
+              "createdAt": "2026-06-05T15:05:31.000Z",
+              "updatedAt": "2026-06-05T15:05:31.000Z",
+              "uid": "35240-92161d30-fe0e-466d-90c8-969cffce606e"
+            }
+          ],
+          "id": "420533ab-cced-4301-b1d4-48f8ab04063a",
+          "createdAt": "2026-06-05T15:05:31.000Z",
+          "updatedAt": "2026-06-05T15:05:31.000Z",
+          "uid": "35240-420533ab-cced-4301-b1d4-48f8ab04063a"
+        }
+      ],
+      "id": "243b72fd-adde-4738-ab13-7d6e0d9a4c3b",
+      "createdAt": "2026-06-05T15:05:31.000Z",
+      "updatedAt": "2026-06-05T15:05:31.000Z",
+      "uid": "35240-243b72fd-adde-4738-ab13-7d6e0d9a4c3b"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "server",
+      "value": "myserver.jfrog.io"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{server}}/artifactory"
+    }
+  ]
+}
