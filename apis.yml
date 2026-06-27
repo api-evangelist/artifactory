@@ -101,63 +101,60 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/jfrog-artifactory/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-      - url: arazzo/artifactory-aql-find-and-delete-artifact-workflow.yml
-        name: Artifactory AQL Find and Delete Artifact
-        summary: Run an AQL query to find an artifact, then delete the first match if any.
-      - url: arazzo/artifactory-checksum-search-retrieve-workflow.yml
-        name: Artifactory Checksum Search and Retrieve
-        summary: Find an artifact by its SHA-256 checksum, then read its storage info.
-      - url: arazzo/artifactory-compare-build-versions-workflow.yml
-        name: Artifactory Compare Build Versions
-        summary: Confirm a build exists, then diff it against a previous build number.
-      - url: arazzo/artifactory-configure-repository-replication-workflow.yml
-        name: Artifactory Configure Repository Replication
-        summary: Create a local repository then set up scheduled push replication for it.
-      - url: arazzo/artifactory-create-group-scoped-access-token-workflow.yml
-        name: Artifactory Create Group-Scoped Access Token
-        summary: Create a group, then mint an access token scoped to that group for a user.
-      - url: arazzo/artifactory-create-user-verify-membership-workflow.yml
-        name: Artifactory Create User and Verify Membership
-        summary: Create a group, create a user in that group, then read the user back to verify.
-      - url: arazzo/artifactory-decommission-repository-workflow.yml
-        name: Artifactory Decommission Repository
-        summary: Read a repository's config, confirm it exists, then delete it.
-      - url: arazzo/artifactory-deploy-tag-search-artifact-workflow.yml
-        name: Artifactory Deploy, Tag, and Search Artifact
-        summary: Deploy an artifact, attach metadata properties to it, then find it by property.
-      - url: arazzo/artifactory-gavc-search-tag-workflow.yml
-        name: Artifactory GAVC Search and Tag
-        summary: Find a Maven artifact by GAVC coordinates, then set properties on it.
-      - url: arazzo/artifactory-inspect-docker-image-manifest-workflow.yml
-        name: Artifactory Inspect Docker Image Manifest
-        summary: List an image's tags, then fetch the manifest for the first tag found.
-      - url: arazzo/artifactory-move-artifact-cleanup-workflow.yml
-        name: Artifactory Move Artifact and Clean Up
-        summary: Move an artifact to a new repository path and verify the destination.
-      - url: arazzo/artifactory-onboard-user-group-permission-workflow.yml
-        name: Artifactory Onboard User with Group and Permission
-        summary: Create a user, create a group, and grant the group repository permissions.
-      - url: arazzo/artifactory-promote-artifact-across-repositories-workflow.yml
-        name: Artifactory Promote Artifact Across Repositories
-        summary: Copy an artifact from a staging repository to a release repository and verify it.
-      - url: arazzo/artifactory-promote-docker-image-workflow.yml
-        name: Artifactory Promote Docker Image
-        summary: Promote a Docker image to a target repository, then list its tags to verify.
-      - url: arazzo/artifactory-provision-repository-deploy-artifact-workflow.yml
-        name: Artifactory Provision Repository and Deploy Artifact
-        summary: Create a local repository, deploy an artifact into it, and verify the deployment.
-      - url: arazzo/artifactory-publish-build-set-retention-workflow.yml
-        name: Artifactory Publish Build and Set Retention
-        summary: Publish build info, list the build runs, then apply a retention policy.
-      - url: arazzo/artifactory-publish-promote-build-workflow.yml
-        name: Artifactory Publish and Promote Build
-        summary: Publish build info to Artifactory and promote the build to a release repository.
-      - url: arazzo/artifactory-rename-build-verify-workflow.yml
-        name: Artifactory Rename Build and Verify
-        summary: Confirm a build exists, rename it, then read the runs under its new name.
+  - type: Arazzo
+    url: arazzo/artifactory-aql-find-and-delete-artifact-workflow.yml
+    name: Artifactory AQL Find and Delete Artifact
+  - type: Arazzo
+    url: arazzo/artifactory-checksum-search-retrieve-workflow.yml
+    name: Artifactory Checksum Search and Retrieve
+  - type: Arazzo
+    url: arazzo/artifactory-compare-build-versions-workflow.yml
+    name: Artifactory Compare Build Versions
+  - type: Arazzo
+    url: arazzo/artifactory-configure-repository-replication-workflow.yml
+    name: Artifactory Configure Repository Replication
+  - type: Arazzo
+    url: arazzo/artifactory-create-group-scoped-access-token-workflow.yml
+    name: Artifactory Create Group-Scoped Access Token
+  - type: Arazzo
+    url: arazzo/artifactory-create-user-verify-membership-workflow.yml
+    name: Artifactory Create User and Verify Membership
+  - type: Arazzo
+    url: arazzo/artifactory-decommission-repository-workflow.yml
+    name: Artifactory Decommission Repository
+  - type: Arazzo
+    url: arazzo/artifactory-deploy-tag-search-artifact-workflow.yml
+    name: Artifactory Deploy, Tag, and Search Artifact
+  - type: Arazzo
+    url: arazzo/artifactory-gavc-search-tag-workflow.yml
+    name: Artifactory GAVC Search and Tag
+  - type: Arazzo
+    url: arazzo/artifactory-inspect-docker-image-manifest-workflow.yml
+    name: Artifactory Inspect Docker Image Manifest
+  - type: Arazzo
+    url: arazzo/artifactory-move-artifact-cleanup-workflow.yml
+    name: Artifactory Move Artifact and Clean Up
+  - type: Arazzo
+    url: arazzo/artifactory-onboard-user-group-permission-workflow.yml
+    name: Artifactory Onboard User with Group and Permission
+  - type: Arazzo
+    url: arazzo/artifactory-promote-artifact-across-repositories-workflow.yml
+    name: Artifactory Promote Artifact Across Repositories
+  - type: Arazzo
+    url: arazzo/artifactory-promote-docker-image-workflow.yml
+    name: Artifactory Promote Docker Image
+  - type: Arazzo
+    url: arazzo/artifactory-provision-repository-deploy-artifact-workflow.yml
+    name: Artifactory Provision Repository and Deploy Artifact
+  - type: Arazzo
+    url: arazzo/artifactory-publish-build-set-retention-workflow.yml
+    name: Artifactory Publish Build and Set Retention
+  - type: Arazzo
+    url: arazzo/artifactory-publish-promote-build-workflow.yml
+    name: Artifactory Publish and Promote Build
+  - type: Arazzo
+    url: arazzo/artifactory-rename-build-verify-workflow.yml
+    name: Artifactory Rename Build and Verify
   - type: TermsOfService
     url: https://jfrog.com/terms-of-service/
     title: Terms of Service
@@ -191,7 +188,7 @@ common:
   - type: GettingStarted
     url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
     title: Getting Started
-  - type: SignUp
+  - type: Signup
     url: https://jfrog.com/start-free/
     title: Sign Up Free
   - type: Login
