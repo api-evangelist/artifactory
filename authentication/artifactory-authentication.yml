@@ -1,0 +1,38 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/artifactory-aql-api-openapi.yml, openapi/artifactory-build-integration-api-openapi.yml,
+  openapi/artifactory-docker-registry-api-openapi.yml, openapi/artifactory-rest-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Access token authentication
+  sources:
+  - openapi/artifactory-aql-api-openapi.yml
+  - openapi/artifactory-build-integration-api-openapi.yml
+  - openapi/artifactory-docker-registry-api-openapi.yml
+  - openapi/artifactory-rest-api-openapi.yml
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-JFrog-Art-Api
+  description: API key authentication via header
+  sources:
+  - openapi/artifactory-aql-api-openapi.yml
+  - openapi/artifactory-build-integration-api-openapi.yml
+  - openapi/artifactory-rest-api-openapi.yml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic authentication
+  sources:
+  - openapi/artifactory-aql-api-openapi.yml
+  - openapi/artifactory-build-integration-api-openapi.yml
+  - openapi/artifactory-docker-registry-api-openapi.yml
+  - openapi/artifactory-rest-api-openapi.yml

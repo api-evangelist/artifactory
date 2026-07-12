@@ -99,6 +99,12 @@ apis:
       - type: JSONSchema
         url: json-schema/artifactory-build-info.json
 common:
+  - type: VulnerabilityDisclosure
+    url: security/artifactory-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/artifactory-domain-security.yml
+  - type: Authentication
+    url: authentication/artifactory-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/jfrog-artifactory/overview
   - type: Arazzo
