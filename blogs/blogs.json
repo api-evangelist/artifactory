@@ -5,7 +5,14 @@
       "source": "https://jfrog.com/blog/feed/",
       "feed_url": "https://jfrog.com/blog/feed/",
       "title": "",
-      "saved": 5,
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://jfrog.com/pricing/feed/",
+      "feed_url": "https://jfrog.com/pricing/feed/",
+      "title": "",
+      "saved": 0,
       "method": "feed"
     },
     {
@@ -16,6 +23,6 @@
       "method": "discovered"
     }
   ],
-  "post_count": 37,
-  "fetched": "2026-06-27T12:03:07Z"
+  "post_count": 41,
+  "fetched": "2026-07-11T11:50:51Z"
 }
