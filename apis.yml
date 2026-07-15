@@ -99,6 +99,8 @@ apis:
       - type: JSONSchema
         url: json-schema/artifactory-build-info.json
 common:
+  - type: AgenticAccess
+    url: agentic-access/artifactory-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/artifactory-vulnerability-disclosure.yml
   - type: DomainSecurity
