@@ -1,0 +1,58 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.jfrog.com/cli
+description: >-
+  The JFrog CLI (`jf`, formerly `jfrog`) command surface — the developer-tooling
+  layer over the JFrog Platform APIs, including Artifactory. Captured from
+  docs.jfrog.com/cli and github.com/jfrog/jfrog-cli. The CLI binary itself is
+  catalogued in packages/artifactory-packages.yml; this artifact enumerates its
+  command/resource surface. `jf` wraps native package managers (npm, Maven,
+  Gradle, Go, pip, NuGet, Docker, ...) so builds publish to and resolve from
+  Artifactory transparently.
+docs: https://docs.jfrog.com/cli
+repo: https://github.com/jfrog/jfrog-cli
+binaries: [jf, jfrog]
+install:
+  homebrew: brew install jfrog-cli
+  npm: npm install -g jfrog-cli-v2-jf
+  curl: "curl -fL https://install-cli.jfrog.io | sh"
+  getcli: https://jfrog.com/getcli/
+  docker: docker run releases-docker.jfrog.io/jfrog/jfrog-cli-v2-jf jf <command>
+commands:
+  config_auth:
+    - {name: "jf c add", description: Configure a JFrog Platform server (URL + credentials/token) and store it.}
+    - {name: "jf c show", description: Show configured server details.}
+    - {name: "jf login", description: Interactive OAuth/credential login to the JFrog Platform.}
+    - {name: "jf setup", description: Guided setup connecting the CLI to a JFrog SaaS instance.}
+  artifactory_generic:
+    - {name: "jf rt upload (u)", description: Upload/deploy artifacts to an Artifactory repository.}
+    - {name: "jf rt download (dl)", description: Download artifacts from Artifactory.}
+    - {name: "jf rt copy / move / delete", description: Copy, move, or delete artifacts by path/pattern or AQL.}
+    - {name: "jf rt search (s)", description: Search for artifacts (supports AQL and property filters).}
+    - {name: "jf rt set-props / delete-props", description: Set or delete properties on matched artifacts.}
+    - {name: "jf rt curl", description: Execute an arbitrary authenticated Artifactory REST API call.}
+  repositories:
+    - {name: "jf rt repo-create / repo-update / repo-delete", description: Create, update, or delete repositories from config files.}
+    - {name: "jf rt replication-create / replication-delete", description: Manage repository replication.}
+  package_managers:
+    - {name: "jf npm / npm-config", description: Run npm ci/install/publish resolving through Artifactory.}
+    - {name: "jf mvn / mvn-config", description: Run Maven builds against Artifactory.}
+    - {name: "jf gradle / gradle-config", description: Run Gradle builds against Artifactory.}
+    - {name: "jf go / go-config", description: Resolve and publish Go modules via Artifactory.}
+    - {name: "jf pip / pip-config", description: Install/resolve Python packages via Artifactory.}
+    - {name: "jf nuget / dotnet", description: Resolve NuGet/.NET packages via Artifactory.}
+    - {name: "jf docker", description: Push/pull Docker images through Artifactory with build collection.}
+  builds:
+    - {name: "jf rt build-collect-env (bce)", description: Collect environment variables into build-info.}
+    - {name: "jf rt build-publish (bp)", description: Publish collected build-info to Artifactory.}
+    - {name: "jf rt build-promote (bpr)", description: Promote a build to a target repository.}
+    - {name: "jf rt build-scan (bs)", description: Scan a published build with Xray and fail on violations.}
+    - {name: "jf rt build-discard / build-clean", description: Discard old builds or clean local build-info.}
+  security_scanning:
+    - {name: "jf audit", description: Scan project dependencies for vulnerabilities (Xray/Advanced Security).}
+    - {name: "jf scan", description: Scan local files/binaries or Docker images for CVEs.}
+    - {name: "jf docker scan", description: Scan a Docker image for vulnerabilities.}
+  lifecycle_distribution:
+    - {name: "jf release-bundle-create (rbc)", description: Create a Release Bundle v2 for the Release Lifecycle.}
+    - {name: "jf release-bundle-promote (rbp)", description: Promote a Release Bundle through lifecycle stages.}
+    - {name: "jf release-bundle-distribute (rbd)", description: Distribute a Release Bundle to edge nodes.}

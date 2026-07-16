@@ -1,0 +1,47 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://docs.jfrog.com/releases/docs/artifactory-release-notes,
+  https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis,
+  https://status.jfrog.com; deprecation milestones from the Artifactory release
+  notes and derived from apis.yml properties.
+description: >-
+  Versioning, deprecation, SLA, and status posture for the Artifactory REST /
+  AQL / Docker / Build APIs. Artifactory is a versioned product (major line 7.x)
+  deployed either as JFrog SaaS or self-managed; the API is versioned by product
+  release rather than by a URL version segment or a version header.
+versioning:
+  scheme: product-release
+  current_major: '7'
+  mechanism: >-
+    The REST API is tied to the Artifactory product version; there is no URL
+    version segment and no per-request version header. Clients query
+    GET /api/system/version (operationId getSystemVersion) for the running
+    version.
+  docs: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+deprecation:
+  policy_url: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+  sunset_header: false
+  notes: >-
+    Deprecations are announced in the release notes (sections for "deprecations
+    in process" and "deprecated features") ahead of removal, not via RFC 8594
+    Sunset/Deprecation response headers.
+  notable:
+    - name: API Keys
+      detail: >-
+        Legacy API keys (X-JFrog-Art-Api header) are being deprecated in favor
+        of scoped access tokens; SaaS admins gained a UI toggle in 7.107.1 and
+        self-hosted admins control it via system properties.
+    - name: Security Configuration Descriptor
+      sunset_date: '2026-07-01'
+      detail: GET/POST /api/system/security REST endpoints deprecated as of 2026-07-01.
+sla:
+  url: https://jfrog.com/support/
+  public_uptime_target: null
+  notes: >-
+    Availability commitments (including a premium/high-availability SLA) are
+    handled through JFrog subscription/enterprise agreements; no single numeric
+    public uptime target is published for all tiers.
+status_page: https://status.jfrog.com/
+rate_limits: rate-limits/artifactory-rate-limits.yml
+deprecated_operations: []

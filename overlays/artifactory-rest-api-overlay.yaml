@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Artifactory REST API
+  version: 1.0.0
+extends: openapi/artifactory-rest-api-openapi.yml
+generated: '2026-06-20'
+method: generated
+source: openapi/artifactory-rest-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      catalog: https://apis.io/artifactory
+      provider: JFrog Artifactory
+      maintainer: Kin Lane <kin@apievangelist.com>
+      artifacts:
+      - apis.yml
+      - authentication/artifactory-authentication.yml
+      - conventions/artifactory-conventions.yml
+      - errors/artifactory-problem-types.yml
+      - lifecycle/artifactory-lifecycle.yml
+      - conformance/artifactory-conformance.yml
+      - mcp/artifactory-mcp.yml
+      x-apievangelist-rating: 4

@@ -1,0 +1,35 @@
+generated: '2026-06-20'
+method: derived
+format: jfrog-error-object
+source: >-
+  Derived from the 4xx responses and the shared ErrorResponse schema referenced
+  across openapi/*.yml, enriched from the JFrog REST API documentation. Artifactory
+  does NOT use RFC 9457 application/problem+json; errors are returned as
+  {"errors": [{"status": <int>, "message": <string>}]} with media type
+  application/json.
+envelope:
+  media_type: application/json
+  shape: '{ "errors": [ { "status": integer, "message": string } ] }'
+  schema: openapi/artifactory-rest-api-openapi.yml#/components/schemas/ErrorResponse
+observed_statuses: [400, 401, 403, 404]
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: The request was malformed or a required parameter/body was invalid.
+    remediation: Validate path/query parameters and the request body against the OpenAPI schema.
+  - status: 401
+    title: Unauthorized
+    meaning: >-
+      No valid credentials provided. Artifactory accepts Basic auth, a Bearer
+      access token, or the (deprecated) X-JFrog-Art-Api key.
+    remediation: "Supply a valid access token (Authorization: Bearer) or Basic credentials."
+  - status: 403
+    title: Forbidden
+    meaning: >-
+      Authenticated but the principal lacks the permission target / role
+      required for the repository or admin operation.
+    remediation: Grant the required permission target or use a token with sufficient scope.
+  - status: 404
+    title: Not Found
+    meaning: The repository, artifact path, user, group, or permission target does not exist.
+    remediation: Verify the repoKey/itemPath or resource name; the item may have been moved or deleted.

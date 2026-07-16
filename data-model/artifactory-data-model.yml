@@ -1,0 +1,35 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from the schemas and id-reference fields in openapi/*.yml (Repository,
+  Item/File/Folder, User, Group, PermissionTarget, AccessToken, Build,
+  Replication) and the JFrog REST API object reference. Captures the core
+  entity-relationship graph behind Artifactory's repository/security/build model.
+docs: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+notation: >-
+  relationships use has_one / has_many / belongs_to with the reference field
+  name; direction is from the entity that owns the reference.
+entities:
+  - {name: Repository, key: repoKey, domain: repositories, description: A local, remote, virtual, or federated repository that stores artifacts.}
+  - {name: Item, key: path, domain: storage, description: A file or folder stored at a path within a repository.}
+  - {name: Build, key: buildName, domain: builds, description: CI/CD build-info tying produced artifacts to the build that made them.}
+  - {name: BuildRun, key: buildNumber, domain: builds, description: A single numbered execution of a named Build.}
+  - {name: User, key: name, domain: security, description: A platform user principal.}
+  - {name: Group, key: name, domain: security, description: A group of users.}
+  - {name: PermissionTarget, key: name, domain: security, description: A permission target binding principals to repositories/paths with actions.}
+  - {name: AccessToken, key: token_id, domain: security, description: A scoped access token for authenticating to the platform/API.}
+  - {name: ReplicationConfig, key: repoKey, domain: replication, description: Push/pull replication configuration for a repository.}
+  - {name: ItemProperties, key: path, domain: metadata, description: Key/value properties attached to an item.}
+relationships:
+  - {from: Item, to: Repository, type: belongs_to, via: repoKey}
+  - {from: Repository, to: Item, type: has_many, via: path}
+  - {from: ItemProperties, to: Item, type: belongs_to, via: path}
+  - {from: Build, to: BuildRun, type: has_many, via: buildNumber}
+  - {from: BuildRun, to: Item, type: has_many, via: artifact-checksum, note: build-info references produced/consumed artifacts by checksum.}
+  - {from: Group, to: User, type: has_many, via: name}
+  - {from: User, to: Group, type: has_many, via: groups}
+  - {from: PermissionTarget, to: Repository, type: has_many, via: repositories}
+  - {from: PermissionTarget, to: User, type: has_many, via: principals.users}
+  - {from: PermissionTarget, to: Group, type: has_many, via: principals.groups}
+  - {from: AccessToken, to: User, type: belongs_to, via: subject}
+  - {from: ReplicationConfig, to: Repository, type: belongs_to, via: repoKey}

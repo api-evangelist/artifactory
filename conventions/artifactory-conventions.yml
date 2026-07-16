@@ -1,0 +1,57 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis and
+  derived from openapi/*.yml — the cross-cutting request/response semantics that
+  apply across the Artifactory REST/AQL/Docker/Build APIs.
+description: >-
+  How the Artifactory API behaves across operations: base URL shape,
+  authentication, the search/AQL model in place of uniform pagination, the
+  property/metadata model, versioning, and the error envelope. These are the
+  runtime-semantics conventions OpenAPI does not fully express.
+base_url:
+  pattern: https://{server}/artifactory
+  note: >-
+    Artifactory is self- or SaaS-hosted; every deployment has its own host. The
+    Docker Registry API is served from the deployment host root (no /artifactory
+    prefix). Endpoints live under /artifactory/api/*.
+api_style: REST over HTTPS, JSON responses; some endpoints accept raw artifact bytes on PUT.
+authentication:
+  schemes: [access-token (Bearer), basic, api-key (X-JFrog-Art-Api, deprecated)]
+  detail: authentication/artifactory-authentication.yml
+  docs: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  note: Scoped Access Tokens are the recommended mechanism; API keys are being deprecated platform-wide.
+idempotency:
+  supported: partial
+  mechanism: none (no Idempotency-Key header)
+  detail: >-
+    Repository/user/group/permission and property writes are PUT create-or-replace
+    operations and are therefore naturally idempotent; artifact deploy is
+    idempotent by checksum. No client-supplied idempotency key is defined.
+pagination:
+  style: query-language
+  detail: >-
+    The REST API does not apply a uniform cursor/limit envelope. Large-scale,
+    filtered retrieval is done through the AQL API (Artifactory Query Language),
+    which supports .sort, .limit, and .offset clauses over items/builds/entries.
+  aql_docs: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+metadata:
+  model: properties
+  detail: >-
+    Arbitrary key/value properties can be attached to any artifact or folder and
+    queried via AQL or the property search endpoints
+    (getItemProperties/setItemProperties/deleteItemProperties).
+checksums:
+  headers: [X-Checksum-Sha1, X-Checksum-Sha256, X-Checksum-Md5]
+  detail: >-
+    Deploys can be checksum-based; Artifactory dedupes storage by SHA-256 and
+    supports checksum search (searchByChecksum).
+versioning:
+  scheme: product-release (major line 7.x)
+  detail: lifecycle/artifactory-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ "errors": [ { "status": integer, "message": string } ] }'
+  detail: errors/artifactory-problem-types.yml
+rate_limits:
+  detail: rate-limits/artifactory-rate-limits.yml

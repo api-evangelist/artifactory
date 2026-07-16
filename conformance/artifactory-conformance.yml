@@ -1,0 +1,59 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from openapi/*.yml (securitySchemes, error schema, search/pagination
+  behavior) and JFrog compliance claims (jfrog.com/trust). Docker Registry
+  conformance is asserted from the apis.yml Docker Registry v2 API and its
+  OpenAPI.
+standards:
+  - id: http-basic-bearer-auth
+    conforms: true
+    evidence: openapi securitySchemes define BasicAuth (http basic) and BearerAuth (http bearer / access tokens).
+  - id: api-key-auth
+    conforms: true
+    evidence: openapi securitySchemes define ApiKeyAuth (X-JFrog-Art-Api header); being deprecated in favor of access tokens.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      The Artifactory REST API OpenAPI declares no oauth2 securityScheme
+      (bearer/basic/apiKey only); OAuth is used by the hosted JFrog MCP server
+      and platform login, not the REST API itself.
+  - id: oidc
+    conforms: partial
+    evidence: >-
+      JFrog Access supports OIDC identity-provider integration for platform
+      access tokens (access_oidc_create_configuration), but the API host exposes
+      no /.well-known/openid-configuration discovery document.
+  - id: docker-registry-v2
+    conforms: true
+    evidence: >-
+      Artifactory implements the Docker Registry HTTP API V2 (apis.yml Docker
+      Registry API; openapi/artifactory-docker-registry-api-openapi.yml).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use a JFrog-specific envelope {"errors":[{"status","message"}]} with
+      media type application/json, not application/problem+json.
+  - id: rfc9116-security-txt
+    conforms: true
+    evidence: jfrog.com/.well-known/security.txt returns a valid PGP-signed RFC 9116 document.
+  - id: soc2-type-ii
+    conforms: true
+    evidence: JFrog holds a SOC 2 Type II report (jfrog.com/trust); see security/artifactory-trust-center.yml.
+  - id: iso-27001
+    conforms: true
+    evidence: JFrog is ISO/IEC 27001 certified (plus 27017, 27701); see security/artifactory-trust-center.yml.
+  - id: fedramp
+    conforms: true
+    evidence: JFrog is FedRAMP Compliant (jfrog.com/trust).
+  - id: pagination
+    conforms: partial
+    evidence: >-
+      The REST API is not uniformly paginated; large-result search is handled by
+      the AQL API (offset/limit and .sort/.limit in AQL), not a global
+      cursor/limit convention across all endpoints.
+  - id: idempotency
+    conforms: partial
+    evidence: >-
+      Writes are largely PUT-based (create-or-replace) and thus naturally
+      idempotent; no Idempotency-Key header convention is defined.

@@ -10,7 +10,7 @@ description: >-
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/artifactory/refs/heads/main/apis.yml
 created: '2024-01-15'
-modified: '2026-05-19'
+modified: '2026-06-20'
 specificationVersion: '0.19'
 type: Index
 tags:
@@ -107,6 +107,44 @@ common:
     url: security/artifactory-domain-security.yml
   - type: Authentication
     url: authentication/artifactory-authentication.yml
+  - type: TrustCenter
+    url: security/artifactory-trust-center.yml
+  - type: Packages
+    url: packages/artifactory-packages.yml
+  - type: MCPServer
+    url: mcp/artifactory-mcp.yml
+  - type: LLMsTxt
+    url: llms/artifactory-llms.txt
+  - type: WellKnown
+    url: well-known/artifactory-well-known.yml
+  - type: SecurityTxt
+    url: well-known/artifactory-security.txt
+  - type: Conformance
+    url: conformance/artifactory-conformance.yml
+  - type: ErrorCatalog
+    url: errors/artifactory-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/artifactory-lifecycle.yml
+  - type: Conventions
+    url: conventions/artifactory-conventions.yml
+  - type: ChangeLog
+    url: changelog/artifactory-changelog.yml
+  - type: CLI
+    url: cli/artifactory-cli.yml
+  - type: DataModel
+    url: data-model/artifactory-data-model.yml
+  - type: Overlay
+    url: overlays/artifactory-rest-api-overlay.yaml
+    name: Artifactory REST API enhancements
+  - type: Overlay
+    url: overlays/artifactory-aql-api-overlay.yaml
+    name: Artifactory AQL API enhancements
+  - type: Overlay
+    url: overlays/artifactory-docker-registry-api-overlay.yaml
+    name: Artifactory Docker Registry API enhancements
+  - type: Overlay
+    url: overlays/artifactory-build-integration-api-overlay.yaml
+    name: Artifactory Build Integration API enhancements
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/jfrog-artifactory/overview
   - type: Arazzo

@@ -1,0 +1,26 @@
+generated: '2026-06-20'
+method: searched
+probe: true
+source: https://jfrog.com/trust/certificate-program/
+url: https://jfrog.com/trust/
+description: >-
+  JFrog's security & compliance posture, captured from the JFrog Trust center
+  (jfrog.com/trust) and its Certificate Program pages. The automated trust-center
+  probe did not clear its keyword threshold on the corporate host, so this is the
+  searched, human-verified fill. JFrog engages Ernst & Young for its annually-
+  validated SOC 2 Type II report and holds a family of ISO/IEC certifications
+  plus FedRAMP and CSA STAR.
+certifications:
+  - {name: SOC 2 Type II, auditor: Ernst & Young, cadence: annual, url: https://jfrog.com/trust/certificate-program/soc-2-report/}
+  - {name: ISO/IEC 27001:2013, note: Information security management, url: https://jfrog.com/trust/certificate-program/certificate-iso-27001/}
+  - {name: ISO/IEC 27017:2014, note: Cloud services security controls}
+  - {name: ISO/IEC 27701:2019, note: Privacy information management, url: https://jfrog.com/trust/certificate-program/certificate-iso-27701/}
+  - {name: FedRAMP, note: FedRAMP Compliant}
+  - {name: CSA STAR, level: Level 1}
+resources:
+  - {name: Trust Center, url: https://jfrog.com/trust/}
+  - {name: Certificate Program, url: https://jfrog.com/trust/certificate-program/}
+  - {name: Trust FAQ, url: https://jfrog.com/trust/faq/}
+  - {name: Cloud Data Security Addendum / TOMs, url: https://jfrog.com/jfrog-toms/}
+evidence:
+  - {source: https://jfrog.com/trust/certificate-program/, keywords: [soc 2, iso 27001, iso 27701, fedramp, csa star]}

@@ -1,0 +1,54 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.jfrog.com/integrations/docs/sdks
+description: >-
+  First-party JFrog client libraries, CLI binaries, and tooling for interacting
+  with JFrog Artifactory (and the wider JFrog Platform). Verified against the
+  public package registries and the JFrog GitHub org (github.com/jfrog). Registry
+  HTTP status recorded at fetch time. JFrog does not publish a dedicated Python
+  or Java Artifactory SDK on PyPI/Maven under its own name (pypi 'jfrog' and
+  'jfrog-cli' return 404); Go is the first-party client language, and language-
+  native workflows are handled through the JFrog CLI's package-manager wrappers.
+packages:
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/jfrog/jfrog-client-go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-client-go
+    source: https://github.com/jfrog/jfrog-client-go
+    install: go get github.com/jfrog/jfrog-client-go
+    official: true
+    note: >-
+      The official Go client library — Go APIs for Artifactory, Xray, and
+      Distribution; used as a dependency by the JFrog CLI itself.
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/jfrog/jfrog-cli
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-cli
+    source: https://github.com/jfrog/jfrog-cli
+    install: go install github.com/jfrog/jfrog-cli/v2@latest
+    official: true
+    note: JFrog CLI (jf) source module; command surface catalogued in cli/artifactory-cli.yml.
+  - language: javascript
+    registry: npm
+    name: jfrog-cli-v2-jf
+    url: https://www.npmjs.com/package/jfrog-cli-v2-jf
+    source: https://github.com/jfrog/jfrog-cli
+    install: npm install -g jfrog-cli-v2-jf
+    official: true
+    note: npm distribution of the JFrog CLI v2 exposing the `jf` binary.
+  - language: javascript
+    registry: npm
+    name: jfrog-cli-v2
+    url: https://www.npmjs.com/package/jfrog-cli-v2
+    source: https://github.com/jfrog/jfrog-cli
+    install: npm install -g jfrog-cli-v2
+    official: true
+    note: npm distribution of the JFrog CLI v2 exposing the legacy `jfrog` binary.
+  - language: shell
+    registry: homebrew
+    name: jfrog-cli
+    url: https://formulae.brew.sh/formula/jfrog-cli
+    source: https://github.com/jfrog/jfrog-cli
+    install: brew install jfrog-cli
+    official: true
+    note: Recommended install method for macOS/Linux desktop (auto-updates).

@@ -1,0 +1,26 @@
+generated: '2026-06-20'
+method: searched
+source: live probes of jfrog.com/.well-known/*
+description: >-
+  Results of probing the /.well-known/ discovery surface. The Artifactory REST/
+  AQL/Docker/Build APIs all run on a customer-provisioned host
+  (https://{server}/artifactory in the OpenAPI servers[]; the apis.yml example
+  is artifactory.example.com), so there is no single vendor API host to probe;
+  the JFrog corporate/docs host jfrog.com is the discoverable surface. Status is
+  the HTTP code observed at fetch time. Only the security.txt returned a real,
+  correctly-typed document and was saved verbatim.
+hosts:
+  - host: https://jfrog.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        type: text/plain
+        file: artifactory-security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404

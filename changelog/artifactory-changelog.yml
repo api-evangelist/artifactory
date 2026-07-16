@@ -1,0 +1,45 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+description: >-
+  Structured capture of JFrog Artifactory's release stream. Artifactory ships as
+  a versioned product (current major line 7.x) with two release trains: SaaS
+  (Cloud) minor versions ship roughly weekly with patches as needed, and
+  self-managed minor versions ship quarterly with planned weekly patches. The
+  live release-information site is the source of truth; this records the scheme,
+  the trains, the current line, and recent notable REST-API / deprecation changes
+  rather than the full history.
+docs:
+  release_information: https://jfrog.com/help/r/jfrog-release-information/jfrog-release-notes
+  artifactory_release_notes: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+  self_hosted: https://docs.jfrog.com/releases/docs/artifactory-self-managed-releases
+  cloud: https://docs.jfrog.com/releases/docs/artifactory-saas-releases
+versioning:
+  scheme: semver product line (major.minor.patch), e.g. 7.98.7
+  current_major: '7'
+  detail: lifecycle/artifactory-lifecycle.yml
+  trains:
+    - {name: cloud, cadence: weekly minor + patches as needed}
+    - {name: self-hosted, cadence: quarterly minor + planned weekly patches}
+entries:
+  - version: 7.107.1+ (Cloud)
+    area: security / deprecation
+    highlights:
+      - JFrog Platform UI adds a checkbox for SaaS admins to control API-usage (API key) deprecation.
+  - version: 'deprecation milestone'
+    date: '2026-07-01'
+    breaking:
+      - >-
+        Security Configuration Descriptor deprecated, including REST endpoints
+        GET/POST /api/system/security.
+  - version: 'Release Lifecycle Management'
+    area: rest-api / additions
+    additions:
+      - REST APIs to create a Release Bundle v2 version, update draft content, and finalize a draft Release Bundle v2 version.
+  - version: 'API Key deprecation (platform-wide)'
+    area: authentication / deprecation
+    breaking:
+      - >-
+        Legacy API keys (X-JFrog-Art-Api) are being phased out in favor of
+        scoped access tokens; self-hosted admins can control via system
+        properties. See authentication/artifactory-authentication.yml.
