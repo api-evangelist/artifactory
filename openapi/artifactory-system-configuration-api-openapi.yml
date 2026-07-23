@@ -1,0 +1,288 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search System & Configuration API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: System & Configuration
+  description: System health, version, and configuration management
+paths:
+  /api/system/ping:
+    get:
+      operationId: systemPing
+      summary: JFrog Artifactory System Health Ping
+      description: Returns a simple "OK" if Artifactory is accessible. Used for health checks.
+      tags:
+      - System & Configuration
+      security: []
+      responses:
+        '200':
+          description: Artifactory is accessible
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+  /api/system/version:
+    get:
+      operationId: getSystemVersion
+      summary: JFrog Artifactory Get Version Information
+      description: Returns the Artifactory version and revision information along with enabled addons.
+      tags:
+      - System & Configuration
+      responses:
+        '200':
+          description: Version information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/system/configuration:
+    get:
+      operationId: getSystemConfiguration
+      summary: JFrog Artifactory Get System Configuration
+      description: Returns the global system configuration XML (artifactory.config.xml).
+      tags:
+      - System & Configuration
+      responses:
+        '200':
+          description: System configuration XML
+          content:
+            application/xml:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    patch:
+      operationId: updateSystemConfiguration
+      summary: JFrog Artifactory Update System Configuration
+      description: Applies a YAML patch to update specific parts of the system configuration.
+      tags:
+      - System & Configuration
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Configuration updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /api/system/licenses:
+    get:
+      operationId: getLicenseInfo
+      summary: JFrog Artifactory Get License Information
+      description: Returns the license details for the current Artifactory instance.
+      tags:
+      - System & Configuration
+      responses:
+        '200':
+          description: License information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LicenseInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/system/storage:
+    get:
+      operationId: getStorageSummary
+      summary: JFrog Artifactory Get Storage Summary
+      description: Returns a summary of storage usage across all repositories.
+      tags:
+      - System & Configuration
+      responses:
+        '200':
+          description: Storage summary information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorageSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    StorageSummary:
+      type: object
+      properties:
+        binariesSummary:
+          type: object
+          properties:
+            binariesCount:
+              type: string
+              description: Total number of binaries
+            binariesSize:
+              type: string
+              description: Total size of binaries
+            artifactsSize:
+              type: string
+              description: Total size of artifacts
+            optimization:
+              type: string
+              description: Storage optimization percentage
+            itemsCount:
+              type: string
+              description: Total number of items
+            artifactsCount:
+              type: string
+              description: Total number of artifacts
+        fileStoreSummary:
+          type: object
+          properties:
+            storageType:
+              type: string
+              description: Storage backend type
+            storageDirectory:
+              type: string
+              description: Storage directory path
+            totalSpace:
+              type: string
+              description: Total storage space
+            usedSpace:
+              type: string
+              description: Used storage space
+            freeSpace:
+              type: string
+              description: Free storage space
+        repositoriesSummaryList:
+          type: array
+          items:
+            type: object
+            properties:
+              repoKey:
+                type: string
+                description: Repository key
+              repoType:
+                type: string
+                description: Repository type
+              foldersCount:
+                type: integer
+                description: Number of folders
+              filesCount:
+                type: integer
+                description: Number of files
+              usedSpace:
+                type: string
+                description: Space used by this repository
+              itemsCount:
+                type: integer
+                description: Total items count
+              packageType:
+                type: string
+                description: Package type
+              percentage:
+                type: string
+                description: Percentage of total storage
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    VersionInfo:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Artifactory version number
+          example: 7.77.5
+        revision:
+          type: string
+          description: Build revision
+          example: '77700900'
+        addons:
+          type: array
+          items:
+            type: string
+          description: List of enabled add-on modules
+        license:
+          type: string
+          description: License type
+          example: Enterprise+
+    LicenseInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          description: License type
+          example: Enterprise+
+        validThrough:
+          type: string
+          description: License expiration date
+          example: '2026-12-31T00:00:00.000Z'
+        licensedTo:
+          type: string
+          description: Organization the license is issued to
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

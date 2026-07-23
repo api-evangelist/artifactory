@@ -1,0 +1,669 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Security API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Security
+  description: Users, groups, permissions, and tokens
+paths:
+  /api/security/users:
+    get:
+      operationId: listUsers
+      summary: JFrog Artifactory List Users
+      description: Returns a list of all users in the system.
+      tags:
+      - Security
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /api/security/users/{username}:
+    get:
+      operationId: getUser
+      summary: JFrog Artifactory Get User Details
+      description: Returns the details for a specific user.
+      tags:
+      - Security
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: The username
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: createOrReplaceUser
+      summary: JFrog Artifactory Create or Replace User
+      description: Creates a new user or replaces an existing one.
+      tags:
+      - Security
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: The username
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+        '200':
+          description: User replaced successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteUser
+      summary: JFrog Artifactory Delete User
+      description: Deletes an existing user.
+      tags:
+      - Security
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: The username
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/security/groups:
+    get:
+      operationId: listGroups
+      summary: JFrog Artifactory List Groups
+      description: Returns a list of all groups in the system.
+      tags:
+      - Security
+      responses:
+        '200':
+          description: List of groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/security/groups/{groupName}:
+    get:
+      operationId: getGroup
+      summary: JFrog Artifactory Get Group Details
+      description: Returns the details for a specific group.
+      tags:
+      - Security
+      parameters:
+      - name: groupName
+        in: path
+        required: true
+        description: The group name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: createOrReplaceGroup
+      summary: JFrog Artifactory Create or Replace Group
+      description: Creates a new group or replaces an existing one.
+      tags:
+      - Security
+      parameters:
+      - name: groupName
+        in: path
+        required: true
+        description: The group name
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '201':
+          description: Group created successfully
+        '200':
+          description: Group replaced successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteGroup
+      summary: JFrog Artifactory Delete Group
+      description: Deletes an existing group.
+      tags:
+      - Security
+      parameters:
+      - name: groupName
+        in: path
+        required: true
+        description: The group name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/security/permissions:
+    get:
+      operationId: listPermissionTargets
+      summary: JFrog Artifactory List Permission Targets
+      description: Returns a list of all permission targets in the system.
+      tags:
+      - Security
+      responses:
+        '200':
+          description: List of permission targets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionTargetListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/security/permissions/{permissionName}:
+    get:
+      operationId: getPermissionTarget
+      summary: JFrog Artifactory Get Permission Target
+      description: Returns the details for a specific permission target.
+      tags:
+      - Security
+      parameters:
+      - name: permissionName
+        in: path
+        required: true
+        description: The permission target name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Permission target details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionTarget'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: createOrReplacePermissionTarget
+      summary: JFrog Artifactory Create or Replace Permission Target
+      description: Creates a new permission target or replaces an existing one.
+      tags:
+      - Security
+      parameters:
+      - name: permissionName
+        in: path
+        required: true
+        description: The permission target name
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionTarget'
+      responses:
+        '201':
+          description: Permission target created
+        '200':
+          description: Permission target replaced
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deletePermissionTarget
+      summary: JFrog Artifactory Delete Permission Target
+      description: Deletes an existing permission target.
+      tags:
+      - Security
+      parameters:
+      - name: permissionName
+        in: path
+        required: true
+        description: The permission target name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Permission target deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/security/token:
+    post:
+      operationId: createAccessToken
+      summary: JFrog Artifactory Create Access Token
+      description: Creates an access token for authenticating with Artifactory.
+      tags:
+      - Security
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username for which the token is created
+                scope:
+                  type: string
+                  description: 'The scope of the token. Format: member-of-groups:group1,group2'
+                expires_in:
+                  type: integer
+                  description: Token expiration in seconds. 0 means no expiration.
+                refreshable:
+                  type: boolean
+                  description: Whether the token is refreshable
+                audience:
+                  type: string
+                  description: The audience for the token
+      responses:
+        '200':
+          description: Access token created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/security/apiKey:
+    get:
+      operationId: getApiKey
+      summary: JFrog Artifactory Get API Key
+      description: Returns the API key for the currently authenticated user.
+      tags:
+      - Security
+      responses:
+        '200':
+          description: API key information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiKey:
+                    type: string
+                    description: The API key value
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: createApiKey
+      summary: JFrog Artifactory Create API Key
+      description: Creates a new API key for the currently authenticated user.
+      tags:
+      - Security
+      responses:
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiKey:
+                    type: string
+                    description: The newly created API key
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: revokeApiKey
+      summary: JFrog Artifactory Revoke API Key
+      description: Revokes the API key for the currently authenticated user.
+      tags:
+      - Security
+      responses:
+        '200':
+          description: API key revoked
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    PermissionTargetListItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Permission target name
+        uri:
+          type: string
+          format: uri
+          description: URI to permission target details
+    UserListItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Username
+        uri:
+          type: string
+          format: uri
+          description: URI to user details
+        realm:
+          type: string
+          description: Authentication realm
+        status:
+          type: string
+          description: User status
+          enum:
+          - enabled
+          - disabled
+    Group:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Group name
+        description:
+          type: string
+          description: Group description
+        autoJoin:
+          type: boolean
+          description: Whether new users automatically join this group
+        realm:
+          type: string
+          description: Authentication realm
+        realmAttributes:
+          type: string
+          description: Realm attributes
+        adminPrivileges:
+          type: boolean
+          description: Whether the group has admin privileges
+        external:
+          type: boolean
+          description: Whether this is an external group
+        usersNames:
+          type: array
+          items:
+            type: string
+          description: List of users in this group
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token string
+        expires_in:
+          type: integer
+          description: Token expiration time in seconds
+        scope:
+          type: string
+          description: Scope of the token
+        token_type:
+          type: string
+          description: Token type (always "Bearer")
+          example: Bearer
+        refresh_token:
+          type: string
+          description: Refresh token (if refreshable was true)
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    GroupListItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Group name
+        uri:
+          type: string
+          format: uri
+          description: URI to group details
+    PermissionTarget:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Permission target name
+        repo:
+          type: object
+          properties:
+            repositories:
+              type: array
+              items:
+                type: string
+              description: Repository keys
+            actions:
+              type: object
+              properties:
+                users:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                      - read
+                      - write
+                      - annotate
+                      - delete
+                      - manage
+                      - managedXrayMeta
+                      - distribute
+                  description: User permissions mapping
+                groups:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                      - read
+                      - write
+                      - annotate
+                      - delete
+                      - manage
+                      - managedXrayMeta
+                      - distribute
+                  description: Group permissions mapping
+            includePatterns:
+              type: array
+              items:
+                type: string
+              description: Include patterns
+            excludePatterns:
+              type: array
+              items:
+                type: string
+              description: Exclude patterns
+        build:
+          type: object
+          properties:
+            repositories:
+              type: array
+              items:
+                type: string
+              description: Build repository keys
+            actions:
+              type: object
+              properties:
+                users:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: string
+                groups:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: string
+            includePatterns:
+              type: array
+              items:
+                type: string
+            excludePatterns:
+              type: array
+              items:
+                type: string
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Username
+        email:
+          type: string
+          format: email
+          description: Email address
+        password:
+          type: string
+          description: Password (write-only, never returned)
+        admin:
+          type: boolean
+          description: Whether the user is an admin
+        profileUpdatable:
+          type: boolean
+          description: Whether the user can update their profile
+        disableUIAccess:
+          type: boolean
+          description: Whether UI access is disabled
+        internalPasswordDisabled:
+          type: boolean
+          description: Whether internal password is disabled
+        groups:
+          type: array
+          items:
+            type: string
+          description: Groups the user belongs to
+        lastLoggedIn:
+          type: string
+          format: date-time
+          description: Last login timestamp
+        realm:
+          type: string
+          description: Authentication realm
+        status:
+          type: string
+          description: User status
+          enum:
+          - enabled
+          - disabled
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

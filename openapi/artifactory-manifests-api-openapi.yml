@@ -1,0 +1,278 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Manifests API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Manifests
+  description: Push and pull image manifests
+paths:
+  /v2/{name}/manifests/{reference}:
+    get:
+      operationId: getManifest
+      summary: JFrog Artifactory Get Image Manifest
+      description: Retrieves the manifest for an image identified by name and reference (tag or digest). The Accept header determines the manifest format returned.
+      tags:
+      - Manifests
+      parameters:
+      - $ref: '#/components/parameters/ImageName'
+      - $ref: '#/components/parameters/Reference'
+      - name: Accept
+        in: header
+        description: Acceptable manifest media types
+        schema:
+          type: string
+          example: application/vnd.docker.distribution.manifest.v2+json
+      responses:
+        '200':
+          description: Image manifest
+          content:
+            application/vnd.docker.distribution.manifest.v2+json:
+              schema:
+                $ref: '#/components/schemas/ManifestV2'
+            application/vnd.docker.distribution.manifest.list.v2+json:
+              schema:
+                $ref: '#/components/schemas/ManifestList'
+            application/vnd.oci.image.manifest.v1+json:
+              schema:
+                $ref: '#/components/schemas/ManifestV2'
+            application/vnd.oci.image.index.v1+json:
+              schema:
+                $ref: '#/components/schemas/ManifestList'
+          headers:
+            Docker-Content-Digest:
+              description: Digest of the manifest
+              schema:
+                type: string
+                example: sha256:abc123...
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: putManifest
+      summary: JFrog Artifactory Push Image Manifest
+      description: Pushes an image manifest to the registry. The manifest must reference layers that have already been uploaded.
+      tags:
+      - Manifests
+      parameters:
+      - $ref: '#/components/parameters/ImageName'
+      - $ref: '#/components/parameters/Reference'
+      requestBody:
+        required: true
+        content:
+          application/vnd.docker.distribution.manifest.v2+json:
+            schema:
+              $ref: '#/components/schemas/ManifestV2'
+          application/vnd.oci.image.manifest.v1+json:
+            schema:
+              $ref: '#/components/schemas/ManifestV2'
+      responses:
+        '201':
+          description: Manifest uploaded successfully
+          headers:
+            Location:
+              description: URL of the uploaded manifest
+              schema:
+                type: string
+            Docker-Content-Digest:
+              description: Digest of the uploaded manifest
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteManifest
+      summary: JFrog Artifactory Delete Image Manifest
+      description: Deletes the manifest identified by name and reference (must be a digest).
+      tags:
+      - Manifests
+      parameters:
+      - $ref: '#/components/parameters/ImageName'
+      - name: reference
+        in: path
+        required: true
+        description: Manifest digest
+        schema:
+          type: string
+          example: sha256:abc123...
+      responses:
+        '202':
+          description: Manifest deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ManifestList:
+      type: object
+      description: Docker Manifest List (or OCI Image Index) for multi-arch images
+      properties:
+        schemaVersion:
+          type: integer
+          description: Schema version (always 2)
+          example: 2
+        mediaType:
+          type: string
+          description: Media type
+          example: application/vnd.docker.distribution.manifest.list.v2+json
+        manifests:
+          type: array
+          description: List of platform-specific manifests
+          items:
+            type: object
+            properties:
+              mediaType:
+                type: string
+                description: Media type of the referenced manifest
+              size:
+                type: integer
+                description: Size of the referenced manifest
+              digest:
+                type: string
+                description: Digest of the referenced manifest
+              platform:
+                type: object
+                properties:
+                  architecture:
+                    type: string
+                    description: CPU architecture
+                    example: amd64
+                  os:
+                    type: string
+                    description: Operating system
+                    example: linux
+                  variant:
+                    type: string
+                    description: Architecture variant
+                    example: v8
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code
+              message:
+                type: string
+                description: Error message
+              detail:
+                type: string
+                description: Additional error details
+    ManifestV2:
+      type: object
+      description: Docker Image Manifest V2, Schema 2 (or OCI Image Manifest)
+      properties:
+        schemaVersion:
+          type: integer
+          description: Schema version (always 2)
+          example: 2
+        mediaType:
+          type: string
+          description: Media type of the manifest
+          example: application/vnd.docker.distribution.manifest.v2+json
+        config:
+          type: object
+          description: Image configuration object reference
+          properties:
+            mediaType:
+              type: string
+              description: Media type of the config object
+              example: application/vnd.docker.container.image.v1+json
+            size:
+              type: integer
+              description: Size in bytes
+            digest:
+              type: string
+              description: Content digest
+              example: sha256:abc123...
+        layers:
+          type: array
+          description: List of layer references
+          items:
+            type: object
+            properties:
+              mediaType:
+                type: string
+                description: Media type of the layer
+                example: application/vnd.docker.image.rootfs.diff.tar.gzip
+              size:
+                type: integer
+                description: Size in bytes
+              digest:
+                type: string
+                description: Content digest
+                example: sha256:def456...
+  parameters:
+    ImageName:
+      name: name
+      in: path
+      required: true
+      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
+      schema:
+        type: string
+        example: library/nginx
+    Reference:
+      name: reference
+      in: path
+      required: true
+      description: Image tag or digest reference
+      schema:
+        type: string
+        example: latest
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

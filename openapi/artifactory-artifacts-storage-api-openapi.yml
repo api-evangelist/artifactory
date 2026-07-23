@@ -1,0 +1,567 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Artifacts & Storage API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Artifacts & Storage
+  description: Deploy, retrieve, copy, move, and delete artifacts
+paths:
+  /api/storage/{repoKey}/{itemPath}:
+    get:
+      operationId: getStorageInfo
+      summary: JFrog Artifactory Get File or Folder Info
+      description: Returns storage information for a file or folder. For files, returns checksums, size, timestamps, and download URI. For folders, returns child items.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      responses:
+        '200':
+          description: Item storage information
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/FileInfo'
+                - $ref: '#/components/schemas/FolderInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /{repoKey}/{itemPath}:
+    get:
+      operationId: retrieveArtifact
+      summary: JFrog Artifactory Retrieve Artifact
+      description: Downloads a specific artifact from the given repository and path.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      responses:
+        '200':
+          description: Artifact content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: deployArtifact
+      summary: JFrog Artifactory Deploy Artifact
+      description: Deploys an artifact to the specified repository and path. Supports setting properties and checksums via headers.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      - name: X-Checksum-Sha1
+        in: header
+        description: SHA1 checksum of the artifact for verification
+        schema:
+          type: string
+      - name: X-Checksum-Sha256
+        in: header
+        description: SHA256 checksum of the artifact for verification
+        schema:
+          type: string
+      - name: X-Checksum-Md5
+        in: header
+        description: MD5 checksum of the artifact for verification
+        schema:
+          type: string
+      - name: X-Checksum-Deploy
+        in: header
+        description: If true, deploy by checksum. Artifact content is not required if the checksum already exists in the system.
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Artifact deployed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    delete:
+      operationId: deleteArtifact
+      summary: JFrog Artifactory Delete Artifact
+      description: Deletes an artifact or folder from the specified repository and path.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      responses:
+        '204':
+          description: Artifact deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/copy/{srcRepoKey}/{srcItemPath}:
+    post:
+      operationId: copyArtifact
+      summary: JFrog Artifactory Copy Artifact
+      description: Copies an artifact or folder from one location to another.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - name: srcRepoKey
+        in: path
+        required: true
+        description: Source repository key
+        schema:
+          type: string
+      - name: srcItemPath
+        in: path
+        required: true
+        description: Source item path
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: Destination path in format /repoKey/path
+        schema:
+          type: string
+      - name: dry
+        in: query
+        description: If 1, performs a dry run without actual copy
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      - name: suppressLayouts
+        in: query
+        description: If 1, suppresses cross-layout translation
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      responses:
+        '200':
+          description: Copy operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveOrCopyResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/move/{srcRepoKey}/{srcItemPath}:
+    post:
+      operationId: moveArtifact
+      summary: JFrog Artifactory Move Artifact
+      description: Moves an artifact or folder from one location to another.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - name: srcRepoKey
+        in: path
+        required: true
+        description: Source repository key
+        schema:
+          type: string
+      - name: srcItemPath
+        in: path
+        required: true
+        description: Source item path
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: Destination path in format /repoKey/path
+        schema:
+          type: string
+      - name: dry
+        in: query
+        description: If 1, performs a dry run without actual move
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      - name: suppressLayouts
+        in: query
+        description: If 1, suppresses cross-layout translation
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      responses:
+        '200':
+          description: Move operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveOrCopyResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/storage/{repoKey}/{itemPath}?properties:
+    get:
+      operationId: getItemProperties
+      summary: JFrog Artifactory Get Item Properties
+      description: Returns the properties set on a file or folder.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      - name: properties
+        in: query
+        description: Comma-separated list of property names to retrieve. Omit for all.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Item properties
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemProperties'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: setItemProperties
+      summary: JFrog Artifactory Set Item Properties
+      description: Sets properties on a file or folder. Replaces any existing properties with the specified names.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      - name: properties
+        in: query
+        required: true
+        description: Properties to set in format key1=value1;key2=value2
+        schema:
+          type: string
+      - name: recursive
+        in: query
+        description: Apply properties recursively to folder children
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      responses:
+        '204':
+          description: Properties set successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteItemProperties
+      summary: JFrog Artifactory Delete Item Properties
+      description: Deletes specific properties from a file or folder.
+      tags:
+      - Artifacts & Storage
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      - $ref: '#/components/parameters/ItemPath'
+      - name: properties
+        in: query
+        required: true
+        description: Comma-separated list of property names to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Properties deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ItemProperties:
+      type: object
+      properties:
+        properties:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Map of property names to arrays of values
+        uri:
+          type: string
+          format: uri
+          description: URI of the item
+    MoveOrCopyResult:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: object
+            properties:
+              level:
+                type: string
+                description: Message level (INFO, WARNING, ERROR)
+              message:
+                type: string
+                description: Result message
+    FileInfo:
+      type: object
+      properties:
+        repo:
+          type: string
+          description: Repository key
+        path:
+          type: string
+          description: File path in the repository
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        createdBy:
+          type: string
+          description: User who created the file
+        lastModified:
+          type: string
+          format: date-time
+          description: Last modification timestamp
+        modifiedBy:
+          type: string
+          description: User who last modified the file
+        lastUpdated:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        downloadUri:
+          type: string
+          format: uri
+          description: Direct download URI
+        mimeType:
+          type: string
+          description: MIME type of the file
+        size:
+          type: string
+          description: File size in bytes
+        checksums:
+          $ref: '#/components/schemas/Checksums'
+        originalChecksums:
+          $ref: '#/components/schemas/Checksums'
+        uri:
+          type: string
+          format: uri
+          description: API URI for the file info
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    FolderInfo:
+      type: object
+      properties:
+        repo:
+          type: string
+          description: Repository key
+        path:
+          type: string
+          description: Folder path in the repository
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        createdBy:
+          type: string
+          description: User who created the folder
+        lastModified:
+          type: string
+          format: date-time
+          description: Last modification timestamp
+        modifiedBy:
+          type: string
+          description: User who last modified the folder
+        lastUpdated:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        children:
+          type: array
+          items:
+            type: object
+            properties:
+              uri:
+                type: string
+                description: Child item URI path
+              folder:
+                type: boolean
+                description: Whether the child is a folder
+        uri:
+          type: string
+          format: uri
+          description: API URI for the folder info
+    Checksums:
+      type: object
+      properties:
+        sha1:
+          type: string
+          description: SHA-1 checksum
+          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
+        sha256:
+          type: string
+          description: SHA-256 checksum
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 checksum
+          example: d41d8cd98f00b204e9800998ecf8427e
+    DeployResponse:
+      type: object
+      properties:
+        repo:
+          type: string
+          description: Repository key
+        path:
+          type: string
+          description: Deployed artifact path
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        createdBy:
+          type: string
+          description: User who deployed
+        downloadUri:
+          type: string
+          format: uri
+          description: Download URI for the deployed artifact
+        mimeType:
+          type: string
+          description: MIME type
+        size:
+          type: integer
+          description: File size in bytes
+        checksums:
+          $ref: '#/components/schemas/Checksums'
+        originalChecksums:
+          $ref: '#/components/schemas/Checksums'
+        uri:
+          type: string
+          format: uri
+          description: API URI for the deployed artifact
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    ItemPath:
+      name: itemPath
+      in: path
+      required: true
+      description: The path to the artifact or folder within the repository
+      schema:
+        type: string
+        example: org/example/artifact/1.0/artifact-1.0.jar
+    RepoKey:
+      name: repoKey
+      in: path
+      required: true
+      description: The unique key identifying the repository
+      schema:
+        type: string
+        example: libs-release-local
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

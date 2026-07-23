@@ -1,0 +1,234 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Build Diff API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Build Diff
+  description: Compare build versions
+paths:
+  /api/build/diff/{buildName}/{buildNumber}:
+    get:
+      operationId: getBuildDiff
+      summary: Get Build Diff
+      description: Returns the differences between two build versions, including new artifacts, updated artifacts, removed artifacts, new dependencies, updated dependencies, removed dependencies, and new/removed properties.
+      tags:
+      - Build Diff
+      parameters:
+      - $ref: '#/components/parameters/BuildName'
+      - $ref: '#/components/parameters/BuildNumber'
+      - name: otherNumber
+        in: query
+        required: true
+        description: The other build number to compare against
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Build diff result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildDiff'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    BuildNumber:
+      name: buildNumber
+      in: path
+      required: true
+      description: The build number (version)
+      schema:
+        type: string
+        example: '123'
+    BuildName:
+      name: buildName
+      in: path
+      required: true
+      description: The name of the build
+      schema:
+        type: string
+        example: my-application
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    BuildDiff:
+      type: object
+      properties:
+        artifacts:
+          type: object
+          properties:
+            new:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            updated:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            removed:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            unchanged:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+        dependencies:
+          type: object
+          properties:
+            new:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            updated:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            removed:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+            unchanged:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  sha1:
+                    type: string
+                  md5:
+                    type: string
+        properties:
+          type: object
+          properties:
+            new:
+              type: object
+              additionalProperties:
+                type: string
+            updated:
+              type: object
+              additionalProperties:
+                type: string
+            removed:
+              type: object
+              additionalProperties:
+                type: string
+            unchanged:
+              type: object
+              additionalProperties:
+                type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

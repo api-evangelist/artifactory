@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Tags API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Tags
+paths:
+  /v2/{name}/tags/list:
+    get:
+      operationId: listTags
+      summary: JFrog Artifactory List Image Tags
+      description: Returns the list of tags for a specific image repository.
+      tags:
+      - Tags
+      parameters:
+      - $ref: '#/components/parameters/ImageName'
+      - name: n
+        in: query
+        description: Maximum number of entries to return
+        schema:
+          type: integer
+      - name: last
+        in: query
+        description: Last tag name for pagination
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Tag list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+          headers:
+            Link:
+              description: RFC5988 link to next page of results
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    TagList:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Image repository name
+          example: library/nginx
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of available tags
+          example:
+          - latest
+          - '1.25'
+          - 1.25.3
+          - alpine
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code
+              message:
+                type: string
+                description: Error message
+              detail:
+                type: string
+                description: Additional error details
+  parameters:
+    ImageName:
+      name: name
+      in: path
+      required: true
+      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
+      schema:
+        type: string
+        example: library/nginx
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

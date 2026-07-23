@@ -1,0 +1,363 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Repositories API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Repositories
+  description: Create, read, update, and delete repositories
+paths:
+  /api/repositories:
+    get:
+      operationId: listRepositories
+      summary: JFrog Artifactory List All Repositories
+      description: Returns a list of all repositories configured in the system, optionally filtered by type or package type.
+      tags:
+      - Repositories
+      parameters:
+      - name: type
+        in: query
+        description: Filter by repository type
+        schema:
+          type: string
+          enum:
+          - local
+          - remote
+          - virtual
+          - federated
+      - name: packageType
+        in: query
+        description: Filter by package type (e.g., maven, docker, npm, pypi, etc.)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of repositories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RepositoryListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/repositories/{repoKey}:
+    get:
+      operationId: getRepository
+      summary: JFrog Artifactory Get Repository Configuration
+      description: Returns the configuration for a single repository identified by its key.
+      tags:
+      - Repositories
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      responses:
+        '200':
+          description: Repository configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryConfiguration'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: createOrReplaceRepository
+      summary: JFrog Artifactory Create or Replace Repository
+      description: Creates a new repository or replaces an existing one with the provided configuration.
+      tags:
+      - Repositories
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryConfiguration'
+      responses:
+        '200':
+          description: Repository created or replaced successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    post:
+      operationId: updateRepository
+      summary: JFrog Artifactory Update Repository Configuration
+      description: Updates an existing repository configuration. Only provided fields are updated.
+      tags:
+      - Repositories
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryConfiguration'
+      responses:
+        '200':
+          description: Repository updated successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRepository
+      summary: JFrog Artifactory Delete Repository
+      description: Removes a repository configuration. Content is deleted unless backed up.
+      tags:
+      - Repositories
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      responses:
+        '200':
+          description: Repository deleted successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    RepositoryListItem:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Repository key
+          example: libs-release-local
+        description:
+          type: string
+          description: Repository description
+        type:
+          type: string
+          description: Repository type
+          enum:
+          - LOCAL
+          - REMOTE
+          - VIRTUAL
+          - FEDERATED
+        url:
+          type: string
+          description: Repository URL
+          format: uri
+        packageType:
+          type: string
+          description: Package type
+          example: Maven
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    RepositoryConfiguration:
+      type: object
+      required:
+      - key
+      - rclass
+      properties:
+        key:
+          type: string
+          description: Repository key (unique identifier)
+          example: libs-release-local
+        rclass:
+          type: string
+          description: Repository class
+          enum:
+          - local
+          - remote
+          - virtual
+          - federated
+        packageType:
+          type: string
+          description: Package type
+          enum:
+          - maven
+          - gradle
+          - ivy
+          - sbt
+          - helm
+          - cocoapods
+          - opkg
+          - rpm
+          - nuget
+          - cran
+          - gems
+          - npm
+          - bower
+          - debian
+          - composer
+          - pypi
+          - docker
+          - vagrant
+          - gitlfs
+          - go
+          - conan
+          - chef
+          - puppet
+          - generic
+          - cargo
+          - conda
+          - swift
+          - terraform
+        description:
+          type: string
+          description: Repository description
+        notes:
+          type: string
+          description: Internal notes
+        includesPattern:
+          type: string
+          description: Artifact inclusion pattern
+          default: '**/*'
+        excludesPattern:
+          type: string
+          description: Artifact exclusion pattern
+          default: ''
+        repoLayoutRef:
+          type: string
+          description: Repository layout reference
+        handleReleases:
+          type: boolean
+          description: Handle release artifacts
+        handleSnapshots:
+          type: boolean
+          description: Handle snapshot artifacts
+        maxUniqueSnapshots:
+          type: integer
+          description: Maximum number of unique snapshots to retain
+        suppressPomConsistencyChecks:
+          type: boolean
+          description: Suppress POM consistency checks
+        blackedOut:
+          type: boolean
+          description: Whether the repository is blacked out
+        propertySets:
+          type: array
+          items:
+            type: string
+          description: List of property set names
+        url:
+          type: string
+          description: Remote repository URL (for remote repos)
+          format: uri
+        username:
+          type: string
+          description: Username for remote repository authentication
+        password:
+          type: string
+          description: Password for remote repository authentication
+        repositories:
+          type: array
+          items:
+            type: string
+          description: List of resolved repositories (for virtual repos)
+        defaultDeploymentRepo:
+          type: string
+          description: Default deployment repository (for virtual repos)
+        xrayIndex:
+          type: boolean
+          description: Whether Xray indexing is enabled
+        environments:
+          type: array
+          items:
+            type: string
+          description: Associated environments
+  parameters:
+    RepoKey:
+      name: repoKey
+      in: path
+      required: true
+      description: The unique key identifying the repository
+      schema:
+        type: string
+        example: libs-release-local
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

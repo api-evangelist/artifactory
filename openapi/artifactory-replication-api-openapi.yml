@@ -1,0 +1,186 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Replication API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Replication
+  description: Repository replication configuration and management
+paths:
+  /api/replications/{repoKey}:
+    get:
+      operationId: getReplicationConfig
+      summary: JFrog Artifactory Get Replication Configuration
+      description: Returns the replication configuration for a repository.
+      tags:
+      - Replication
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      responses:
+        '200':
+          description: Replication configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReplicationConfig'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: createOrReplaceReplication
+      summary: JFrog Artifactory Create or Replace Replication
+      description: Creates or replaces the replication configuration for a local repository.
+      tags:
+      - Replication
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplicationConfig'
+      responses:
+        '200':
+          description: Replication configuration updated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteReplication
+      summary: JFrog Artifactory Delete Replication
+      description: Deletes the replication configuration for a repository.
+      tags:
+      - Replication
+      parameters:
+      - $ref: '#/components/parameters/RepoKey'
+      responses:
+        '200':
+          description: Replication configuration deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    ReplicationConfig:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Target replication URL
+        socketTimeoutMillis:
+          type: integer
+          description: Socket timeout in milliseconds
+        username:
+          type: string
+          description: Username for target authentication
+        password:
+          type: string
+          description: Password for target authentication
+        enableEventReplication:
+          type: boolean
+          description: Enable event-based replication
+        enabled:
+          type: boolean
+          description: Whether replication is enabled
+        cronExp:
+          type: string
+          description: Cron expression for scheduled replication
+          example: 0 0 12 * * ?
+        syncDeletes:
+          type: boolean
+          description: Sync artifact deletions
+        syncProperties:
+          type: boolean
+          description: Sync artifact properties
+        syncStatistics:
+          type: boolean
+          description: Sync download statistics
+        pathPrefix:
+          type: string
+          description: Replicate only artifacts matching this path prefix
+        repoKey:
+          type: string
+          description: Repository key for replication
+  parameters:
+    RepoKey:
+      name: repoKey
+      in: path
+      required: true
+      description: The unique key identifying the repository
+      schema:
+        type: string
+        example: libs-release-local
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

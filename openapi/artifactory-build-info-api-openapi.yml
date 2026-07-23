@@ -1,0 +1,468 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Build Info API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Build Info
+  description: Publish and retrieve build information
+paths:
+  /api/build:
+    put:
+      operationId: publishBuildInfo
+      summary: Publish Build Info
+      description: Publishes build information to Artifactory. This is typically called by CI/CD tools (Jenkins, JFrog CLI, etc.) at the end of a build to record the artifacts produced, dependencies consumed, and environment details.
+      tags:
+      - Build Info
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildInfoPublish'
+      responses:
+        '204':
+          description: Build info published successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /api/build/{buildName}:
+    get:
+      operationId: getBuildRuns
+      summary: Get Build Runs
+      description: Returns a list of all runs (versions) for a specific build name.
+      tags:
+      - Build Info
+      parameters:
+      - $ref: '#/components/parameters/BuildName'
+      responses:
+        '200':
+          description: List of build runs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildRuns'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/build/{buildName}/{buildNumber}:
+    get:
+      operationId: getBuildInfo
+      summary: Get Build Information
+      description: Returns detailed build information for a specific build name and number, including modules, artifacts, dependencies, and environment variables.
+      tags:
+      - Build Info
+      parameters:
+      - $ref: '#/components/parameters/BuildName'
+      - $ref: '#/components/parameters/BuildNumber'
+      - name: started
+        in: query
+        description: Build start time filter in ISO8601 format. Useful when multiple builds share the same number.
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Build information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildInfoResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    BuildStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Promotion status name
+          example: Released
+        comment:
+          type: string
+          description: Status comment
+        repository:
+          type: string
+          description: Target repository for the promotion
+        timestamp:
+          type: string
+          format: date-time
+          description: When the status was applied
+        user:
+          type: string
+          description: User who applied the status
+        ciUser:
+          type: string
+          description: CI user who triggered the promotion
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    BuildInfoPublish:
+      type: object
+      required:
+      - version
+      - name
+      - number
+      - started
+      properties:
+        version:
+          type: string
+          description: Build info schema version
+          example: 1.0.1
+        name:
+          type: string
+          description: Build name
+          example: my-application
+        number:
+          type: string
+          description: Build number
+          example: '123'
+        started:
+          type: string
+          format: date-time
+          description: Build start timestamp
+        type:
+          type: string
+          description: Build type
+          enum:
+          - GENERIC
+          - MAVEN
+          - GRADLE
+          - IVY
+          - ANT
+          - NPM
+          - NUGET
+          - GO
+          - PIP
+          - DOCKER
+        agent:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: string
+        buildAgent:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: string
+        durationMillis:
+          type: integer
+          description: Build duration in milliseconds
+        principal:
+          type: string
+          description: User who triggered the build
+        url:
+          type: string
+          format: uri
+          description: CI server URL
+        vcsRevision:
+          type: string
+          description: VCS revision
+        vcsUrl:
+          type: string
+          format: uri
+          description: VCS repository URL
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildModule'
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Build-level properties
+        buildDependencies:
+          type: array
+          description: Other builds this build depends on
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Dependency build name
+              number:
+                type: string
+                description: Dependency build number
+              started:
+                type: string
+                format: date-time
+                description: Dependency build start time
+    BuildInfoResponse:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+          description: URI for this build info
+        buildInfo:
+          $ref: '#/components/schemas/BuildInfo'
+    BuildRuns:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+          description: URI for this build
+        buildsNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              uri:
+                type: string
+                description: Relative URI to the build number
+                example: /123
+              started:
+                type: string
+                format: date-time
+                description: When this build run started
+    BuildInfo:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Build info schema version
+          example: 1.0.1
+        name:
+          type: string
+          description: Build name
+          example: my-application
+        number:
+          type: string
+          description: Build number
+          example: '123'
+        type:
+          type: string
+          description: Build type
+          enum:
+          - GENERIC
+          - MAVEN
+          - GRADLE
+          - IVY
+          - ANT
+          - NPM
+          - NUGET
+          - GO
+          - PIP
+          - DOCKER
+        agent:
+          type: object
+          description: Build agent information
+          properties:
+            name:
+              type: string
+              description: Agent name
+              example: Jenkins
+            version:
+              type: string
+              description: Agent version
+              example: '2.401'
+        buildAgent:
+          type: object
+          description: Build tool agent information
+          properties:
+            name:
+              type: string
+              description: Build agent name
+              example: MAVEN
+            version:
+              type: string
+              description: Build agent version
+        started:
+          type: string
+          format: date-time
+          description: Build start timestamp
+        durationMillis:
+          type: integer
+          description: Build duration in milliseconds
+        principal:
+          type: string
+          description: The user who triggered the build
+        artifactoryPrincipal:
+          type: string
+          description: Artifactory user associated with the build
+        url:
+          type: string
+          format: uri
+          description: CI server URL for this build
+        vcsRevision:
+          type: string
+          description: VCS revision (commit hash)
+        vcsUrl:
+          type: string
+          format: uri
+          description: VCS repository URL
+        modules:
+          type: array
+          description: Build modules
+          items:
+            $ref: '#/components/schemas/BuildModule'
+        statuses:
+          type: array
+          description: Build promotion statuses
+          items:
+            $ref: '#/components/schemas/BuildStatus'
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Build properties (key-value pairs)
+    BuildModule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Module identifier
+          example: com.example:my-module:1.0.0
+        artifacts:
+          type: array
+          description: Artifacts produced by this module
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Artifact type
+                example: jar
+              sha1:
+                type: string
+                description: SHA-1 checksum
+              sha256:
+                type: string
+                description: SHA-256 checksum
+              md5:
+                type: string
+                description: MD5 checksum
+              name:
+                type: string
+                description: Artifact name
+                example: my-module-1.0.0.jar
+        dependencies:
+          type: array
+          description: Dependencies consumed by this module
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Dependency type
+              sha1:
+                type: string
+                description: SHA-1 checksum
+              sha256:
+                type: string
+                description: SHA-256 checksum
+              md5:
+                type: string
+                description: MD5 checksum
+              id:
+                type: string
+                description: Dependency identifier
+                example: org.apache.commons:commons-lang3:3.12.0
+              scopes:
+                type: array
+                items:
+                  type: string
+                description: Dependency scopes
+                example:
+                - compile
+  parameters:
+    BuildNumber:
+      name: buildNumber
+      in: path
+      required: true
+      description: The build number (version)
+      schema:
+        type: string
+        example: '123'
+    BuildName:
+      name: buildName
+      in: path
+      required: true
+      description: The name of the build
+      schema:
+        type: string
+        example: my-application
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

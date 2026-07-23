@@ -1,12 +1,7 @@
 openapi: 3.1.0
 info:
-  title: JFrog Artifactory Query Language (AQL) API
-  description: >-
-    Advanced search API using Artifactory Query Language (AQL), a SQL-like
-    query language for finding and filtering artifacts, builds, and entries
-    in JFrog Artifactory. AQL provides powerful querying capabilities
-    including domain queries, field filtering, sorting, limiting, and
-    inclusion of related entities.
+  title: JFrog Artifactory Query Language (AQL) AQL Search API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
   version: 7.x
   contact:
     name: JFrog Support
@@ -16,33 +11,26 @@ info:
     name: Proprietary
     url: https://jfrog.com/terms-of-service/
   termsOfService: https://jfrog.com/terms-of-service/
-externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
 servers:
-  - url: https://{server}/artifactory
-    description: JFrog Artifactory Server
-    variables:
-      server:
-        default: myserver.jfrog.io
-        description: Your JFrog Platform deployment URL
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
 security:
-  - BearerAuth: []
-  - ApiKeyAuth: []
-  - BasicAuth: []
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
 tags:
-  - name: AQL Search
-    description: Execute AQL queries to search for artifacts, builds, and entries
+- name: AQL Search
+  description: Execute AQL queries to search for artifacts, builds, and entries
 paths:
   /api/search/aql:
     post:
       operationId: executeAqlQuery
       summary: JFrog Artifactory Execute AQL Query
-      description: >-
-        Executes an Artifactory Query Language (AQL) query and returns matching
-        results. AQL supports querying across multiple domains including items
-        (artifacts), builds, entries, and more. Queries can include filtering,
-        sorting, pagination, and inclusion of related entities.
+      description: 'Executes an Artifactory Query Language (AQL) query and returns matching results. AQL supports querying across multiple domains including items (artifacts), builds, entries, and more. Queries can include filtering, sorting, pagination, and inclusion of related entities.
 
 
         AQL query syntax follows the pattern:
@@ -69,14 +57,12 @@ paths:
 
         - `items.find({"type":"file","size":{"$gt":"1000000"}}).sort({"$desc":["size"]}).limit(10)` - Top 10 largest files
 
-        - `builds.find({"name":"my-build"}).include("module")` - Find builds with modules
+        - `builds.find({"name":"my-build"}).include("module")` - Find builds with modules'
       tags:
-        - AQL Search
+      - AQL Search
       requestBody:
         required: true
-        description: >-
-          AQL query string. The query uses AQL syntax, not JSON.
-          Send as plain text in the request body.
+        description: AQL query string. The query uses AQL syntax, not JSON. Send as plain text in the request body.
         content:
           text/plain:
             schema:
@@ -85,34 +71,28 @@ paths:
             examples:
               findAllInRepo:
                 summary: Find all items in a repository
-                value: 'items.find({"repo":"libs-release-local"})'
+                value: items.find({"repo":"libs-release-local"})
               findByName:
                 summary: Find artifacts by name pattern
-                value: 'items.find({"name":{"$match":"*.jar"}})'
+                value: items.find({"name":{"$match":"*.jar"}})
               findWithSort:
                 summary: Find items sorted by size with limit
-                value: >-
-                  items.find({"type":"file"}).sort({"$desc":["size"]}).limit(10)
+                value: items.find({"type":"file"}).sort({"$desc":["size"]}).limit(10)
               findByProperty:
                 summary: Find items with specific property
-                value: >-
-                  items.find({"@build.name":"my-build","@build.number":"123"})
+                value: items.find({"@build.name":"my-build","@build.number":"123"})
               findBuilds:
                 summary: Find builds by name
-                value: >-
-                  builds.find({"name":"my-build"}).include("module","module.artifact")
+                value: builds.find({"name":"my-build"}).include("module","module.artifact")
               findWithDateRange:
                 summary: Find recently modified items
-                value: >-
-                  items.find({"modified":{"$last":"7d"},"repo":"libs-release-local"})
+                value: items.find({"modified":{"$last":"7d"},"repo":"libs-release-local"})
               findWithInclusions:
                 summary: Find items including properties and stats
-                value: >-
-                  items.find({"repo":"libs-release-local"}).include("name","repo","path","property","stat")
+                value: items.find({"repo":"libs-release-local"}).include("name","repo","path","property","stat")
               findWithPagination:
                 summary: Paginated results
-                value: >-
-                  items.find({"repo":"libs-release-local"}).sort({"$asc":["name"]}).offset(50).limit(25)
+                value: items.find({"repo":"libs-release-local"}).sort({"$asc":["name"]}).offset(50).limit(25)
       responses:
         '200':
           description: AQL query results
@@ -133,57 +113,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '403':
-          description: >-
-            Forbidden - non-admin users can only query within their permitted
-            repositories unless the query includes repository and path criteria
+          description: Forbidden - non-admin users can only query within their permitted repositories unless the query includes repository and path criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: Access token authentication
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-JFrog-Art-Api
-      description: API key authentication via header
-    BasicAuth:
-      type: http
-      scheme: basic
-      description: HTTP Basic authentication
   schemas:
-    AqlResult:
-      type: object
-      properties:
-        results:
-          type: array
-          description: Array of matched results. Structure depends on the queried domain and included fields.
-          items:
-            $ref: '#/components/schemas/AqlResultItem'
-        range:
-          type: object
-          description: Pagination information about the returned results
-          properties:
-            start_pos:
-              type: integer
-              description: Starting position of the results (offset)
-            end_pos:
-              type: integer
-              description: Ending position of the results
-            total:
-              type: integer
-              description: >-
-                Total number of results matching the query (may exceed
-                the returned count if limit was applied)
     AqlResultItem:
       type: object
-      description: >-
-        A single result item. Fields present depend on the queried domain
-        and the include clause. For the items domain, common fields are shown.
+      description: A single result item. Fields present depend on the queried domain and the include clause. For the items domain, common fields are shown.
       properties:
         repo:
           type: string
@@ -201,8 +140,8 @@ components:
           type: string
           description: Item type
           enum:
-            - file
-            - folder
+          - file
+          - folder
         size:
           type: integer
           description: File size in bytes
@@ -299,3 +238,41 @@ components:
               message:
                 type: string
                 description: Error message
+    AqlResult:
+      type: object
+      properties:
+        results:
+          type: array
+          description: Array of matched results. Structure depends on the queried domain and included fields.
+          items:
+            $ref: '#/components/schemas/AqlResultItem'
+        range:
+          type: object
+          description: Pagination information about the returned results
+          properties:
+            start_pos:
+              type: integer
+              description: Starting position of the results (offset)
+            end_pos:
+              type: integer
+              description: Ending position of the results
+            total:
+              type: integer
+              description: Total number of results matching the query (may exceed the returned count if limit was applied)
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language

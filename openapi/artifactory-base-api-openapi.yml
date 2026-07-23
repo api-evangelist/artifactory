@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: JFrog Artifactory Query Language (AQL) AQL Search Base API
+  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  version: 7.x
+  contact:
+    name: JFrog Support
+    url: https://jfrog.com/support/
+    email: support@jfrog.com
+  license:
+    name: Proprietary
+    url: https://jfrog.com/terms-of-service/
+  termsOfService: https://jfrog.com/terms-of-service/
+servers:
+- url: https://{server}/artifactory
+  description: JFrog Artifactory Server
+  variables:
+    server:
+      default: myserver.jfrog.io
+      description: Your JFrog Platform deployment URL
+security:
+- BearerAuth: []
+- ApiKeyAuth: []
+- BasicAuth: []
+tags:
+- name: Base
+  description: API version check and health
+paths:
+  /v2/:
+    get:
+      operationId: checkApiVersion
+      summary: JFrog Artifactory API Version Check
+      description: Check that the registry implements the Docker Registry HTTP API V2. Returns 200 OK if the registry supports V2.
+      tags:
+      - Base
+      security: []
+      responses:
+        '200':
+          description: Registry supports V2 API
+          headers:
+            Docker-Distribution-Api-Version:
+              description: The API version
+              schema:
+                type: string
+                example: registry/2.0
+        '401':
+          description: Authentication required
+          headers:
+            WWW-Authenticate:
+              description: Authentication challenge
+              schema:
+                type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-JFrog-Art-Api
+      description: API key authentication via header
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication
+externalDocs:
+  description: Artifactory Query Language Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
