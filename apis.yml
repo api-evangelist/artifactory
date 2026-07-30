@@ -7,7 +7,20 @@ description: >-
   lifecycle. It integrates with CI/CD pipelines through native plugins for Jenkins, GitHub Actions, CircleCI, and other
   tools. Artifactory provides comprehensive REST APIs for managing repositories, artifacts, builds, security, and system
   configuration programmatically.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/artifactory.png
 url: https://raw.githubusercontent.com/api-evangelist/artifactory/refs/heads/main/apis.yml
 created: '2024-01-15'
 modified: '2026-06-20'
@@ -22,82 +35,516 @@ tags:
   - Package Management
   - Repository
 apis:
-  - aid: artifactory:rest-api
-    name: Artifactory REST API
-    description: >-
-      Comprehensive REST API for managing artifacts, repositories, users, groups, permissions, replication, security,
-      and system configuration in JFrog Artifactory.
-    humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
-    baseURL: https://artifactory.example.com/artifactory/api
-    tags:
-      - Artifacts
-      - Repositories
-      - REST
-    properties:
-      - type: Documentation
-        url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
-      - type: OpenAPI
-        url: openapi/artifactory-rest-api-openapi.yml
-      - type: Authentication
-        url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
-      - type: JSONSchema
-        url: json-schema/artifactory-repository-configuration.json
-      - type: JSONSchema
-        url: json-schema/artifactory-file-info.json
-      - type: JSONSchema
-        url: json-schema/artifactory-permission-target.json
-  - aid: artifactory:aql-api
-    name: Artifactory Query Language (AQL) API
-    description: >-
-      Advanced search API using a SQL-like query language (AQL) for finding artifacts, builds, modules, and entries
-      based on properties, statistics, and metadata.
-    humanURL: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
-    baseURL: https://artifactory.example.com/artifactory/api/search/aql
-    tags:
-      - AQL
-      - Query
-      - Search
-    properties:
-      - type: Documentation
-        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
-      - type: OpenAPI
-        url: openapi/artifactory-aql-api-openapi.yml
-      - type: CodeExamples
-        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
-  - aid: artifactory:docker-registry-api
-    name: Artifactory Docker Registry API
-    description: >-
-      Docker Registry v2 API for pushing, pulling, and managing Docker images stored in JFrog Artifactory acting as a
-      Docker registry.
-    humanURL: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
-    baseURL: https://artifactory.example.com/artifactory/api/docker
-    tags:
-      - Docker
-      - Containers
-      - Registry
-    properties:
-      - type: Documentation
-        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
-      - type: OpenAPI
-        url: openapi/artifactory-docker-registry-api-openapi.yml
-  - aid: artifactory:build-integration-api
-    name: Artifactory Build Integration API
-    description: >-
-      API for publishing and managing build information from CI/CD systems, enabling traceability between artifact
-      versions and the builds that produced them.
-    humanURL: https://jfrog.com/help/r/jfrog-rest-apis/builds
-    baseURL: https://artifactory.example.com/artifactory/api/build
-    tags:
-      - Builds
-      - CI/CD
-      - Integration
-    properties:
-      - type: Documentation
-        url: https://jfrog.com/help/r/jfrog-rest-apis/builds
-      - type: OpenAPI
-        url: openapi/artifactory-build-integration-api-openapi.yml
-      - type: JSONSchema
-        url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-aql-search-api
+  name: JFrog Artifactory AQL Search API
+  description: Execute AQL queries to search for artifacts, builds, and entries
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - AQL Search
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-aql-search-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-artifactory-extensions-api
+  name: JFrog Artifactory Artifactory Extensions API
+  description: Artifactory-specific Docker API extensions
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Artifactory Extensions
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-artifactory-extensions-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-artifacts-storage-api
+  name: JFrog Artifactory Artifacts & Storage API
+  description: Deploy, retrieve, copy, move, and delete artifacts
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Artifacts & Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-artifacts-storage-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-base-api
+  name: JFrog Artifactory Base API
+  description: API version check and health
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Base
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-base-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-blobs-api
+  name: JFrog Artifactory Blobs API
+  description: Push and pull image layers (blobs)
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Blobs
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-blobs-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-build-diff-api
+  name: JFrog Artifactory Build Diff API
+  description: Compare build versions
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Build Diff
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-build-diff-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-build-info-api
+  name: JFrog Artifactory Build Info API
+  description: Publish and retrieve build information
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Build Info
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-build-info-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-build-management-api
+  name: JFrog Artifactory Build Management API
+  description: List, delete, and manage builds
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Build Management
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-build-management-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-build-promotion-api
+  name: JFrog Artifactory Build Promotion API
+  description: Promote builds between repositories
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Build Promotion
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-build-promotion-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-catalog-api
+  name: JFrog Artifactory Catalog API
+  description: List available repositories
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-catalog-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-manifests-api
+  name: JFrog Artifactory Manifests API
+  description: Push and pull image manifests
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Manifests
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-manifests-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-replication-api
+  name: JFrog Artifactory Replication API
+  description: Repository replication configuration and management
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Replication
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-replication-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-repositories-api
+  name: JFrog Artifactory Repositories API
+  description: Create, read, update, and delete repositories
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-repositories-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-search-api
+  name: JFrog Artifactory Search API
+  description: Search for artifacts using various criteria
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-search-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-security-api
+  name: JFrog Artifactory Security API
+  description: Users, groups, permissions, and tokens
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Security
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-security-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-system-configuration-api
+  name: JFrog Artifactory System & Configuration API
+  description: System health, version, and configuration management
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - System & Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-system-configuration-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
+- aid: artifactory:artifactory-tags-api
+  name: JFrog Artifactory Tags API
+  description: The Tags API from JFrog Artifactory — 1 operation(s) for tags.
+  humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  baseURL: https://artifactory.example.com/artifactory/api
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/artifactory-tags-api-openapi.yml
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
+  - type: Authentication
+    url: https://jfrog.com/help/r/jfrog-rest-apis/authentication
+  - type: JSONSchema
+    url: json-schema/artifactory-repository-configuration.json
+  - type: JSONSchema
+    url: json-schema/artifactory-file-info.json
+  - type: JSONSchema
+    url: json-schema/artifactory-permission-target.json
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  - type: CodeExamples
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-rest-apis/builds
+  - type: JSONSchema
+    url: json-schema/artifactory-build-info.json
 common:
   - type: AgenticAccess
     url: agentic-access/artifactory-agentic-access.yml
