@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Replication API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Replication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Replication Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/replications/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ]
+          },
+          "docs": "Returns the replication configuration for a repository."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create or Replace Replication",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/replications/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or replaces the replication configuration for a local repository."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Replication",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/replications/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ]
+          },
+          "docs": "Deletes the replication configuration for a repository."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

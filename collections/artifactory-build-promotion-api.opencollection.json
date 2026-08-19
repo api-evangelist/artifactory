@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Promotion API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Build Promotion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Promote Build",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/build/promote/:buildName/:buildNumber",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              },
+              {
+                "name": "buildNumber",
+                "value": "",
+                "type": "path",
+                "description": "The build number (version)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Promotes a build by moving or copying the build artifacts and dependencies from a source repository to a target repository. Used to promote builds through staging environments (e.g., from staging to production)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

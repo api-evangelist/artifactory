@@ -1,0 +1,309 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Security API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Security",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/users"
+          },
+          "docs": "Returns a list of all users in the system."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get User Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The username"
+              }
+            ]
+          },
+          "docs": "Returns the details for a specific user."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create or Replace User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/security/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The username"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user or replaces an existing one."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/security/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The username"
+              }
+            ]
+          },
+          "docs": "Deletes an existing user."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory List Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/groups"
+          },
+          "docs": "Returns a list of all groups in the system."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Group Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/groups/:groupName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ]
+          },
+          "docs": "Returns the details for a specific group."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create or Replace Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/security/groups/:groupName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new group or replaces an existing one."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/security/groups/:groupName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ]
+          },
+          "docs": "Deletes an existing group."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory List Permission Targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/permissions"
+          },
+          "docs": "Returns a list of all permission targets in the system."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Permission Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/permissions/:permissionName",
+            "params": [
+              {
+                "name": "permissionName",
+                "value": "",
+                "type": "path",
+                "description": "The permission target name"
+              }
+            ]
+          },
+          "docs": "Returns the details for a specific permission target."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create or Replace Permission Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/security/permissions/:permissionName",
+            "params": [
+              {
+                "name": "permissionName",
+                "value": "",
+                "type": "path",
+                "description": "The permission target name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new permission target or replaces an existing one."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Permission Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/security/permissions/:permissionName",
+            "params": [
+              {
+                "name": "permissionName",
+                "value": "",
+                "type": "path",
+                "description": "The permission target name"
+              }
+            ]
+          },
+          "docs": "Deletes an existing permission target."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/security/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "username",
+                  "value": ""
+                },
+                {
+                  "name": "scope",
+                  "value": ""
+                },
+                {
+                  "name": "expires_in",
+                  "value": ""
+                },
+                {
+                  "name": "refreshable",
+                  "value": ""
+                },
+                {
+                  "name": "audience",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates an access token for authenticating with Artifactory."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/security/apiKey"
+          },
+          "docs": "Returns the API key for the currently authenticated user."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/security/apiKey"
+          },
+          "docs": "Creates a new API key for the currently authenticated user."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Revoke API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/security/apiKey"
+          },
+          "docs": "Revokes the API key for the currently authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

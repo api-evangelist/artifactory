@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Repositories API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory List All Repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/repositories",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by repository type"
+              },
+              {
+                "name": "packageType",
+                "value": "",
+                "type": "query",
+                "description": "Filter by package type (e.g., maven, docker, npm, pypi, etc.)"
+              }
+            ]
+          },
+          "docs": "Returns a list of all repositories configured in the system, optionally filtered by type or package type."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Repository Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/repositories/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ]
+          },
+          "docs": "Returns the configuration for a single repository identified by its key."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Update Repository Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/repositories/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing repository configuration. Only provided fields are updated."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Create or Replace Repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/repositories/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new repository or replaces an existing one with the provided configuration."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/repositories/:repoKey",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique key identifying the repository"
+              }
+            ]
+          },
+          "docs": "Removes a repository configuration. Content is deleted unless backed up."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

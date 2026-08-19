@@ -1,0 +1,216 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Artifact Search (Quick Search)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/artifact",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Artifact name or partial name to search for"
+              },
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              }
+            ]
+          },
+          "docs": "Searches for artifacts by name in the specified repositories."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory GAVC Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/gavc",
+            "params": [
+              {
+                "name": "g",
+                "value": "",
+                "type": "query",
+                "description": "Maven groupId"
+              },
+              {
+                "name": "a",
+                "value": "",
+                "type": "query",
+                "description": "Maven artifactId"
+              },
+              {
+                "name": "v",
+                "value": "",
+                "type": "query",
+                "description": "Maven version"
+              },
+              {
+                "name": "c",
+                "value": "",
+                "type": "query",
+                "description": "Maven classifier"
+              },
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              }
+            ]
+          },
+          "docs": "Searches for Maven artifacts by groupId, artifactId, version, and classifier coordinates."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Checksum Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/checksum",
+            "params": [
+              {
+                "name": "sha1",
+                "value": "",
+                "type": "query",
+                "description": "SHA-1 checksum value"
+              },
+              {
+                "name": "sha256",
+                "value": "",
+                "type": "query",
+                "description": "SHA-256 checksum value"
+              },
+              {
+                "name": "md5",
+                "value": "",
+                "type": "query",
+                "description": "MD5 checksum value"
+              },
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              }
+            ]
+          },
+          "docs": "Searches for artifacts matching a specific checksum (SHA-1, SHA-256, or MD5)."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Property Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/prop",
+            "params": [
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              }
+            ]
+          },
+          "docs": "Searches for artifacts with specific properties."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Date-based Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/dates",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date in milliseconds since epoch"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date in milliseconds since epoch"
+              },
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              },
+              {
+                "name": "dateFields",
+                "value": "",
+                "type": "query",
+                "description": "Date fields to search on (created, lastModified, lastDownloaded)"
+              }
+            ]
+          },
+          "docs": "Searches for artifacts created or modified within a date range."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Creation Date Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/search/creation",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date in milliseconds since epoch"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date in milliseconds since epoch"
+              },
+              {
+                "name": "repos",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of repository keys to search in"
+              }
+            ]
+          },
+          "docs": "Searches for artifacts created in a specific date range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

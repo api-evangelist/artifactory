@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search System & Configuration API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System & Configuration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory System Health Ping",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/system/ping"
+          },
+          "docs": "Returns a simple \"OK\" if Artifactory is accessible. Used for health checks."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Version Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/system/version"
+          },
+          "docs": "Returns the Artifactory version and revision information along with enabled addons."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get System Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/system/configuration"
+          },
+          "docs": "Returns the global system configuration XML (artifactory.config.xml)."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Update System Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{server}/artifactory/api/system/configuration"
+          },
+          "docs": "Applies a YAML patch to update specific parts of the system configuration."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get License Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/system/licenses"
+          },
+          "docs": "Returns the license details for the current Artifactory instance."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Storage Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/system/storage"
+          },
+          "docs": "Returns a summary of storage usage across all repositories."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

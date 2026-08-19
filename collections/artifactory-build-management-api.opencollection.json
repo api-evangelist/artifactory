@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Management API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Build Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Delete Build",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/api/build/:buildName",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              },
+              {
+                "name": "deleteAll",
+                "value": "",
+                "type": "query",
+                "description": "If 1, delete all build numbers. If 0, requires buildNumbers param."
+              },
+              {
+                "name": "buildNumbers",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of build numbers to delete"
+              },
+              {
+                "name": "artifacts",
+                "value": "",
+                "type": "query",
+                "description": "If 1, also delete associated build artifacts from repositories"
+              }
+            ]
+          },
+          "docs": "Deletes a build and all its runs. Optionally deletes the associated build artifacts."
+        },
+        {
+          "info": {
+            "name": "Rename Build",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/build/rename/:buildName",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "New name for the build"
+              }
+            ]
+          },
+          "docs": "Renames an existing build to a new name."
+        },
+        {
+          "info": {
+            "name": "Get Build Retention",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/build/retention/:buildName",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              }
+            ]
+          },
+          "docs": "Returns the retention configuration for a specific build."
+        },
+        {
+          "info": {
+            "name": "Set Build Retention",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/build/retention/:buildName",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Configures retention policies for a build, specifying how many builds to keep, minimum build date, and patterns for builds to exclude from cleanup."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

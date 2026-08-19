@@ -1,0 +1,848 @@
+{
+  "item": [
+    {
+      "id": "eb45d746-bc28-4d49-b5da-0f378e45be55",
+      "name": "Build Info",
+      "description": {
+        "content": "Publish and retrieve build information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fb8d228c-9af8-4108-bdca-3043217913b4",
+          "name": "Publish Build Info",
+          "request": {
+            "name": "Publish Build Info",
+            "description": {
+              "content": "Publishes build information to Artifactory. This is typically called by CI/CD tools (Jenkins, JFrog CLI, etc.) at the end of a build to record the artifacts produced, dependencies consumed, and environment details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "build"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"number\": \"<string>\",\n  \"started\": \"<dateTime>\",\n  \"type\": \"<string>\",\n  \"agent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"buildAgent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"durationMillis\": \"<integer>\",\n  \"principal\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"vcsRevision\": \"<string>\",\n  \"vcsUrl\": \"<uri>\",\n  \"modules\": [\n    {\n      \"id\": \"<string>\",\n      \"artifacts\": [\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"name\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"name\": \"<string>\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"id\": \"<string>\",\n          \"scopes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"id\": \"<string>\",\n          \"scopes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"artifacts\": [\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"name\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"name\": \"<string>\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"id\": \"<string>\",\n          \"scopes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"type\": \"<string>\",\n          \"sha1\": \"<string>\",\n          \"sha256\": \"<string>\",\n          \"md5\": \"<string>\",\n          \"id\": \"<string>\",\n          \"scopes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"properties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"buildDependencies\": [\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "270f36c3-3e3a-4a50-a8a8-b6f3ce47ec88",
+              "name": "Build info published successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": \"1.0.1\",\n  \"name\": \"my-application\",\n  \"number\": \"123\",\n  \"started\": \"<dateTime>\",\n  \"type\": \"<string>\",\n  \"agent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"buildAgent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"durationMillis\": \"<integer>\",\n  \"principal\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"vcsRevision\": \"<string>\",\n  \"vcsUrl\": \"<uri>\",\n  \"modules\": [\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"properties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"buildDependencies\": [\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3e8e63a4-456d-4a00-b5bc-4289719418a3",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": \"1.0.1\",\n  \"name\": \"my-application\",\n  \"number\": \"123\",\n  \"started\": \"<dateTime>\",\n  \"type\": \"<string>\",\n  \"agent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"buildAgent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"durationMillis\": \"<integer>\",\n  \"principal\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"vcsRevision\": \"<string>\",\n  \"vcsUrl\": \"<uri>\",\n  \"modules\": [\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"properties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"buildDependencies\": [\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7470,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 2148,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d77b2ac-b12d-4014-820b-92e34bfd72b4",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": \"1.0.1\",\n  \"name\": \"my-application\",\n  \"number\": \"123\",\n  \"started\": \"<dateTime>\",\n  \"type\": \"<string>\",\n  \"agent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"buildAgent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"durationMillis\": \"<integer>\",\n  \"principal\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"vcsRevision\": \"<string>\",\n  \"vcsUrl\": \"<uri>\",\n  \"modules\": [\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"properties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"buildDependencies\": [\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7470,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 2148,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27f217d4-0873-4cfd-86ad-4d6425c901d4",
+              "name": "Forbidden - insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": \"1.0.1\",\n  \"name\": \"my-application\",\n  \"number\": \"123\",\n  \"started\": \"<dateTime>\",\n  \"type\": \"<string>\",\n  \"agent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"buildAgent\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\"\n  },\n  \"durationMillis\": \"<integer>\",\n  \"principal\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"vcsRevision\": \"<string>\",\n  \"vcsUrl\": \"<uri>\",\n  \"modules\": [\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"com.example:my-module:1.0.0\",\n      \"artifacts\": [\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        },\n        {\n          \"type\": \"jar\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"name\": \"my-module-1.0.0.jar\"\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"sha1\": \"string\",\n          \"sha256\": \"string\",\n          \"md5\": \"string\",\n          \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n          \"scopes\": [\n            \"compile\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"properties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"buildDependencies\": [\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"started\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7470,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 2148,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "88cd6627-851b-4a6f-a4e0-f05e3da61cdb",
+          "name": "Get Build Runs",
+          "request": {
+            "name": "Get Build Runs",
+            "description": {
+              "content": "Returns a list of all runs (versions) for a specific build name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "build",
+                ":buildName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildName",
+                  "description": "(Required) The name of the build"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95e080da-28bd-4886-ba55-3a0c234492d1",
+              "name": "List of build runs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uri\": \"https://UceUEpGBEPYfjAbbQVQFtkZJXS.ypXc,R-A0iBNqiFv-.qSzZzAP.1wF+seN\",\n  \"buildsNumbers\": [\n    {\n      \"uri\": \"/123\",\n      \"started\": \"1948-05-26T09:34:55.396Z\"\n    },\n    {\n      \"uri\": \"/123\",\n      \"started\": \"1955-12-27T21:11:14.273Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "913b903f-a73d-4b38-bf41-9951a02e7dc8",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 5260,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 840,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88429bb7-0870-49c5-a3cc-0b838cebb78a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7470,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 2148,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b5d915e-0d53-49ed-99d5-1080ad482d0a",
+          "name": "Get Build Information",
+          "request": {
+            "name": "Get Build Information",
+            "description": {
+              "content": "Returns detailed build information for a specific build name and number, including modules, artifacts, dependencies, and environment variables.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "build",
+                ":buildName",
+                ":buildNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "started",
+                  "value": "<dateTime>",
+                  "description": "Build start time filter in ISO8601 format. Useful when multiple builds share the same number."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildName",
+                  "description": "(Required) The name of the build"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildNumber",
+                  "description": "(Required) The build number (version)"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "632637a5-33c4-4bf9-8650-4a65eaf6e7d7",
+              "name": "Build information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "started",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uri\": \"http://wqxbphkDUEBD.makA3f5fQY6yiHYZcu,b7C9OYwUyRYzO4sMtqKHzReyxF-x0dS\",\n  \"buildInfo\": {\n    \"version\": \"1.0.1\",\n    \"name\": \"my-application\",\n    \"number\": \"123\",\n    \"type\": \"GRADLE\",\n    \"agent\": {\n      \"name\": \"Jenkins\",\n      \"version\": \"2.401\"\n    },\n    \"buildAgent\": {\n      \"name\": \"MAVEN\",\n      \"version\": \"string\"\n    },\n    \"started\": \"2003-03-10T21:01:41.969Z\",\n    \"durationMillis\": 4394,\n    \"principal\": \"string\",\n    \"artifactoryPrincipal\": \"string\",\n    \"url\": \"https://u.uxTCqqcqwHifcyJz7mDnzganQquaZXP\",\n    \"vcsRevision\": \"string\",\n    \"vcsUrl\": \"https://ZkOkZpRsIXawVrLPTY.pxrlX8qYonASrGJyBqi3CFRxFc\",\n    \"modules\": [\n      {\n        \"id\": \"com.example:my-module:1.0.0\",\n        \"artifacts\": [\n          {\n            \"type\": \"jar\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"name\": \"my-module-1.0.0.jar\"\n          },\n          {\n            \"type\": \"jar\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"name\": \"my-module-1.0.0.jar\"\n          }\n        ],\n        \"dependencies\": [\n          {\n            \"type\": \"string\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n            \"scopes\": [\n              \"compile\"\n            ]\n          },\n          {\n            \"type\": \"string\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n            \"scopes\": [\n              \"compile\"\n            ]\n          }\n        ]\n      },\n      {\n        \"id\": \"com.example:my-module:1.0.0\",\n        \"artifacts\": [\n          {\n            \"type\": \"jar\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"name\": \"my-module-1.0.0.jar\"\n          },\n          {\n            \"type\": \"jar\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"name\": \"my-module-1.0.0.jar\"\n          }\n        ],\n        \"dependencies\": [\n          {\n            \"type\": \"string\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n            \"scopes\": [\n              \"compile\"\n            ]\n          },\n          {\n            \"type\": \"string\",\n            \"sha1\": \"string\",\n            \"sha256\": \"string\",\n            \"md5\": \"string\",\n            \"id\": \"org.apache.commons:commons-lang3:3.12.0\",\n            \"scopes\": [\n              \"compile\"\n            ]\n          }\n        ]\n      }\n    ],\n    \"statuses\": [\n      {\n        \"status\": \"Released\",\n        \"comment\": \"string\",\n        \"repository\": \"string\",\n        \"timestamp\": \"1953-07-24T07:40:27.179Z\",\n        \"user\": \"string\",\n        \"ciUser\": \"string\"\n      },\n      {\n        \"status\": \"Released\",\n        \"comment\": \"string\",\n        \"repository\": \"string\",\n        \"timestamp\": \"2017-02-02T15:57:03.860Z\",\n        \"user\": \"string\",\n        \"ciUser\": \"string\"\n      }\n    ],\n    \"properties\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4784e41-abda-48af-ae09-849c37d6c266",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "started",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 5260,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 840,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad5f663e-642f-4916-9c92-600fba868db0",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "started",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 5260,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 840,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your JFrog Platform deployment URL",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myserver.jfrog.io",
+      "key": "server"
+    },
+    {
+      "type": "string",
+      "value": "https://{{server}}/artifactory",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0f2b30a6-94fb-4273-a6ec-1007e5fa3ec3",
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Info API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+      "type": "text/plain"
+    }
+  }
+}

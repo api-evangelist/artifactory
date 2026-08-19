@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Info API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Build Info",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Publish Build Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/api/build",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Publishes build information to Artifactory. This is typically called by CI/CD tools (Jenkins, JFrog CLI, etc.) at the end of a build to record the artifacts produced, dependencies consumed, and environment details."
+        },
+        {
+          "info": {
+            "name": "Get Build Runs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/build/:buildName",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              }
+            ]
+          },
+          "docs": "Returns a list of all runs (versions) for a specific build name."
+        },
+        {
+          "info": {
+            "name": "Get Build Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/build/:buildName/:buildNumber",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              },
+              {
+                "name": "buildNumber",
+                "value": "",
+                "type": "path",
+                "description": "The build number (version)"
+              },
+              {
+                "name": "started",
+                "value": "",
+                "type": "query",
+                "description": "Build start time filter in ISO8601 format. Useful when multiple builds share the same number."
+              }
+            ]
+          },
+          "docs": "Returns detailed build information for a specific build name and number, including modules, artifacts, dependencies, and environment variables."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

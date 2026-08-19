@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Tags API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory List Image Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/v2/:name/tags/list",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "n",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entries to return"
+              },
+              {
+                "name": "last",
+                "value": "",
+                "type": "query",
+                "description": "Last tag name for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the list of tags for a specific image repository."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

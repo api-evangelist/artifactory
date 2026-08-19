@@ -1,0 +1,1405 @@
+{
+  "item": [
+    {
+      "id": "c0456630-3e23-4776-b5cd-3eded8ecd483",
+      "name": "Repositories",
+      "description": {
+        "content": "Create, read, update, and delete repositories",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6d3a6620-0b8d-429f-aba1-b32eed398e56",
+          "name": "JFrog Artifactory List All Repositories",
+          "request": {
+            "name": "JFrog Artifactory List All Repositories",
+            "description": {
+              "content": "Returns a list of all repositories configured in the system, optionally filtered by type or package type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "repositories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by repository type"
+                },
+                {
+                  "disabled": false,
+                  "key": "packageType",
+                  "value": "<string>",
+                  "description": "Filter by package type (e.g., maven, docker, npm, pypi, etc.)"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf995b19-b367-4241-9f4a-db07ca1b50a8",
+              "name": "List of repositories",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "packageType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key\": \"libs-release-local\",\n    \"description\": \"string\",\n    \"type\": \"REMOTE\",\n    \"url\": \"http://xQcOBnagCSo.pzpfcle9VV3kbmeGuVg73E0Yr7GaIOMhmPcSEZVQ7UXPlOFbS1AN2FOH.IlKBAm2\",\n    \"packageType\": \"Maven\"\n  },\n  {\n    \"key\": \"libs-release-local\",\n    \"description\": \"string\",\n    \"type\": \"VIRTUAL\",\n    \"url\": \"http://fYmdzMqUqKGwmhqCIwrrSrCONQudAuOw.hgdatYP\",\n    \"packageType\": \"Maven\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f29ada18-48a8-4c11-ad2e-e35f6ad863c9",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "packageType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7065,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9798,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b3eba41e-ffa5-47e2-be58-c18db231a0b4",
+          "name": "JFrog Artifactory Get Repository Configuration",
+          "request": {
+            "name": "JFrog Artifactory Get Repository Configuration",
+            "description": {
+              "content": "Returns the configuration for a single repository identified by its key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "repositories",
+                ":repoKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "repoKey",
+                  "description": "(Required) The unique key identifying the repository"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f80704e-3f6e-4a81-9a64-1a17b6695442",
+              "name": "Repository configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"local\",\n  \"packageType\": \"conda\",\n  \"description\": \"string\",\n  \"notes\": \"string\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"string\",\n  \"handleReleases\": true,\n  \"handleSnapshots\": true,\n  \"maxUniqueSnapshots\": 6225,\n  \"suppressPomConsistencyChecks\": false,\n  \"blackedOut\": true,\n  \"propertySets\": [\n    \"string\",\n    \"string\"\n  ],\n  \"url\": \"https://ePizUphVGvzbKlrxWprYzta.jenrgIlZWA+RdzyA.AzIePxJDZ7.,KpPqOiPghwznobwH9YlDxa5CMVHDzvrq5yO9nRxF\",\n  \"username\": \"string\",\n  \"password\": \"string\",\n  \"repositories\": [\n    \"string\",\n    \"string\"\n  ],\n  \"defaultDeploymentRepo\": \"string\",\n  \"xrayIndex\": true,\n  \"environments\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "369ee001-84ea-45b3-88b1-983300b3a59d",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6016d862-b3aa-49d3-9b8e-533261bbaddc",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7065,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9798,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db55e82b-6b2f-4de3-9577-4716a21aaf07",
+          "name": "JFrog Artifactory Create or Replace Repository",
+          "request": {
+            "name": "JFrog Artifactory Create or Replace Repository",
+            "description": {
+              "content": "Creates a new repository or replaces an existing one with the provided configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "repositories",
+                ":repoKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "repoKey",
+                  "description": "(Required) The unique key identifying the repository"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"<string>\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "892c2f66-3de4-4b8a-b24f-3350ab6572c3",
+              "name": "Repository created or replaced successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bf801605-2fcf-4466-8413-f02faa8c1e38",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7065,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9798,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b7ca393-baa2-4189-a529-2e98a6026a47",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf67ce5e-4b7a-4ef2-9c93-9fc23188b3c6",
+              "name": "Forbidden - insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 7065,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 9798,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "715f2093-dbf3-4600-a566-ffedcb259a5b",
+          "name": "JFrog Artifactory Update Repository Configuration",
+          "request": {
+            "name": "JFrog Artifactory Update Repository Configuration",
+            "description": {
+              "content": "Updates an existing repository configuration. Only provided fields are updated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "repositories",
+                ":repoKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "repoKey",
+                  "description": "(Required) The unique key identifying the repository"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"<string>\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "75879cf0-092d-4f86-8247-e122910eecec",
+              "name": "Repository updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b2ab6ce-981c-4a36-a304-4529e808e093",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d3161ef-7946-40ac-9f2d-ef01b0f89c9d",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33d8e2e9-246e-4e9b-b485-167274d21752",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"libs-release-local\",\n  \"rclass\": \"<string>\",\n  \"packageType\": \"<string>\",\n  \"description\": \"<string>\",\n  \"notes\": \"<string>\",\n  \"includesPattern\": \"**/*\",\n  \"excludesPattern\": \"\",\n  \"repoLayoutRef\": \"<string>\",\n  \"handleReleases\": \"<boolean>\",\n  \"handleSnapshots\": \"<boolean>\",\n  \"maxUniqueSnapshots\": \"<integer>\",\n  \"suppressPomConsistencyChecks\": \"<boolean>\",\n  \"blackedOut\": \"<boolean>\",\n  \"propertySets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<uri>\",\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"repositories\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"defaultDeploymentRepo\": \"<string>\",\n  \"xrayIndex\": \"<boolean>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d2f51119-5f4a-4048-9df5-74cb3a931520",
+          "name": "JFrog Artifactory Delete Repository",
+          "request": {
+            "name": "JFrog Artifactory Delete Repository",
+            "description": {
+              "content": "Removes a repository configuration. Content is deleted unless backed up.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "repositories",
+                ":repoKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "repoKey",
+                  "description": "(Required) The unique key identifying the repository"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a88844ce-769e-441a-8501-4b5d9e7169e5",
+              "name": "Repository deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5209b701-c915-4333-a489-03b963775026",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f90da33-fd41-49c6-bee9-aefa44457b42",
+              "name": "Forbidden - insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a381a14-9b2f-43f7-927d-c405f39e07b2",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "repositories",
+                    ":repoKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "repoKey",
+                      "description": "(Required) The unique key identifying the repository"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 459,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 3492,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your JFrog Platform deployment URL",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myserver.jfrog.io",
+      "key": "server"
+    },
+    {
+      "type": "string",
+      "value": "https://{{server}}/artifactory",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "69b2cfeb-057f-4cf9-91c9-5a85be672675",
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Repositories API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+      "type": "text/plain"
+    }
+  }
+}

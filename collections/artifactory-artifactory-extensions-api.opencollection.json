@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Artifactory Extensions API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Artifactory Extensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Promote Docker Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{server}/artifactory/api/docker/:repoKey/v2/promote",
+            "params": [
+              {
+                "name": "repoKey",
+                "value": "",
+                "type": "path",
+                "description": "Source repository key"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Artifactory-specific extension to promote a Docker image from one repository to another. This is useful for promoting images through staging environments (e.g., dev to staging to production)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,15 +2,12 @@ generated: '2026-06-20'
 method: searched
 status: published
 source: https://github.com/jfrog/jfrog-mcp-server
-description: >-
-  JFrog operates an official, remotely-hosted MCP server for the JFrog Platform
-  (which Artifactory anchors). It is reached at https://<JFROG_PLATFORM_URL>/mcp
-  and authenticated with OAuth, so no API-key management or local install is
-  required. The earlier community/experimental github.com/jfrog/mcp-jfrog repo is
-  deprecated in favor of this hosted server. Tool list captured verbatim from the
-  server's TOOLS.md reference; tools span Artifactory plus the surrounding
-  Platform services (Access, Distribution, Evidence, Xray/Security, Curation,
-  AppTrust, Workers).
+description: JFrog operates an official, remotely-hosted MCP server for the JFrog Platform (which Artifactory
+  anchors). It is reached at https://<JFROG_PLATFORM_URL>/mcp and authenticated with OAuth, so no API-key
+  management or local install is required. The earlier community/experimental github.com/jfrog/mcp-jfrog
+  repo is deprecated in favor of this hosted server. Tool list captured verbatim from the server's TOOLS.md
+  reference; tools span Artifactory plus the surrounding Platform services (Access, Distribution, Evidence,
+  Xray/Security, Curation, AppTrust, Workers).
 server:
   name: jfrog
   transport: http
@@ -24,98 +21,188 @@ deprecated_predecessor:
   url: https://github.com/jfrog/mcp-jfrog
   note: Experimental predecessor; no further features/fixes/security updates.
 tools:
-  # Artifactory
-  - {name: artifactory_repositories_create, description: Provision new Artifactory repository.}
-  - {name: artifactory_repositories_get, description: Fetch repository configuration.}
-  - {name: artifactory_repositories_list, description: Enumerate repositories with filters.}
-  - {name: artifactory_repositories_update, description: Alter repository settings.}
-  - {name: artifactory_packages_get_versions, description: List package versions with metadata.}
-  - {name: artifactory_packages_get_version_repositories, description: Identify repositories hosting a package version.}
-  - {name: artifactory_packages_get_install_instructions, description: Retrieve client installation commands.}
-  - {name: artifactory_builds_list_builds, description: Query builds using AQL syntax.}
-  - {name: artifactory_builds_list_build_runs, description: Display execution history for a named build.}
-  - {name: artifactory_builds_get_info, description: Retrieve complete build metadata and artifacts.}
-  - {name: artifactory_federation_get_status, description: Monitor federated repository health.}
-  - {name: artifactory_federation_get_conflicts, description: Identify configuration misalignment.}
-  - {name: artifactory_federation_update_repo_config, description: Synchronize settings across members.}
-  - {name: artifactory_storage_artifact_info, description: Access file metadata, listings, and permissions.}
-  # Access (tokens / projects / roles / users / groups)
-  - {name: access_tokens_create, description: Generate new access tokens with configurable scope and expiry.}
-  - {name: access_tokens_list, description: Retrieve access tokens with filtering and sorting options.}
-  - {name: access_tokens_revoke, description: Invalidate an existing access token.}
-  - {name: access_oidc_create_configuration, description: Establish OIDC identity provider setup.}
-  - {name: access_projects_create, description: Provision a new Access project.}
-  - {name: access_projects_get, description: Retrieve project configuration details.}
-  - {name: access_projects_update, description: Modify project settings.}
-  - {name: access_projects_create_role, description: Define custom project-level roles.}
-  - {name: access_projects_update_role, description: Adjust role permissions and scope.}
-  - {name: access_projects_get_user, description: Query user project membership.}
-  - {name: access_projects_upsert_user, description: Add or modify user project assignment.}
-  - {name: access_projects_list_groups, description: Display groups in a project.}
-  - {name: access_projects_upsert_group, description: Assign or update group membership.}
-  - {name: access_projects_get_repository, description: Check repository project association.}
-  - {name: access_projects_move_repository_to_project, description: Relocate repository to a project.}
-  - {name: access_projects_share_repository_with_all, description: Enable cross-project repository access.}
-  - {name: access_projects_list, description: Enumerate all JFrog projects.}
-  - {name: access_roles_create_global_role, description: Establish platform-wide custom role.}
-  - {name: access_roles_update_global_role, description: Modify global role permissions.}
-  - {name: access_stages_list_global_stages, description: Display configured platform stages.}
-  - {name: access_users_list, description: Query platform users with filters.}
-  - {name: access_users_get, description: Retrieve specific user information.}
-  - {name: access_groups_list, description: Browse platform groups.}
-  - {name: access_groups_get, description: Fetch group details.}
-  # Security (Xray) + Catalog/Curation
-  - {name: xray_artifact_get_summary, description: Retrieve vulnerability summary for artifacts.}
-  - {name: xray_artifact_get_violations, description: Count policy violations by severity.}
-  - {name: xray_artifact_security_status, description: Check indexing and block status.}
-  - {name: xray_sbom_search_impacted_resources, description: Search affected components by CVE or package.}
-  - {name: catalog_vulnerabilities_get, description: Query CVE details and affected packages.}
-  - {name: catalog_packages_versions_vulnerabilities, description: List CVEs for a specific version.}
-  - {name: catalog_packages_list_versions, description: Enumerate public package versions.}
-  - {name: catalog_packages_get, description: Retrieve public package information.}
-  - {name: jfs_curation_check_remote_package_compliance, description: Verify third-party package compliance.}
-  - {name: jfs_curation_query_audit_events, description: Search blocked package audit trail.}
-  - {name: jfs_curation_create_waiver_request, description: Submit exception for a blocked package.}
-  - {name: jfs_curation_query_waiver_requests, description: Search waiver request status.}
-  # Distribution
-  - {name: distribution_release_bundles_distribute, description: Initiate bundle transfer to edge nodes.}
-  - {name: distribution_release_bundles_abort, description: Cancel ongoing distribution.}
-  - {name: distribution_release_bundles_get_path_mapping, description: Retrieve applied path transformations.}
-  - {name: distribution_trackers_list, description: Display distribution operation history.}
-  - {name: distribution_trackers_get_by_id, description: Monitor per-edge transfer progress.}
-  - {name: distribution_signing_keys_get_for_bundle, description: Fetch bundle signing credentials.}
-  - {name: distribution_signing_keys_get_public, description: Export signing key as PEM.}
-  - {name: distribution_signing_keys_propagate, description: Deploy public key to all edges.}
-  - {name: distribution_edges_list_for_bundle, description: Show eligible edge targets.}
-  # Evidence
-  - {name: evidence_config_get, description: Fetch Evidence service configuration.}
-  - {name: evidence_config_get_categories, description: Retrieve category-to-predicate mappings.}
-  - {name: evidence_config_update_categories, description: Replace category configuration.}
-  - {name: evidence_categories_list, description: Display supported predicate categories.}
-  - {name: evidence_categories_get_predicate_types, description: List predicate URIs for a category.}
-  - {name: evidence_records_search, description: Locate evidence by repository or artifact hash.}
-  - {name: evidence_records_get_by_subject, description: Retrieve all evidence for a subject.}
-  - {name: evidence_records_get_by_id, description: Fetch an individual evidence record.}
-  - {name: evidence_records_get_markdown_by_id, description: Display human-readable evidence rendering.}
-  - {name: evidence_records_prepare_statement, description: Build a ready-to-sign in-toto statement.}
-  - {name: evidence_records_create_by_subject, description: Upload a signed DSSE envelope.}
-  # AppTrust
-  - {name: apptrust_create_application, description: Establish new application entity.}
-  - {name: apptrust_get_application_summary, description: Retrieve application metadata.}
-  - {name: apptrust_list_applications, description: Enumerate applications with filtering.}
-  - {name: apptrust_create_application_version, description: Define application version composition.}
-  - {name: apptrust_list_versions, description: Display application versions.}
-  - {name: apptrust_get_application_version_status, description: Check version release status.}
-  - {name: apptrust_get_lifecycle_overview, description: View project lifecycle configuration.}
-  - {name: apptrust_promote_version, description: Advance version through lifecycle stage.}
-  - {name: apptrust_get_version_promotion_history, description: Track version promotions.}
-  - {name: apptrust_release_version, description: Promote version to production stage.}
-  - {name: apptrust_rollback_version, description: Revert latest promotion.}
-  - {name: apptrust_get_activity_logs, description: Query lifecycle activity events.}
-  # Workers
-  - {name: worker_list_all, description: Display JFrog Workers on platform.}
-  - {name: worker_get_specific, description: Retrieve single worker configuration.}
-  - {name: worker_list_actions, description: Show available worker trigger actions.}
-  - {name: worker_get_instructions_for_code_generation, description: Generate code template and guidance.}
-  - {name: worker_create, description: Establish new worker with source code.}
-  - {name: worker_get_execution_history, description: Browse worker execution logs.}
+- name: artifactory_repositories_create
+  description: Provision new Artifactory repository.
+- name: artifactory_repositories_get
+  description: Fetch repository configuration.
+- name: artifactory_repositories_list
+  description: Enumerate repositories with filters.
+- name: artifactory_repositories_update
+  description: Alter repository settings.
+- name: artifactory_packages_get_versions
+  description: List package versions with metadata.
+- name: artifactory_packages_get_version_repositories
+  description: Identify repositories hosting a package version.
+- name: artifactory_packages_get_install_instructions
+  description: Retrieve client installation commands.
+- name: artifactory_builds_list_builds
+  description: Query builds using AQL syntax.
+- name: artifactory_builds_list_build_runs
+  description: Display execution history for a named build.
+- name: artifactory_builds_get_info
+  description: Retrieve complete build metadata and artifacts.
+- name: artifactory_federation_get_status
+  description: Monitor federated repository health.
+- name: artifactory_federation_get_conflicts
+  description: Identify configuration misalignment.
+- name: artifactory_federation_update_repo_config
+  description: Synchronize settings across members.
+- name: artifactory_storage_artifact_info
+  description: Access file metadata
+  listings: null
+  and permissions.: null
+- name: access_tokens_create
+  description: Generate new access tokens with configurable scope and expiry.
+- name: access_tokens_list
+  description: Retrieve access tokens with filtering and sorting options.
+- name: access_tokens_revoke
+  description: Invalidate an existing access token.
+- name: access_oidc_create_configuration
+  description: Establish OIDC identity provider setup.
+- name: access_projects_create
+  description: Provision a new Access project.
+- name: access_projects_get
+  description: Retrieve project configuration details.
+- name: access_projects_update
+  description: Modify project settings.
+- name: access_projects_create_role
+  description: Define custom project-level roles.
+- name: access_projects_update_role
+  description: Adjust role permissions and scope.
+- name: access_projects_get_user
+  description: Query user project membership.
+- name: access_projects_upsert_user
+  description: Add or modify user project assignment.
+- name: access_projects_list_groups
+  description: Display groups in a project.
+- name: access_projects_upsert_group
+  description: Assign or update group membership.
+- name: access_projects_get_repository
+  description: Check repository project association.
+- name: access_projects_move_repository_to_project
+  description: Relocate repository to a project.
+- name: access_projects_share_repository_with_all
+  description: Enable cross-project repository access.
+- name: access_projects_list
+  description: Enumerate all JFrog projects.
+- name: access_roles_create_global_role
+  description: Establish platform-wide custom role.
+- name: access_roles_update_global_role
+  description: Modify global role permissions.
+- name: access_stages_list_global_stages
+  description: Display configured platform stages.
+- name: access_users_list
+  description: Query platform users with filters.
+- name: access_users_get
+  description: Retrieve specific user information.
+- name: access_groups_list
+  description: Browse platform groups.
+- name: access_groups_get
+  description: Fetch group details.
+- name: xray_artifact_get_summary
+  description: Retrieve vulnerability summary for artifacts.
+- name: xray_artifact_get_violations
+  description: Count policy violations by severity.
+- name: xray_artifact_security_status
+  description: Check indexing and block status.
+- name: xray_sbom_search_impacted_resources
+  description: Search affected components by CVE or package.
+- name: catalog_vulnerabilities_get
+  description: Query CVE details and affected packages.
+- name: catalog_packages_versions_vulnerabilities
+  description: List CVEs for a specific version.
+- name: catalog_packages_list_versions
+  description: Enumerate public package versions.
+- name: catalog_packages_get
+  description: Retrieve public package information.
+- name: jfs_curation_check_remote_package_compliance
+  description: Verify third-party package compliance.
+- name: jfs_curation_query_audit_events
+  description: Search blocked package audit trail.
+- name: jfs_curation_create_waiver_request
+  description: Submit exception for a blocked package.
+- name: jfs_curation_query_waiver_requests
+  description: Search waiver request status.
+- name: distribution_release_bundles_distribute
+  description: Initiate bundle transfer to edge nodes.
+- name: distribution_release_bundles_abort
+  description: Cancel ongoing distribution.
+- name: distribution_release_bundles_get_path_mapping
+  description: Retrieve applied path transformations.
+- name: distribution_trackers_list
+  description: Display distribution operation history.
+- name: distribution_trackers_get_by_id
+  description: Monitor per-edge transfer progress.
+- name: distribution_signing_keys_get_for_bundle
+  description: Fetch bundle signing credentials.
+- name: distribution_signing_keys_get_public
+  description: Export signing key as PEM.
+- name: distribution_signing_keys_propagate
+  description: Deploy public key to all edges.
+- name: distribution_edges_list_for_bundle
+  description: Show eligible edge targets.
+- name: evidence_config_get
+  description: Fetch Evidence service configuration.
+- name: evidence_config_get_categories
+  description: Retrieve category-to-predicate mappings.
+- name: evidence_config_update_categories
+  description: Replace category configuration.
+- name: evidence_categories_list
+  description: Display supported predicate categories.
+- name: evidence_categories_get_predicate_types
+  description: List predicate URIs for a category.
+- name: evidence_records_search
+  description: Locate evidence by repository or artifact hash.
+- name: evidence_records_get_by_subject
+  description: Retrieve all evidence for a subject.
+- name: evidence_records_get_by_id
+  description: Fetch an individual evidence record.
+- name: evidence_records_get_markdown_by_id
+  description: Display human-readable evidence rendering.
+- name: evidence_records_prepare_statement
+  description: Build a ready-to-sign in-toto statement.
+- name: evidence_records_create_by_subject
+  description: Upload a signed DSSE envelope.
+- name: apptrust_create_application
+  description: Establish new application entity.
+- name: apptrust_get_application_summary
+  description: Retrieve application metadata.
+- name: apptrust_list_applications
+  description: Enumerate applications with filtering.
+- name: apptrust_create_application_version
+  description: Define application version composition.
+- name: apptrust_list_versions
+  description: Display application versions.
+- name: apptrust_get_application_version_status
+  description: Check version release status.
+- name: apptrust_get_lifecycle_overview
+  description: View project lifecycle configuration.
+- name: apptrust_promote_version
+  description: Advance version through lifecycle stage.
+- name: apptrust_get_version_promotion_history
+  description: Track version promotions.
+- name: apptrust_release_version
+  description: Promote version to production stage.
+- name: apptrust_rollback_version
+  description: Revert latest promotion.
+- name: apptrust_get_activity_logs
+  description: Query lifecycle activity events.
+- name: worker_list_all
+  description: Display JFrog Workers on platform.
+- name: worker_get_specific
+  description: Retrieve single worker configuration.
+- name: worker_list_actions
+  description: Show available worker trigger actions.
+- name: worker_get_instructions_for_code_generation
+  description: Generate code template and guidance.
+- name: worker_create
+  description: Establish new worker with source code.
+- name: worker_get_execution_history
+  description: Browse worker execution logs.
+deployment:
+  mode: remote
+  endpoint: https://jfrog.com/blog/introducing-jfrog-mcp-server/
+  verified: probed
+  probe: not-mcp
+  checked: '2026-08-12'
+  source: catalog MCP census

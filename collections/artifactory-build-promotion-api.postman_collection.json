@@ -1,0 +1,503 @@
+{
+  "item": [
+    {
+      "id": "98ff1971-9377-49b7-b410-2410e39fd7fa",
+      "name": "Build Promotion",
+      "description": {
+        "content": "Promote builds between repositories",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ebf6123d-5ee5-49e7-8c5f-0c1e71f797b4",
+          "name": "Promote Build",
+          "request": {
+            "name": "Promote Build",
+            "description": {
+              "content": "Promotes a build by moving or copying the build artifacts and dependencies from a source repository to a target repository. Used to promote builds through staging environments (e.g., from staging to production).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "build",
+                "promote",
+                ":buildName",
+                ":buildNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildName",
+                  "description": "(Required) The name of the build"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildNumber",
+                  "description": "(Required) The build number (version)"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetRepo\": \"<string>\",\n  \"status\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"<string>\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a0904496-ccf3-4030-804c-e33ba04e2bec",
+              "name": "Build promoted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "promote",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"targetRepo\": \"libs-release-local\",\n  \"status\": \"Released\",\n  \"comment\": \"Promoted to production\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"libs-staging-local\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"messages\": {\n    \"level\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b36daf1-f83b-454f-9340-b0bda2e4a5de",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "promote",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"targetRepo\": \"libs-release-local\",\n  \"status\": \"Released\",\n  \"comment\": \"Promoted to production\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"libs-staging-local\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1537,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 8013,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d02ab9fd-7737-4fcb-a489-411a161df4de",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "promote",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"targetRepo\": \"libs-release-local\",\n  \"status\": \"Released\",\n  \"comment\": \"Promoted to production\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"libs-staging-local\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1537,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 8013,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fe3ed79-4c64-4af6-ab10-e6f93bdc94e5",
+              "name": "Forbidden - insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "promote",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"targetRepo\": \"libs-release-local\",\n  \"status\": \"Released\",\n  \"comment\": \"Promoted to production\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"libs-staging-local\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1537,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 8013,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f472b03c-74e3-4660-b483-792a63e4303b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "promote",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"targetRepo\": \"libs-release-local\",\n  \"status\": \"Released\",\n  \"comment\": \"Promoted to production\",\n  \"ciUser\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"properties\": {\n    \"key_0\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"sourceRepo\": \"libs-staging-local\",\n  \"copy\": false,\n  \"artifacts\": true,\n  \"dependencies\": false,\n  \"failFast\": true,\n  \"dryRun\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1537,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 8013,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your JFrog Platform deployment URL",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myserver.jfrog.io",
+      "key": "server"
+    },
+    {
+      "type": "string",
+      "value": "https://{{server}}/artifactory",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0f0d2a47-3482-4e4d-9b45-5a2969488289",
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Promotion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+      "type": "text/plain"
+    }
+  }
+}

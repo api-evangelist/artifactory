@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Diff API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Build Diff",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Build Diff",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/api/build/diff/:buildName/:buildNumber",
+            "params": [
+              {
+                "name": "buildName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the build"
+              },
+              {
+                "name": "buildNumber",
+                "value": "",
+                "type": "path",
+                "description": "The build number (version)"
+              },
+              {
+                "name": "otherNumber",
+                "value": "",
+                "type": "query",
+                "description": "The other build number to compare against"
+              }
+            ]
+          },
+          "docs": "Returns the differences between two build versions, including new artifacts, updated artifacts, removed artifacts, new dependencies, updated dependencies, removed dependencies, and new/removed properties."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

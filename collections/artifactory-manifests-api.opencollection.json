@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Manifests API",
+    "version": "7.x"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Manifests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "JFrog Artifactory Get Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{server}/artifactory/v2/:name/manifests/:reference",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Image tag or digest reference"
+              }
+            ]
+          },
+          "docs": "Retrieves the manifest for an image identified by name and reference (tag or digest). The Accept header determines the manifest format returned."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Push Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{server}/artifactory/v2/:name/manifests/:reference",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Image tag or digest reference"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pushes an image manifest to the registry. The manifest must reference layers that have already been uploaded."
+        },
+        {
+          "info": {
+            "name": "JFrog Artifactory Delete Image Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{server}/artifactory/v2/:name/manifests/:reference",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "Manifest digest"
+              }
+            ]
+          },
+          "docs": "Deletes the manifest identified by name and reference (must be a digest)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

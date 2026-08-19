@@ -1,0 +1,336 @@
+{
+  "item": [
+    {
+      "id": "492ced8b-17cf-4ac0-bd29-9cedee518394",
+      "name": "Build Diff",
+      "description": {
+        "content": "Compare build versions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "85f5ee36-3732-406d-82b8-9b9a1bb3d83f",
+          "name": "Get Build Diff",
+          "request": {
+            "name": "Get Build Diff",
+            "description": {
+              "content": "Returns the differences between two build versions, including new artifacts, updated artifacts, removed artifacts, new dependencies, updated dependencies, removed dependencies, and new/removed properties.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "build",
+                "diff",
+                ":buildName",
+                ":buildNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "otherNumber",
+                  "value": "<string>",
+                  "description": "(Required) The other build number to compare against"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildName",
+                  "description": "(Required) The name of the build"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buildNumber",
+                  "description": "(Required) The build number (version)"
+                },
+                {
+                  "description": "Your JFrog Platform deployment URL",
+                  "type": "any",
+                  "value": "{{server}}",
+                  "key": "server"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc5b00bc-3d02-403b-bae6-2d5e87aded57",
+              "name": "Build diff result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "diff",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "otherNumber",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"artifacts\": {\n    \"new\": [\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"updated\": [\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"removed\": [\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"unchanged\": [\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ]\n  },\n  \"dependencies\": {\n    \"new\": [\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"updated\": [\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"removed\": [\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ],\n    \"unchanged\": [\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sha1\": \"string\",\n        \"md5\": \"string\"\n      }\n    ]\n  },\n  \"properties\": {\n    \"new\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\",\n      \"key_4\": \"string\"\n    },\n    \"updated\": {\n      \"key_0\": \"string\"\n    },\n    \"removed\": {\n      \"key_0\": \"string\"\n    },\n    \"unchanged\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1b87082-704b-4742-881b-69251fa5d9ac",
+              "name": "Unauthorized - authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "diff",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "otherNumber",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 6292,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 5032,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0012bd55-1bdb-4bb7-9f80-5d10691c3243",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "build",
+                    "diff",
+                    ":buildName",
+                    ":buildNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "otherNumber",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildName",
+                      "description": "(Required) The name of the build"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buildNumber",
+                      "description": "(Required) The build number (version)"
+                    },
+                    {
+                      "description": "Your JFrog Platform deployment URL",
+                      "type": "any",
+                      "value": "{{server}}",
+                      "key": "server"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 6292,\n      \"message\": \"string\"\n    },\n    {\n      \"status\": 5032,\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your JFrog Platform deployment URL",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myserver.jfrog.io",
+      "key": "server"
+    },
+    {
+      "type": "string",
+      "value": "https://{{server}}/artifactory",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8630246c-cd8e-4f6e-8063-e27a11a5696d",
+    "name": "JFrog Artifactory Query Language (AQL) AQL Search Build Diff API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.\n\nContact Support:\n Name: JFrog Support\n Email: support@jfrog.com",
+      "type": "text/plain"
+    }
+  }
+}
