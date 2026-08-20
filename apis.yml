@@ -30,6 +30,14 @@ tags:
   - Artifacts
   - DevOps
   - CI/CD
+  - docker-registry
+  - Maven
+  - Package Management
+  - Repository
+tags_raw:
+  - Artifacts
+  - DevOps
+  - CI/CD
   - Docker Registry
   - Maven
   - Package Management
