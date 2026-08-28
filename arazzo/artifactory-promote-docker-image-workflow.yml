@@ -11,8 +11,11 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryDockerApi
-  url: ../openapi/artifactory-docker-registry-api-openapi.yml
+- name: artifactoryExtensionsApi
+  url: ../openapi/artifactory-artifactory-extensions-api-openapi.yml
+  type: openapi
+- name: tagsApi
+  url: ../openapi/artifactory-tags-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: promote-docker-image

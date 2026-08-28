@@ -11,8 +11,11 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryRestApi
-  url: ../openapi/artifactory-rest-api-openapi.yml
+- name: artifactsStorageApi
+  url: ../openapi/artifactory-artifacts-storage-api-openapi.yml
+  type: openapi
+- name: searchApi
+  url: ../openapi/artifactory-search-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: gavc-search-and-tag

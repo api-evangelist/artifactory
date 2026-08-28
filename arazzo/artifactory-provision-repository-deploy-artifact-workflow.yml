@@ -11,8 +11,11 @@ info:
     executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryRestApi
-  url: ../openapi/artifactory-rest-api-openapi.yml
+- name: artifactsStorageApi
+  url: ../openapi/artifactory-artifacts-storage-api-openapi.yml
+  type: openapi
+- name: repositoriesApi
+  url: ../openapi/artifactory-repositories-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-repository-and-deploy-artifact

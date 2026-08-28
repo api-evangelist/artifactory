@@ -11,8 +11,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryBuildApi
-  url: ../openapi/artifactory-build-integration-api-openapi.yml
+- name: buildDiffApi
+  url: ../openapi/artifactory-build-diff-api-openapi.yml
+  type: openapi
+- name: buildInfoApi
+  url: ../openapi/artifactory-build-info-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: compare-build-versions

@@ -10,8 +10,11 @@ info:
     and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryBuildApi
-  url: ../openapi/artifactory-build-integration-api-openapi.yml
+- name: buildInfoApi
+  url: ../openapi/artifactory-build-info-api-openapi.yml
+  type: openapi
+- name: buildManagementApi
+  url: ../openapi/artifactory-build-management-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: publish-build-and-set-retention

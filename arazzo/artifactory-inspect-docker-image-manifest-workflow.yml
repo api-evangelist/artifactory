@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryDockerApi
-  url: ../openapi/artifactory-docker-registry-api-openapi.yml
+- name: manifestsApi
+  url: ../openapi/artifactory-manifests-api-openapi.yml
+  type: openapi
+- name: tagsApi
+  url: ../openapi/artifactory-tags-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: inspect-docker-image-manifest

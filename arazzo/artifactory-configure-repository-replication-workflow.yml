@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryRestApi
-  url: ../openapi/artifactory-rest-api-openapi.yml
+- name: replicationApi
+  url: ../openapi/artifactory-replication-api-openapi.yml
+  type: openapi
+- name: repositoriesApi
+  url: ../openapi/artifactory-repositories-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: configure-repository-replication

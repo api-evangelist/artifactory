@@ -10,8 +10,8 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: artifactoryRestApi
-  url: ../openapi/artifactory-rest-api-openapi.yml
+- name: securityApi
+  url: ../openapi/artifactory-security-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: create-group-scoped-access-token
