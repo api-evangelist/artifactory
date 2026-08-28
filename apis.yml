@@ -7,6 +7,18 @@ description: >-
   lifecycle. It integrates with CI/CD pipelines through native plugins for Jenkins, GitHub Actions, CircleCI, and other
   tools. Artifactory provides comprehensive REST APIs for managing repositories, artifacts, builds, security, and system
   configuration programmatically.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -554,6 +566,9 @@ apis:
   - type: JSONSchema
     url: json-schema/artifactory-build-info.json
 common:
+  - type: CapabilityMap
+    url: capabilities/artifactory-capability-edges.yml
+    name: JFrog Artifactory Business Capability Map
   - type: AgenticAccess
     url: agentic-access/artifactory-agentic-access.yml
   - type: VulnerabilityDisclosure

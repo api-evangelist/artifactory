@@ -1,0 +1,46 @@
+slug: artifactory
+provider: JFrog Artifactory
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Security
+  spec_file: artifactory-security-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: GET /api/security/users 'List Users'; PUT /api/security/groups/{groupName} 'Create or Replace
+    Group'; GET /api/security/permissions 'List Permission Targets'; schema AccessToken
+  reason: Operations create and manage users, groups, permission targets and access tokens — identity
+    and access management for the platform.
+- tag: Build Info
+  spec_file: artifactory-build-info-api-openapi.yml
+  capability_id: BC-4210.10
+  capability_id_l1: BC-4210
+  capability_name: Continuous Integration Management
+  confidence: 0.7
+  evidence: PUT /api/build publishBuildInfo "Publish Build Info"; GET /api/build/{buildName} getBuildRuns;
+    schemas BuildInfo, BuildModule, BuildRuns, BuildStatus
+  reason: Publishing and retrieving CI build metadata and build runs with produced modules/artefacts is
+    squarely build-pipeline and artefact-production management.
+- tag: Build Promotion
+  spec_file: artifactory-build-promotion-api-openapi.yml
+  capability_id: BC-4210
+  capability_id_l1: BC-4210
+  capability_name: Software Release & Deployment Management
+  confidence: 0.7
+  evidence: POST /api/build/promote/{buildName}/{buildNumber} promoteBuild "Promote Build"; schemas BuildPromotionRequest,
+    BuildPromotionResult
+  reason: Promoting a build through repository stages is a release-engineering/deployment gating activity;
+    L1 asserted, sub-capability ambiguous between release engineering and CI.
