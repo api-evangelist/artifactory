@@ -568,6 +568,8 @@ apis:
   - type: JSONSchema
     url: json-schema/artifactory-build-info.json
 common:
+  - type: Website
+    url: https://www.jfrog.com/
   - type: CapabilityMap
     url: capabilities/artifactory-capability-edges.yml
     name: JFrog Artifactory Business Capability Map
