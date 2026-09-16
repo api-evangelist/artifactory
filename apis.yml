@@ -1,12 +1,11 @@
 aid: artifactory
 name: JFrog Artifactory
-description: >-
-  JFrog Artifactory is a universal artifact repository manager supporting all major package formats and build tools
-  including Maven, Gradle, npm, NuGet, PyPI, Docker, Helm, RubyGems, CocoaPods, and more. As the central hub of the
-  JFrog Platform, Artifactory stores, manages, and distributes binary artifacts across the entire software development
-  lifecycle. It integrates with CI/CD pipelines through native plugins for Jenkins, GitHub Actions, CircleCI, and other
-  tools. Artifactory provides comprehensive REST APIs for managing repositories, artifacts, builds, security, and system
-  configuration programmatically.
+description: JFrog Artifactory is a universal artifact repository manager supporting all major package
+  formats and build tools including Maven, Gradle, npm, NuGet, PyPI, Docker, Helm, RubyGems, CocoaPods,
+  and more. As the central hub of the JFrog Platform, Artifactory stores, manages, and distributes binary
+  artifacts across the entire software development lifecycle. It integrates with CI/CD pipelines through
+  native plugins for Jenkins, GitHub Actions, CircleCI, and other tools. Artifactory provides comprehensive
+  REST APIs for managing repositories, artifacts, builds, security, and system configuration programmatically.
 deliveryModel:
   model: saas
   open_source: false
@@ -37,26 +36,25 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/artifactory.png
 url: https://raw.githubusercontent.com/api-evangelist/artifactory/refs/heads/main/apis.yml
 created: '2024-01-15'
-modified: '2026-06-20'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 type: Index
 tags:
-  - Artifacts
-  - DevOps
-  - CI/CD
-  - docker-registry
-  - Maven
-  - Package Management
-  - Repository
-  - Developer Tools
+- Artifacts
+- DevOps
+- CI/CD
+- docker-registry
+- Maven
+- Package Management
+- Repository
 tags_raw:
-  - Artifacts
-  - DevOps
-  - CI/CD
-  - Docker Registry
-  - Maven
-  - Package Management
-  - Repository
+- Artifacts
+- DevOps
+- CI/CD
+- Docker Registry
+- Maven
+- Package Management
+- Repository
 apis:
 - aid: artifactory:artifactory-aql-search-api
   name: JFrog Artifactory AQL Search API
@@ -89,7 +87,7 @@ apis:
   - type: JSONSchema
     url: json-schema/artifactory-build-info.json
 - aid: artifactory:artifactory-artifactory-extensions-api
-  name: JFrog Artifactory Artifactory Extensions API
+  name: JFrog Artifactory Extensions API
   description: Artifactory-specific Docker API extensions
   humanURL: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
   baseURL: https://artifactory.example.com/artifactory/api
@@ -569,227 +567,216 @@ apis:
   - type: JSONSchema
     url: json-schema/artifactory-build-info.json
 common:
-  - type: Website
-    url: https://www.jfrog.com/
-  - type: CapabilityMap
-    url: capabilities/artifactory-capability-edges.yml
-    name: JFrog Artifactory Business Capability Map
-  - type: AgenticAccess
-    url: agentic-access/artifactory-agentic-access.yml
-  - type: VulnerabilityDisclosure
-    url: security/artifactory-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/artifactory-domain-security.yml
-  - type: Authentication
-    url: authentication/artifactory-authentication.yml
-  - type: TrustCenter
-    url: security/artifactory-trust-center.yml
-  - type: Packages
-    url: packages/artifactory-packages.yml
-  - type: MCPServer
-    url: mcp/artifactory-mcp.yml
-  - type: LLMsTxt
-    url: llms/artifactory-llms.txt
-  - type: WellKnown
-    url: well-known/artifactory-well-known.yml
-  - type: SecurityTxt
-    url: well-known/artifactory-security.txt
-  - type: Conformance
-    url: conformance/artifactory-conformance.yml
-  - type: ErrorCatalog
-    url: errors/artifactory-problem-types.yml
-  - type: Lifecycle
-    url: lifecycle/artifactory-lifecycle.yml
-  - type: Conventions
-    url: conventions/artifactory-conventions.yml
-  - type: ChangeLog
-    url: changelog/artifactory-changelog.yml
-  - type: CLI
-    url: cli/artifactory-cli.yml
-  - type: DataModel
-    url: data-model/artifactory-data-model.yml
-  - type: Overlay
-    url: overlays/artifactory-rest-api-overlay.yaml
-    name: Artifactory REST API enhancements
-  - type: Overlay
-    url: overlays/artifactory-aql-api-overlay.yaml
-    name: Artifactory AQL API enhancements
-  - type: Overlay
-    url: overlays/artifactory-docker-registry-api-overlay.yaml
-    name: Artifactory Docker Registry API enhancements
-  - type: Overlay
-    url: overlays/artifactory-build-integration-api-overlay.yaml
-    name: Artifactory Build Integration API enhancements
-  - type: PostmanWorkspace
-    url: https://www.postman.com/kinlaneapi/jfrog-artifactory/overview
-  - type: Arazzo
-    url: arazzo/artifactory-aql-find-and-delete-artifact-workflow.yml
-    name: Artifactory AQL Find and Delete Artifact
-  - type: Arazzo
-    url: arazzo/artifactory-checksum-search-retrieve-workflow.yml
-    name: Artifactory Checksum Search and Retrieve
-  - type: Arazzo
-    url: arazzo/artifactory-compare-build-versions-workflow.yml
-    name: Artifactory Compare Build Versions
-  - type: Arazzo
-    url: arazzo/artifactory-configure-repository-replication-workflow.yml
-    name: Artifactory Configure Repository Replication
-  - type: Arazzo
-    url: arazzo/artifactory-create-group-scoped-access-token-workflow.yml
-    name: Artifactory Create Group-Scoped Access Token
-  - type: Arazzo
-    url: arazzo/artifactory-create-user-verify-membership-workflow.yml
-    name: Artifactory Create User and Verify Membership
-  - type: Arazzo
-    url: arazzo/artifactory-decommission-repository-workflow.yml
-    name: Artifactory Decommission Repository
-  - type: Arazzo
-    url: arazzo/artifactory-deploy-tag-search-artifact-workflow.yml
-    name: Artifactory Deploy, Tag, and Search Artifact
-  - type: Arazzo
-    url: arazzo/artifactory-gavc-search-tag-workflow.yml
-    name: Artifactory GAVC Search and Tag
-  - type: Arazzo
-    url: arazzo/artifactory-inspect-docker-image-manifest-workflow.yml
-    name: Artifactory Inspect Docker Image Manifest
-  - type: Arazzo
-    url: arazzo/artifactory-move-artifact-cleanup-workflow.yml
-    name: Artifactory Move Artifact and Clean Up
-  - type: Arazzo
-    url: arazzo/artifactory-onboard-user-group-permission-workflow.yml
-    name: Artifactory Onboard User with Group and Permission
-  - type: Arazzo
-    url: arazzo/artifactory-promote-artifact-across-repositories-workflow.yml
-    name: Artifactory Promote Artifact Across Repositories
-  - type: Arazzo
-    url: arazzo/artifactory-promote-docker-image-workflow.yml
-    name: Artifactory Promote Docker Image
-  - type: Arazzo
-    url: arazzo/artifactory-provision-repository-deploy-artifact-workflow.yml
-    name: Artifactory Provision Repository and Deploy Artifact
-  - type: Arazzo
-    url: arazzo/artifactory-publish-build-set-retention-workflow.yml
-    name: Artifactory Publish Build and Set Retention
-  - type: Arazzo
-    url: arazzo/artifactory-publish-promote-build-workflow.yml
-    name: Artifactory Publish and Promote Build
-  - type: Arazzo
-    url: arazzo/artifactory-rename-build-verify-workflow.yml
-    name: Artifactory Rename Build and Verify
-  - type: TermsOfService
-    url: https://jfrog.com/terms-of-service/
-    title: Terms of Service
-  - type: PrivacyPolicy
-    url: https://jfrog.com/privacy-policy/
-    title: Privacy Policy
-  - type: StatusPage
-    url: https://status.jfrog.com/
-    title: Status Page
-  - type: Pricing
-    url: https://jfrog.com/pricing/
-    title: Pricing
-  - type: Blog
-    url: https://jfrog.com/blog/
-    title: Blog
-  - type: GitHubOrganization
-    url: https://github.com/jfrog
-    title: JFrog GitHub
-  - type: X
-    url: https://twitter.com/jfrog
-    title: JFrog on X
-  - type: Support
-    url: https://jfrog.com/support/
-    title: Support
-  - type: Portal
-    url: https://jfrog.com/developers/
-    title: Developer Portal
-  - type: Documentation
-    url: https://jfrog.com/help/
-    title: Documentation
-  - type: GettingStarted
-    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
-    title: Getting Started
-  - type: Signup
-    url: https://jfrog.com/start-free/
-    title: Sign Up Free
-  - type: Login
-    url: https://my.jfrog.com/login/
-    title: Login
-  - type: Resources
-    url: https://community.jfrog.com/
-    title: JFrog Community
-  - type: YouTube
-    url: https://www.youtube.com/@jfrog
-    title: YouTube
-  - type: CLI
-    url: https://jfrog.com/help/r/jfrog-cli/jfrog-cli
-    title: JFrog CLI
-  - type: ChangeLog
-    url: https://jfrog.com/help/r/jfrog-release-information/jfrog-release-notes
-    title: Release Notes
-  - type: Features
-    data:
-      - name: Universal Package Management
-        description: >-
-          Single repository manager supporting 30+ package formats including Maven, npm, NuGet, PyPI, Docker, Helm,
-          Conda, Conan, and more.
-      - name: Artifact Metadata and Search
-        description: >-
-          Rich metadata tagging and AQL query language for finding artifacts based on properties, statistics, dates, and
-          custom attributes.
-      - name: Build Integration
-        description: >-
-          Native CI/CD integration publishing build information to track which artifacts were produced by which build,
-          enabling full artifact traceability.
-      - name: Security and Permissions
-        description: >-
-          Fine-grained permission targets, LDAP/SAML/SSO integration, API key management, and access tokens for secure
-          artifact access control.
-      - name: Replication
-        description: >-
-          Push and pull replication across multiple Artifactory instances for geo-distributed teams and disaster
-          recovery.
-      - name: Docker Registry
-        description: >-
-          Full Docker Registry v2 API compliance for pushing, pulling, and managing Docker images with automated
-          vulnerability scanning.
-  - type: UseCases
-    data:
-      - name: CI/CD Pipeline Integration
-        description: >-
-          Development teams integrate Artifactory with Jenkins, GitHub Actions, and other CI/CD tools to store, version,
-          and distribute build artifacts.
-      - name: Container Registry
-        description: >-
-          Platform engineering teams use Artifactory as an enterprise Docker registry with security scanning, access
-          controls, and promotion workflows.
-      - name: Dependency Proxy
-        description: >-
-          Organizations proxy public package registries (npm, PyPI, Maven Central) through Artifactory to cache
-          dependencies, apply security policies, and ensure build reproducibility.
-      - name: Release Management
-        description: >-
-          Release engineers promote artifacts through staging environments using build promotion, managing the lifecycle
-          from snapshot to release.
-  - type: Integrations
-    data:
-      - name: Jenkins
-        description: Official Jenkins Artifactory Plugin for publishing artifacts and build information from Jenkins pipelines.
-      - name: GitHub Actions
-        description: JFrog GitHub Actions for integrating Artifactory into GitHub CI/CD workflows.
-      - name: JFrog Xray
-        description: >-
-          Deep integration with JFrog Xray for continuous security and compliance scanning of artifacts and
-          dependencies.
-      - name: JFrog Pipelines
-        description: >-
-          Native integration with JFrog Pipelines for end-to-end CI/CD orchestration using Artifactory as the artifact
-          store.
-  - type: Integrations
-    url: https://jfrog.com/integrations/
+- type: Website
+  url: https://www.jfrog.com/
+- type: CapabilityMap
+  url: capabilities/artifactory-capability-edges.yml
+  name: JFrog Artifactory Business Capability Map
+- type: AgenticAccess
+  url: agentic-access/artifactory-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/artifactory-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/artifactory-domain-security.yml
+- type: Authentication
+  url: authentication/artifactory-authentication.yml
+- type: TrustCenter
+  url: security/artifactory-trust-center.yml
+- type: Packages
+  url: packages/artifactory-packages.yml
+- type: MCPServer
+  url: mcp/artifactory-mcp.yml
+- type: LLMsTxt
+  url: llms/artifactory-llms.txt
+- type: WellKnown
+  url: well-known/artifactory-well-known.yml
+- type: SecurityTxt
+  url: well-known/artifactory-security.txt
+- type: Conformance
+  url: conformance/artifactory-conformance.yml
+- type: ErrorCatalog
+  url: errors/artifactory-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/artifactory-lifecycle.yml
+- type: Conventions
+  url: conventions/artifactory-conventions.yml
+- type: ChangeLog
+  url: changelog/artifactory-changelog.yml
+- type: CLI
+  url: cli/artifactory-cli.yml
+- type: DataModel
+  url: data-model/artifactory-data-model.yml
+- type: Overlay
+  url: overlays/artifactory-rest-api-overlay.yaml
+  name: Artifactory REST API enhancements
+- type: Overlay
+  url: overlays/artifactory-aql-api-overlay.yaml
+  name: Artifactory AQL API enhancements
+- type: Overlay
+  url: overlays/artifactory-docker-registry-api-overlay.yaml
+  name: Artifactory Docker Registry API enhancements
+- type: Overlay
+  url: overlays/artifactory-build-integration-api-overlay.yaml
+  name: Artifactory Build Integration API enhancements
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/jfrog-artifactory/overview
+- type: Arazzo
+  url: arazzo/artifactory-aql-find-and-delete-artifact-workflow.yml
+  name: Artifactory AQL Find and Delete Artifact
+- type: Arazzo
+  url: arazzo/artifactory-checksum-search-retrieve-workflow.yml
+  name: Artifactory Checksum Search and Retrieve
+- type: Arazzo
+  url: arazzo/artifactory-compare-build-versions-workflow.yml
+  name: Artifactory Compare Build Versions
+- type: Arazzo
+  url: arazzo/artifactory-configure-repository-replication-workflow.yml
+  name: Artifactory Configure Repository Replication
+- type: Arazzo
+  url: arazzo/artifactory-create-group-scoped-access-token-workflow.yml
+  name: Artifactory Create Group-Scoped Access Token
+- type: Arazzo
+  url: arazzo/artifactory-create-user-verify-membership-workflow.yml
+  name: Artifactory Create User and Verify Membership
+- type: Arazzo
+  url: arazzo/artifactory-decommission-repository-workflow.yml
+  name: Artifactory Decommission Repository
+- type: Arazzo
+  url: arazzo/artifactory-deploy-tag-search-artifact-workflow.yml
+  name: Artifactory Deploy, Tag, and Search Artifact
+- type: Arazzo
+  url: arazzo/artifactory-gavc-search-tag-workflow.yml
+  name: Artifactory GAVC Search and Tag
+- type: Arazzo
+  url: arazzo/artifactory-inspect-docker-image-manifest-workflow.yml
+  name: Artifactory Inspect Docker Image Manifest
+- type: Arazzo
+  url: arazzo/artifactory-move-artifact-cleanup-workflow.yml
+  name: Artifactory Move Artifact and Clean Up
+- type: Arazzo
+  url: arazzo/artifactory-onboard-user-group-permission-workflow.yml
+  name: Artifactory Onboard User with Group and Permission
+- type: Arazzo
+  url: arazzo/artifactory-promote-artifact-across-repositories-workflow.yml
+  name: Artifactory Promote Artifact Across Repositories
+- type: Arazzo
+  url: arazzo/artifactory-promote-docker-image-workflow.yml
+  name: Artifactory Promote Docker Image
+- type: Arazzo
+  url: arazzo/artifactory-provision-repository-deploy-artifact-workflow.yml
+  name: Artifactory Provision Repository and Deploy Artifact
+- type: Arazzo
+  url: arazzo/artifactory-publish-build-set-retention-workflow.yml
+  name: Artifactory Publish Build and Set Retention
+- type: Arazzo
+  url: arazzo/artifactory-publish-promote-build-workflow.yml
+  name: Artifactory Publish and Promote Build
+- type: Arazzo
+  url: arazzo/artifactory-rename-build-verify-workflow.yml
+  name: Artifactory Rename Build and Verify
+- type: TermsOfService
+  url: https://jfrog.com/terms-of-service/
+  title: Terms of Service
+- type: PrivacyPolicy
+  url: https://jfrog.com/privacy-policy/
+  title: Privacy Policy
+- type: StatusPage
+  url: https://status.jfrog.com/
+  title: Status Page
+- type: Pricing
+  url: https://jfrog.com/pricing/
+  title: Pricing
+- type: Blog
+  url: https://jfrog.com/blog/
+  title: Blog
+- type: GitHubOrganization
+  url: https://github.com/jfrog
+  title: JFrog GitHub
+- type: X
+  url: https://twitter.com/jfrog
+  title: JFrog on X
+- type: Support
+  url: https://jfrog.com/support/
+  title: Support
+- type: Portal
+  url: https://jfrog.com/developers/
+  title: Developer Portal
+- type: Documentation
+  url: https://jfrog.com/help/
+  title: Documentation
+- type: GettingStarted
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+  title: Getting Started
+- type: Signup
+  url: https://jfrog.com/start-free/
+  title: Sign Up Free
+- type: Login
+  url: https://my.jfrog.com/login/
+  title: Login
+- type: Resources
+  url: https://community.jfrog.com/
+  title: JFrog Community
+- type: YouTube
+  url: https://www.youtube.com/@jfrog
+  title: YouTube
+- type: CLI
+  url: https://jfrog.com/help/r/jfrog-cli/jfrog-cli
+  title: JFrog CLI
+- type: ChangeLog
+  url: https://jfrog.com/help/r/jfrog-release-information/jfrog-release-notes
+  title: Release Notes
+- type: Features
+  data:
+  - name: Universal Package Management
+    description: Single repository manager supporting 30+ package formats including Maven, npm, NuGet,
+      PyPI, Docker, Helm, Conda, Conan, and more.
+  - name: Artifact Metadata and Search
+    description: Rich metadata tagging and AQL query language for finding artifacts based on properties,
+      statistics, dates, and custom attributes.
+  - name: Build Integration
+    description: Native CI/CD integration publishing build information to track which artifacts were produced
+      by which build, enabling full artifact traceability.
+  - name: Security and Permissions
+    description: Fine-grained permission targets, LDAP/SAML/SSO integration, API key management, and access
+      tokens for secure artifact access control.
+  - name: Replication
+    description: Push and pull replication across multiple Artifactory instances for geo-distributed teams
+      and disaster recovery.
+  - name: Docker Registry
+    description: Full Docker Registry v2 API compliance for pushing, pulling, and managing Docker images
+      with automated vulnerability scanning.
+- type: UseCases
+  data:
+  - name: CI/CD Pipeline Integration
+    description: Development teams integrate Artifactory with Jenkins, GitHub Actions, and other CI/CD
+      tools to store, version, and distribute build artifacts.
+  - name: Container Registry
+    description: Platform engineering teams use Artifactory as an enterprise Docker registry with security
+      scanning, access controls, and promotion workflows.
+  - name: Dependency Proxy
+    description: Organizations proxy public package registries (npm, PyPI, Maven Central) through Artifactory
+      to cache dependencies, apply security policies, and ensure build reproducibility.
+  - name: Release Management
+    description: Release engineers promote artifacts through staging environments using build promotion,
+      managing the lifecycle from snapshot to release.
+- type: Integrations
+  data:
+  - name: Jenkins
+    description: Official Jenkins Artifactory Plugin for publishing artifacts and build information from
+      Jenkins pipelines.
+  - name: GitHub Actions
+    description: JFrog GitHub Actions for integrating Artifactory into GitHub CI/CD workflows.
+  - name: JFrog Xray
+    description: Deep integration with JFrog Xray for continuous security and compliance scanning of artifacts
+      and dependencies.
+  - name: JFrog Pipelines
+    description: Native integration with JFrog Pipelines for end-to-end CI/CD orchestration using Artifactory
+      as the artifact store.
+- type: Integrations
+  url: https://jfrog.com/integrations/
 integrations:
-  - name: Docker
-  - name: Maven
+- name: Docker
+- name: Maven
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
