@@ -1,203 +1,36 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: JFrog Artifactory
-providerId: artifactory
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: true
-tags:
-  - Artifacts
-  - DevOps
-  - CI/CD
-  - Docker Registry
-  - Package Management
-  - Repository
-description: JFrog prices Artifactory by SaaS subscription tier with included base consumption (storage)
-  plus tiered overage on storage. Self-managed plans are sold annually by server count. Per-API-call
-  pricing is not published; APIs are included with the platform subscription.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://jfrog.com/pricing/
 sources:
-  - https://jfrog.com/pricing/
+- https://jfrog.com/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T131751
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+note: Pro listed as $150 / Month with limited time offer price $50 / Month (Save $100/mo). Security/MLOps
+  bundles list base bundle of 200 Devs / 500 Devs without prices.
+plan_count: 3
+currency: USD
 plans:
-  - id: artifactory-pro-saas
-    name: Pro (SaaS)
-    type: subscription
-    description: SaaS Artifactory entry tier including 25 GB base consumption.
-    entries:
-      - label: Subscription
-        name: subscription_pro
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: $50/month (limited-time, regular $150/month)
-        userMultiplied: false
-      - label: Included Storage
-        name: storage_included
-        type: quota
-        metric: gb
-        limit: 25
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Storage Overage
-        name: storage_overage
-        type: tiered
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: $0.33–$1.25/GB (tiered by volume)
-        userMultiplied: false
-    elements:
-      - name: Universal Binary Repository
-      - name: Container Registry
-      - name: ML Model Registry
-      - name: CI/CD Integration
-      - name: Community Support
-  - id: artifactory-enterprise-x-saas
-    name: Enterprise X (SaaS)
-    type: subscription
-    description: SaaS Artifactory tier with HA, federation, SSO/SAML, SCA scanning, and 24/7 SLA support.
-      Includes 125 GB base consumption.
-    entries:
-      - label: Subscription
-        name: subscription_ent_x
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: starting at $950/month
-        userMultiplied: false
-      - label: Included Storage
-        name: storage_included
-        type: quota
-        metric: gb
-        limit: 125
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Storage Overage
-        name: storage_overage
-        type: tiered
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: $0.33–$1.25/GB (tiered by volume)
-        userMultiplied: false
-    elements:
-      - name: High Availability (99.9% Uptime)
-      - name: Artifact Federation
-      - name: Automated Cleanup
-      - name: SSO/SAML
-      - name: GitHub Integration
-      - name: SCA Scanning
-      - name: ML Model Security
-      - name: 24/7 SLA Support
-  - id: artifactory-enterprise-plus-saas
-    name: Enterprise+ (SaaS)
-    type: enterprise
-    description: SaaS tier with multisite federation, distribution, advanced network topologies, AppTrust
-      governance, and 24/7 high-touch support with technical account lead.
-    entries:
-      - label: Subscription
-        name: subscription_ent_plus
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Included Storage
-        name: storage_included
-        type: quota
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Multisite Federation
-      - name: Distribution
-      - name: Advanced Network Topologies
-      - name: Release Integrity
-      - name: AppTrust Governance
-      - name: 24/7 High Touch Support
-      - name: Technical Account Lead
-  - id: artifactory-pro-x-self-managed
-    name: Pro X (Self-Managed)
-    type: subscription
-    description: Self-managed Artifactory annual subscription, sold per server.
-    entries:
-      - label: Annual Subscription
-        name: subscription_self_pro_x
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: starting at $27,000/year (1 server)
-        userMultiplied: false
-    elements:
-      - name: Self-Hosted Deployment
-      - name: Single Server
-  - id: artifactory-enterprise-x-self-managed
-    name: Enterprise X (Self-Managed)
-    type: subscription
-    description: Self-managed Enterprise X annual subscription with multi-server cluster.
-    entries:
-      - label: Annual Subscription
-        name: subscription_self_ent_x
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: starting at $51,000/year (3 servers)
-        userMultiplied: false
-    elements:
-      - name: Self-Hosted Deployment
-      - name: 3-Server Cluster
-      - name: HA Configuration
-  - id: artifactory-enterprise-plus-self-managed
-    name: Enterprise+ (Self-Managed)
-    type: enterprise
-    description: Self-managed Enterprise+ for 6+ servers with custom-negotiated terms.
-    entries:
-      - label: Annual Subscription
-        name: subscription_self_ent_plus
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: custom (6+ servers)
-        userMultiplied: false
-    elements:
-      - name: Self-Hosted Deployment
-      - name: 6+ Servers
-      - name: Custom Terms
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- name: Pro
+  price_text: $50 / Month
+  price: 50
+  currency: USD
+  period: month
+  included_quota: DevOps 25 GB Base Consumption
+- name: Enterprise X
+  price_text: $950 / Month
+  price: 950
+  currency: USD
+  period: month
+  included_quota: DevOps 125 GB Base Consumption
+- name: Enterprise +
+  price_text: 'Custom Pricing: Let''s Talk'
+  period: none
+  included_quota: DevOps Custom Consumption
+rate_limit_statements:
+- Unlimited Docker Hub Pulls

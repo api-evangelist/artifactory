@@ -567,6 +567,8 @@ apis:
   - type: JSONSchema
     url: json-schema/artifactory-build-info.json
 common:
+- type: Plans
+  url: plans/artifactory-plans-pricing.yml
 - type: Website
   url: https://www.jfrog.com/
 - type: CapabilityMap
