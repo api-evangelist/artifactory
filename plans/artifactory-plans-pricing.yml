@@ -10,6 +10,12 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: business-product
 pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-09-20'
+  evidence: SaaS Self-Managed
+  managed_tier: Pro
 published: true
 note: Pro listed as $150 / Month with limited time offer price $50 / Month (Save $100/mo). Security/MLOps
   bundles list base bundle of 200 Devs / 500 Devs without prices.
