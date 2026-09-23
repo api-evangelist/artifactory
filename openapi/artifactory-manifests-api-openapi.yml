@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search Manifests API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
-  version: 7.x
+  title: JFrog Artifactory Docker Registry Manifests API
+  description: Docker Registry HTTP API V2 implementation in JFrog Artifactory. Provides endpoints for managing Docker images including pushing and pulling layers and manifests, listing tags, and managing repositories. Artifactory acts as a fully compliant Docker registry with additional features like promotion and property management.
+  version: v2
   contact:
     name: JFrog Support
     url: https://jfrog.com/support/
@@ -12,15 +12,14 @@ info:
     url: https://jfrog.com/terms-of-service/
   termsOfService: https://jfrog.com/terms-of-service/
 servers:
-- url: https://{server}/artifactory
-  description: JFrog Artifactory Server
+- url: https://{server}
+  description: JFrog Artifactory Docker Registry
   variables:
     server:
       default: myserver.jfrog.io
       description: Your JFrog Platform deployment URL
 security:
 - BearerAuth: []
-- ApiKeyAuth: []
 - BasicAuth: []
 tags:
 - name: Manifests
@@ -125,20 +124,51 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ManifestV2:
+      type: object
+      description: Docker Image Manifest V2, Schema 2 (or OCI Image Manifest)
+      properties:
+        schemaVersion:
+          type: integer
+          description: Schema version (always 2)
+          example: 2
+        mediaType:
+          type: string
+          description: Media type of the manifest
+          example: application/vnd.docker.distribution.manifest.v2+json
+        config:
+          type: object
+          description: Image configuration object reference
+          properties:
+            mediaType:
+              type: string
+              description: Media type of the config object
+              example: application/vnd.docker.container.image.v1+json
+            size:
+              type: integer
+              description: Size in bytes
+            digest:
+              type: string
+              description: Content digest
+              example: sha256:abc123...
+        layers:
+          type: array
+          description: List of layer references
+          items:
+            type: object
+            properties:
+              mediaType:
+                type: string
+                description: Media type of the layer
+                example: application/vnd.docker.image.rootfs.diff.tar.gzip
+              size:
+                type: integer
+                description: Size in bytes
+              digest:
+                type: string
+                description: Content digest
+                example: sha256:def456...
     ManifestList:
       type: object
       description: Docker Manifest List (or OCI Image Index) for multi-arch images
@@ -198,59 +228,20 @@ components:
               detail:
                 type: string
                 description: Additional error details
-    ManifestV2:
-      type: object
-      description: Docker Image Manifest V2, Schema 2 (or OCI Image Manifest)
-      properties:
-        schemaVersion:
-          type: integer
-          description: Schema version (always 2)
-          example: 2
-        mediaType:
-          type: string
-          description: Media type of the manifest
-          example: application/vnd.docker.distribution.manifest.v2+json
-        config:
-          type: object
-          description: Image configuration object reference
-          properties:
-            mediaType:
-              type: string
-              description: Media type of the config object
-              example: application/vnd.docker.container.image.v1+json
-            size:
-              type: integer
-              description: Size in bytes
-            digest:
-              type: string
-              description: Content digest
-              example: sha256:abc123...
-        layers:
-          type: array
-          description: List of layer references
-          items:
-            type: object
-            properties:
-              mediaType:
-                type: string
-                description: Media type of the layer
-                example: application/vnd.docker.image.rootfs.diff.tar.gzip
-              size:
-                type: integer
-                description: Size in bytes
-              digest:
-                type: string
-                description: Content digest
-                example: sha256:def456...
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    ImageName:
-      name: name
-      in: path
-      required: true
-      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
-      schema:
-        type: string
-        example: library/nginx
     Reference:
       name: reference
       in: path
@@ -259,20 +250,23 @@ components:
       schema:
         type: string
         example: latest
+    ImageName:
+      name: name
+      in: path
+      required: true
+      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
+      schema:
+        type: string
+        example: library/nginx
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      description: Access token authentication
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-JFrog-Art-Api
-      description: API key authentication via header
+      description: Docker token authentication. Obtain a token from the authentication service endpoint returned in the WWW-Authenticate header.
     BasicAuth:
       type: http
       scheme: basic
-      description: HTTP Basic authentication
+      description: HTTP Basic authentication using Artifactory credentials
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory Docker Registry Documentation
+  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry

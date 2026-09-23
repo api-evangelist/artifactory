@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search Build Promotion API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  title: JFrog Artifactory Build Integration Build Promotion API
+  description: API for publishing and managing build information from CI/CD systems in JFrog Artifactory. Supports publishing build info, promoting builds between repositories, managing build retention, and querying build details including modules, artifacts, and dependencies.
   version: 7.x
   contact:
     name: JFrog Support
@@ -76,14 +76,14 @@ components:
         type: string
         example: my-application
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    Unauthorized:
+      description: Unauthorized - authentication required
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -117,20 +117,6 @@ components:
             message:
               type: string
               description: Result message
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
     BuildPromotionRequest:
       type: object
       required:
@@ -186,6 +172,20 @@ components:
           type: boolean
           description: Perform a dry run without making changes
           default: false
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
   securitySchemes:
     BearerAuth:
       type: http
@@ -201,5 +201,5 @@ components:
       scheme: basic
       description: HTTP Basic authentication
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory Build Integration Documentation
+  url: https://jfrog.com/help/r/jfrog-rest-apis/builds

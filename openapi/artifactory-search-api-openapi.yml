@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  title: JFrog Artifactory REST Search API
+  description: Comprehensive REST API for managing artifacts, repositories, security, and system configuration in JFrog Artifactory. Provides endpoints for CRUD operations on repositories and artifacts, user and group management, permission targets, storage information, and system-level operations.
   version: 7.x
   contact:
     name: JFrog Support
@@ -267,16 +267,16 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: Access token authentication
+      description: Access token authentication. Use the token from /api/security/token.
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-JFrog-Art-Api
-      description: API key authentication via header
+      description: API key authentication via header.
     BasicAuth:
       type: http
       scheme: basic
-      description: HTTP Basic authentication
+      description: HTTP Basic authentication using username and password.
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory REST API Documentation
+  url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis

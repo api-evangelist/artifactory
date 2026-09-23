@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search Build Info API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  title: JFrog Artifactory Build Integration Build Info API
+  description: API for publishing and managing build information from CI/CD systems in JFrog Artifactory. Supports publishing build info, promoting builds between repositories, managing build retention, and querying build details including modules, artifacts, and dependencies.
   version: 7.x
   contact:
     name: JFrog Support
@@ -97,43 +97,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    BuildStatus:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Promotion status name
-          example: Released
-        comment:
-          type: string
-          description: Status comment
-        repository:
-          type: string
-          description: Target repository for the promotion
-        timestamp:
-          type: string
-          format: date-time
-          description: When the status was applied
-        user:
-          type: string
-          description: User who applied the status
-        ciUser:
-          type: string
-          description: CI user who triggered the promotion
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
     BuildInfoPublish:
       type: object
       required:
@@ -257,6 +220,65 @@ components:
                 type: string
                 format: date-time
                 description: When this build run started
+    BuildModule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Module identifier
+          example: com.example:my-module:1.0.0
+        artifacts:
+          type: array
+          description: Artifacts produced by this module
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Artifact type
+                example: jar
+              sha1:
+                type: string
+                description: SHA-1 checksum
+              sha256:
+                type: string
+                description: SHA-256 checksum
+              md5:
+                type: string
+                description: MD5 checksum
+              name:
+                type: string
+                description: Artifact name
+                example: my-module-1.0.0.jar
+        dependencies:
+          type: array
+          description: Dependencies consumed by this module
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Dependency type
+              sha1:
+                type: string
+                description: SHA-1 checksum
+              sha256:
+                type: string
+                description: SHA-256 checksum
+              md5:
+                type: string
+                description: MD5 checksum
+              id:
+                type: string
+                description: Dependency identifier
+                example: org.apache.commons:commons-lang3:3.12.0
+              scopes:
+                type: array
+                items:
+                  type: string
+                description: Dependency scopes
+                example:
+                - compile
     BuildInfo:
       type: object
       properties:
@@ -348,65 +370,43 @@ components:
           additionalProperties:
             type: string
           description: Build properties (key-value pairs)
-    BuildModule:
+    BuildStatus:
       type: object
       properties:
-        id:
+        status:
           type: string
-          description: Module identifier
-          example: com.example:my-module:1.0.0
-        artifacts:
+          description: Promotion status name
+          example: Released
+        comment:
+          type: string
+          description: Status comment
+        repository:
+          type: string
+          description: Target repository for the promotion
+        timestamp:
+          type: string
+          format: date-time
+          description: When the status was applied
+        user:
+          type: string
+          description: User who applied the status
+        ciUser:
+          type: string
+          description: CI user who triggered the promotion
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
           type: array
-          description: Artifacts produced by this module
           items:
             type: object
             properties:
-              type:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
                 type: string
-                description: Artifact type
-                example: jar
-              sha1:
-                type: string
-                description: SHA-1 checksum
-              sha256:
-                type: string
-                description: SHA-256 checksum
-              md5:
-                type: string
-                description: MD5 checksum
-              name:
-                type: string
-                description: Artifact name
-                example: my-module-1.0.0.jar
-        dependencies:
-          type: array
-          description: Dependencies consumed by this module
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                description: Dependency type
-              sha1:
-                type: string
-                description: SHA-1 checksum
-              sha256:
-                type: string
-                description: SHA-256 checksum
-              md5:
-                type: string
-                description: MD5 checksum
-              id:
-                type: string
-                description: Dependency identifier
-                example: org.apache.commons:commons-lang3:3.12.0
-              scopes:
-                type: array
-                items:
-                  type: string
-                description: Dependency scopes
-                example:
-                - compile
+                description: Error message
   parameters:
     BuildNumber:
       name: buildNumber
@@ -425,14 +425,14 @@ components:
         type: string
         example: my-application
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    Unauthorized:
+      description: Unauthorized - authentication required
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -464,5 +464,5 @@ components:
       scheme: basic
       description: HTTP Basic authentication
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory Build Integration Documentation
+  url: https://jfrog.com/help/r/jfrog-rest-apis/builds

@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search Artifacts & Storage API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  title: JFrog Artifactory REST Artifacts & Storage API
+  description: Comprehensive REST API for managing artifacts, repositories, security, and system configuration in JFrog Artifactory. Provides endpoints for CRUD operations on repositories and artifacts, user and group management, permission targets, storage information, and system-level operations.
   version: 7.x
   contact:
     name: JFrog Support
@@ -328,34 +328,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ItemProperties:
-      type: object
-      properties:
-        properties:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-          description: Map of property names to arrays of values
-        uri:
-          type: string
-          format: uri
-          description: URI of the item
-    MoveOrCopyResult:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            type: object
-            properties:
-              level:
-                type: string
-                description: Message level (INFO, WARNING, ERROR)
-              message:
-                type: string
-                description: Result message
     FileInfo:
       type: object
       properties:
@@ -401,20 +373,69 @@ components:
           type: string
           format: uri
           description: API URI for the file info
-    ErrorResponse:
+    DeployResponse:
       type: object
       properties:
-        errors:
+        repo:
+          type: string
+          description: Repository key
+        path:
+          type: string
+          description: Deployed artifact path
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        createdBy:
+          type: string
+          description: User who deployed
+        downloadUri:
+          type: string
+          format: uri
+          description: Download URI for the deployed artifact
+        mimeType:
+          type: string
+          description: MIME type
+        size:
+          type: integer
+          description: File size in bytes
+        checksums:
+          $ref: '#/components/schemas/Checksums'
+        originalChecksums:
+          $ref: '#/components/schemas/Checksums'
+        uri:
+          type: string
+          format: uri
+          description: API URI for the deployed artifact
+    Checksums:
+      type: object
+      properties:
+        sha1:
+          type: string
+          description: SHA-1 checksum
+          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
+        sha256:
+          type: string
+          description: SHA-256 checksum
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 checksum
+          example: d41d8cd98f00b204e9800998ecf8427e
+    MoveOrCopyResult:
+      type: object
+      properties:
+        messages:
           type: array
           items:
             type: object
             properties:
-              status:
-                type: integer
-                description: HTTP status code
+              level:
+                type: string
+                description: Message level (INFO, WARNING, ERROR)
               message:
                 type: string
-                description: Error message
+                description: Result message
     FolderInfo:
       type: object
       properties:
@@ -457,64 +478,43 @@ components:
           type: string
           format: uri
           description: API URI for the folder info
-    Checksums:
+    ItemProperties:
       type: object
       properties:
-        sha1:
-          type: string
-          description: SHA-1 checksum
-          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
-        sha256:
-          type: string
-          description: SHA-256 checksum
-          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        md5:
-          type: string
-          description: MD5 checksum
-          example: d41d8cd98f00b204e9800998ecf8427e
-    DeployResponse:
-      type: object
-      properties:
-        repo:
-          type: string
-          description: Repository key
-        path:
-          type: string
-          description: Deployed artifact path
-        created:
-          type: string
-          format: date-time
-          description: Creation timestamp
-        createdBy:
-          type: string
-          description: User who deployed
-        downloadUri:
-          type: string
-          format: uri
-          description: Download URI for the deployed artifact
-        mimeType:
-          type: string
-          description: MIME type
-        size:
-          type: integer
-          description: File size in bytes
-        checksums:
-          $ref: '#/components/schemas/Checksums'
-        originalChecksums:
-          $ref: '#/components/schemas/Checksums'
+        properties:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Map of property names to arrays of values
         uri:
           type: string
           format: uri
-          description: API URI for the deployed artifact
+          description: URI of the item
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    Unauthorized:
+      description: Unauthorized - authentication required
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -532,14 +532,6 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    ItemPath:
-      name: itemPath
-      in: path
-      required: true
-      description: The path to the artifact or folder within the repository
-      schema:
-        type: string
-        example: org/example/artifact/1.0/artifact-1.0.jar
     RepoKey:
       name: repoKey
       in: path
@@ -548,20 +540,28 @@ components:
       schema:
         type: string
         example: libs-release-local
+    ItemPath:
+      name: itemPath
+      in: path
+      required: true
+      description: The path to the artifact or folder within the repository
+      schema:
+        type: string
+        example: org/example/artifact/1.0/artifact-1.0.jar
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      description: Access token authentication
+      description: Access token authentication. Use the token from /api/security/token.
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-JFrog-Art-Api
-      description: API key authentication via header
+      description: API key authentication via header.
     BasicAuth:
       type: http
       scheme: basic
-      description: HTTP Basic authentication
+      description: HTTP Basic authentication using username and password.
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory REST API Documentation
+  url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis

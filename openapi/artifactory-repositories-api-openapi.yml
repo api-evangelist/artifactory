@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: JFrog Artifactory Query Language (AQL) AQL Search Repositories API
-  description: Advanced search API using Artifactory Query Language (AQL), a SQL-like query language for finding and filtering artifacts, builds, and entries in JFrog Artifactory. AQL provides powerful querying capabilities including domain queries, field filtering, sorting, limiting, and inclusion of related entities.
+  title: JFrog Artifactory REST Repositories API
+  description: Comprehensive REST API for managing artifacts, repositories, security, and system configuration in JFrog Artifactory. Provides endpoints for CRUD operations on repositories and artifacts, user and group management, permission targets, storage information, and system-level operations.
   version: 7.x
   contact:
     name: JFrog Support
@@ -156,31 +156,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     RepositoryListItem:
       type: object
@@ -208,20 +183,6 @@ components:
           type: string
           description: Package type
           example: Maven
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
     RepositoryConfiguration:
       type: object
       required:
@@ -335,6 +296,45 @@ components:
           items:
             type: string
           description: Associated environments
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     RepoKey:
       name: repoKey
@@ -348,16 +348,16 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: Access token authentication
+      description: Access token authentication. Use the token from /api/security/token.
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-JFrog-Art-Api
-      description: API key authentication via header
+      description: API key authentication via header.
     BasicAuth:
       type: http
       scheme: basic
-      description: HTTP Basic authentication
+      description: HTTP Basic authentication using username and password.
 externalDocs:
-  description: Artifactory Query Language Documentation
-  url: https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language
+  description: JFrog Artifactory REST API Documentation
+  url: https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis
