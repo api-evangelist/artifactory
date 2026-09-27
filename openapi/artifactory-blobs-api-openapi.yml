@@ -288,15 +288,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    ImageName:
-      name: name
-      in: path
-      required: true
-      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
-      schema:
-        type: string
-        example: library/nginx
   schemas:
     ErrorResponse:
       type: object
@@ -315,6 +306,15 @@ components:
               detail:
                 type: string
                 description: Additional error details
+  parameters:
+    ImageName:
+      name: name
+      in: path
+      required: true
+      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
+      schema:
+        type: string
+        example: library/nginx
   securitySchemes:
     BearerAuth:
       type: http

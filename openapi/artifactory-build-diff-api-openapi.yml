@@ -54,24 +54,21 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    BuildNumber:
-      name: buildNumber
-      in: path
-      required: true
-      description: The build number (version)
-      schema:
-        type: string
-        example: '123'
-    BuildName:
-      name: buildName
-      in: path
-      required: true
-      description: The name of the build
-      schema:
-        type: string
-        example: my-application
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
     BuildDiff:
       type: object
       properties:
@@ -188,20 +185,6 @@ components:
               type: object
               additionalProperties:
                 type: string
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
   responses:
     Unauthorized:
       description: Unauthorized - authentication required
@@ -215,6 +198,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    BuildNumber:
+      name: buildNumber
+      in: path
+      required: true
+      description: The build number (version)
+      schema:
+        type: string
+        example: '123'
+    BuildName:
+      name: buildName
+      in: path
+      required: true
+      description: The name of the build
+      schema:
+        type: string
+        example: my-application
   securitySchemes:
     BearerAuth:
       type: http

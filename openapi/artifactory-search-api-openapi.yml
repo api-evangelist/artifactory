@@ -230,18 +230,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    SearchResults:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            type: object
-            properties:
-              uri:
-                type: string
-                format: uri
-                description: URI to the artifact storage info
     ErrorResponse:
       type: object
       properties:
@@ -256,6 +244,18 @@ components:
               message:
                 type: string
                 description: Error message
+    SearchResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              uri:
+                type: string
+                format: uri
+                description: URI to the artifact storage info
   responses:
     Unauthorized:
       description: Unauthorized - authentication required
