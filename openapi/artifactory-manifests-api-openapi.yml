@@ -125,23 +125,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-                description: Error code
-              message:
-                type: string
-                description: Error message
-              detail:
-                type: string
-                description: Additional error details
     ManifestV2:
       type: object
       description: Docker Image Manifest V2, Schema 2 (or OCI Image Manifest)
@@ -228,6 +211,23 @@ components:
                     type: string
                     description: Architecture variant
                     example: v8
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code
+              message:
+                type: string
+                description: Error message
+              detail:
+                type: string
+                description: Additional error details
   responses:
     Unauthorized:
       description: Authentication required

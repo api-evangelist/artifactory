@@ -129,6 +129,15 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    BuildName:
+      name: buildName
+      in: path
+      required: true
+      description: The name of the build
+      schema:
+        type: string
+        example: my-application
   schemas:
     BuildRetentionConfig:
       type: object
@@ -168,6 +177,12 @@ components:
                 type: string
                 description: Error message
   responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: Bad request - invalid input
       content:
@@ -180,21 +195,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    BuildName:
-      name: buildName
-      in: path
-      required: true
-      description: The name of the build
-      schema:
-        type: string
-        example: my-application
   securitySchemes:
     BearerAuth:
       type: http

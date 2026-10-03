@@ -275,15 +275,24 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    ImageName:
+      name: name
+      in: path
+      required: true
+      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
+      schema:
+        type: string
+        example: library/nginx
   responses:
-    NotFound:
-      description: Resource not found
+    Unauthorized:
+      description: Authentication required
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication required
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -306,15 +315,6 @@ components:
               detail:
                 type: string
                 description: Additional error details
-  parameters:
-    ImageName:
-      name: name
-      in: path
-      required: true
-      description: Docker image name, which may include multiple path components (e.g., library/nginx or myproject/myimage)
-      schema:
-        type: string
-        example: library/nginx
   securitySchemes:
     BearerAuth:
       type: http
