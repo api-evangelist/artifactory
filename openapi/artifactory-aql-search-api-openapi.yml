@@ -120,6 +120,41 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    AqlResult:
+      type: object
+      properties:
+        results:
+          type: array
+          description: Array of matched results. Structure depends on the queried domain and included fields.
+          items:
+            $ref: '#/components/schemas/AqlResultItem'
+        range:
+          type: object
+          description: Pagination information about the returned results
+          properties:
+            start_pos:
+              type: integer
+              description: Starting position of the results (offset)
+            end_pos:
+              type: integer
+              description: Ending position of the results
+            total:
+              type: integer
+              description: Total number of results matching the query (may exceed the returned count if limit was applied)
     AqlResultItem:
       type: object
       description: A single result item. Fields present depend on the queried domain and the include clause. For the items domain, common fields are shown.
@@ -224,41 +259,6 @@ components:
               remote_downloaded_by:
                 type: string
                 description: User who last remote downloaded
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
-    AqlResult:
-      type: object
-      properties:
-        results:
-          type: array
-          description: Array of matched results. Structure depends on the queried domain and included fields.
-          items:
-            $ref: '#/components/schemas/AqlResultItem'
-        range:
-          type: object
-          description: Pagination information about the returned results
-          properties:
-            start_pos:
-              type: integer
-              description: Starting position of the results (offset)
-            end_pos:
-              type: integer
-              description: Ending position of the results
-            total:
-              type: integer
-              description: Total number of results matching the query (may exceed the returned count if limit was applied)
   securitySchemes:
     BearerAuth:
       type: http

@@ -58,24 +58,37 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    BuildName:
-      name: buildName
-      in: path
-      required: true
-      description: The name of the build
-      schema:
-        type: string
-        example: my-application
-    BuildNumber:
-      name: buildNumber
-      in: path
-      required: true
-      description: The build number (version)
-      schema:
-        type: string
-        example: '123'
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    BuildPromotionResult:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Result status
+          example: success
+        messages:
+          type: object
+          properties:
+            level:
+              type: string
+              description: Message level
+            message:
+              type: string
+              description: Result message
     BuildPromotionRequest:
       type: object
       required:
@@ -131,51 +144,9 @@ components:
           type: boolean
           description: Perform a dry run without making changes
           default: false
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
-    BuildPromotionResult:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Result status
-          example: success
-        messages:
-          type: object
-          properties:
-            level:
-              type: string
-              description: Message level
-            message:
-              type: string
-              description: Result message
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid input
       content:
         application/json:
           schema:
@@ -186,6 +157,35 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    BuildNumber:
+      name: buildNumber
+      in: path
+      required: true
+      description: The build number (version)
+      schema:
+        type: string
+        example: '123'
+    BuildName:
+      name: buildName
+      in: path
+      required: true
+      description: The name of the build
+      schema:
+        type: string
+        example: my-application
   securitySchemes:
     BearerAuth:
       type: http

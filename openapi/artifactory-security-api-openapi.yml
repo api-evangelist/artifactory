@@ -393,78 +393,20 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    User:
+    ErrorResponse:
       type: object
       properties:
-        name:
-          type: string
-          description: Username
-        email:
-          type: string
-          format: email
-          description: Email address
-        password:
-          type: string
-          description: Password (write-only, never returned)
-        admin:
-          type: boolean
-          description: Whether the user is an admin
-        profileUpdatable:
-          type: boolean
-          description: Whether the user can update their profile
-        disableUIAccess:
-          type: boolean
-          description: Whether UI access is disabled
-        internalPasswordDisabled:
-          type: boolean
-          description: Whether internal password is disabled
-        groups:
+        errors:
           type: array
           items:
-            type: string
-          description: Groups the user belongs to
-        lastLoggedIn:
-          type: string
-          format: date-time
-          description: Last login timestamp
-        realm:
-          type: string
-          description: Authentication realm
-        status:
-          type: string
-          description: User status
-          enum:
-          - enabled
-          - disabled
-    Group:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Group name
-        description:
-          type: string
-          description: Group description
-        autoJoin:
-          type: boolean
-          description: Whether new users automatically join this group
-        realm:
-          type: string
-          description: Authentication realm
-        realmAttributes:
-          type: string
-          description: Realm attributes
-        adminPrivileges:
-          type: boolean
-          description: Whether the group has admin privileges
-        external:
-          type: boolean
-          description: Whether this is an external group
-        usersNames:
-          type: array
-          items:
-            type: string
-          description: List of users in this group
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
     GroupListItem:
       type: object
       properties:
@@ -563,6 +505,35 @@ components:
               type: array
               items:
                 type: string
+    Group:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Group name
+        description:
+          type: string
+          description: Group description
+        autoJoin:
+          type: boolean
+          description: Whether new users automatically join this group
+        realm:
+          type: string
+          description: Authentication realm
+        realmAttributes:
+          type: string
+          description: Realm attributes
+        adminPrivileges:
+          type: boolean
+          description: Whether the group has admin privileges
+        external:
+          type: boolean
+          description: Whether this is an external group
+        usersNames:
+          type: array
+          items:
+            type: string
+          description: List of users in this group
     PermissionTargetListItem:
       type: object
       properties:
@@ -592,20 +563,49 @@ components:
         refresh_token:
           type: string
           description: Refresh token (if refreshable was true)
-    ErrorResponse:
+    User:
       type: object
       properties:
-        errors:
+        name:
+          type: string
+          description: Username
+        email:
+          type: string
+          format: email
+          description: Email address
+        password:
+          type: string
+          description: Password (write-only, never returned)
+        admin:
+          type: boolean
+          description: Whether the user is an admin
+        profileUpdatable:
+          type: boolean
+          description: Whether the user can update their profile
+        disableUIAccess:
+          type: boolean
+          description: Whether UI access is disabled
+        internalPasswordDisabled:
+          type: boolean
+          description: Whether internal password is disabled
+        groups:
           type: array
           items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
+            type: string
+          description: Groups the user belongs to
+        lastLoggedIn:
+          type: string
+          format: date-time
+          description: Last login timestamp
+        realm:
+          type: string
+          description: Authentication realm
+        status:
+          type: string
+          description: User status
+          enum:
+          - enabled
+          - disabled
     UserListItem:
       type: object
       properties:
@@ -626,14 +626,8 @@ components:
           - enabled
           - disabled
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid input
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -644,8 +638,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
       content:
         application/json:
           schema:

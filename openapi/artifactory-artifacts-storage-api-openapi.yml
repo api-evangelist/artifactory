@@ -328,6 +328,35 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    Checksums:
+      type: object
+      properties:
+        sha1:
+          type: string
+          description: SHA-1 checksum
+          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
+        sha256:
+          type: string
+          description: SHA-256 checksum
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 checksum
+          example: d41d8cd98f00b204e9800998ecf8427e
     MoveOrCopyResult:
       type: object
       properties:
@@ -342,6 +371,40 @@ components:
               message:
                 type: string
                 description: Result message
+    DeployResponse:
+      type: object
+      properties:
+        repo:
+          type: string
+          description: Repository key
+        path:
+          type: string
+          description: Deployed artifact path
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        createdBy:
+          type: string
+          description: User who deployed
+        downloadUri:
+          type: string
+          format: uri
+          description: Download URI for the deployed artifact
+        mimeType:
+          type: string
+          description: MIME type
+        size:
+          type: integer
+          description: File size in bytes
+        checksums:
+          $ref: '#/components/schemas/Checksums'
+        originalChecksums:
+          $ref: '#/components/schemas/Checksums'
+        uri:
+          type: string
+          format: uri
+          description: API URI for the deployed artifact
     FolderInfo:
       type: object
       properties:
@@ -398,20 +461,6 @@ components:
           type: string
           format: uri
           description: URI of the item
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
     FileInfo:
       type: object
       properties:
@@ -457,75 +506,15 @@ components:
           type: string
           format: uri
           description: API URI for the file info
-    DeployResponse:
-      type: object
-      properties:
-        repo:
-          type: string
-          description: Repository key
-        path:
-          type: string
-          description: Deployed artifact path
-        created:
-          type: string
-          format: date-time
-          description: Creation timestamp
-        createdBy:
-          type: string
-          description: User who deployed
-        downloadUri:
-          type: string
-          format: uri
-          description: Download URI for the deployed artifact
-        mimeType:
-          type: string
-          description: MIME type
-        size:
-          type: integer
-          description: File size in bytes
-        checksums:
-          $ref: '#/components/schemas/Checksums'
-        originalChecksums:
-          $ref: '#/components/schemas/Checksums'
-        uri:
-          type: string
-          format: uri
-          description: API URI for the deployed artifact
-    Checksums:
-      type: object
-      properties:
-        sha1:
-          type: string
-          description: SHA-1 checksum
-          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
-        sha256:
-          type: string
-          description: SHA-256 checksum
-          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        md5:
-          type: string
-          description: MD5 checksum
-          example: d41d8cd98f00b204e9800998ecf8427e
-  parameters:
-    ItemPath:
-      name: itemPath
-      in: path
-      required: true
-      description: The path to the artifact or folder within the repository
-      schema:
-        type: string
-        example: org/example/artifact/1.0/artifact-1.0.jar
-    RepoKey:
-      name: repoKey
-      in: path
-      required: true
-      description: The unique key identifying the repository
-      schema:
-        type: string
-        example: libs-release-local
   responses:
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - authentication required
       content:
         application/json:
           schema:
@@ -542,12 +531,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    RepoKey:
+      name: repoKey
+      in: path
+      required: true
+      description: The unique key identifying the repository
+      schema:
+        type: string
+        example: libs-release-local
+    ItemPath:
+      name: itemPath
+      in: path
+      required: true
+      description: The path to the artifact or folder within the repository
+      schema:
+        type: string
+        example: org/example/artifact/1.0/artifact-1.0.jar
   securitySchemes:
     BearerAuth:
       type: http

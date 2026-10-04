@@ -131,6 +131,54 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
+    LicenseInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          description: License type
+          example: Enterprise+
+        validThrough:
+          type: string
+          description: License expiration date
+          example: '2026-12-31T00:00:00.000Z'
+        licensedTo:
+          type: string
+          description: Organization the license is issued to
+    VersionInfo:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Artifactory version number
+          example: 7.77.5
+        revision:
+          type: string
+          description: Build revision
+          example: '77700900'
+        addons:
+          type: array
+          items:
+            type: string
+          description: List of enabled add-on modules
+        license:
+          type: string
+          description: License type
+          example: Enterprise+
     StorageSummary:
       type: object
       properties:
@@ -202,57 +250,9 @@ components:
               percentage:
                 type: string
                 description: Percentage of total storage
-    VersionInfo:
-      type: object
-      properties:
-        version:
-          type: string
-          description: Artifactory version number
-          example: 7.77.5
-        revision:
-          type: string
-          description: Build revision
-          example: '77700900'
-        addons:
-          type: array
-          items:
-            type: string
-          description: List of enabled add-on modules
-        license:
-          type: string
-          description: License type
-          example: Enterprise+
-    LicenseInfo:
-      type: object
-      properties:
-        type:
-          type: string
-          description: License type
-          example: Enterprise+
-        validThrough:
-          type: string
-          description: License expiration date
-          example: '2026-12-31T00:00:00.000Z'
-        licensedTo:
-          type: string
-          description: Organization the license is issued to
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
   responses:
-    BadRequest:
-      description: Bad request - invalid input
+    Unauthorized:
+      description: Unauthorized - authentication required
       content:
         application/json:
           schema:
@@ -263,8 +263,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
+    BadRequest:
+      description: Bad request - invalid input
       content:
         application/json:
           schema:

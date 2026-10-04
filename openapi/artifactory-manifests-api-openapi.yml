@@ -125,6 +125,65 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code
+              message:
+                type: string
+                description: Error message
+              detail:
+                type: string
+                description: Additional error details
+    ManifestList:
+      type: object
+      description: Docker Manifest List (or OCI Image Index) for multi-arch images
+      properties:
+        schemaVersion:
+          type: integer
+          description: Schema version (always 2)
+          example: 2
+        mediaType:
+          type: string
+          description: Media type
+          example: application/vnd.docker.distribution.manifest.list.v2+json
+        manifests:
+          type: array
+          description: List of platform-specific manifests
+          items:
+            type: object
+            properties:
+              mediaType:
+                type: string
+                description: Media type of the referenced manifest
+              size:
+                type: integer
+                description: Size of the referenced manifest
+              digest:
+                type: string
+                description: Digest of the referenced manifest
+              platform:
+                type: object
+                properties:
+                  architecture:
+                    type: string
+                    description: CPU architecture
+                    example: amd64
+                  os:
+                    type: string
+                    description: Operating system
+                    example: linux
+                  variant:
+                    type: string
+                    description: Architecture variant
+                    example: v8
     ManifestV2:
       type: object
       description: Docker Image Manifest V2, Schema 2 (or OCI Image Manifest)
@@ -169,87 +228,7 @@ components:
                 type: string
                 description: Content digest
                 example: sha256:def456...
-    ManifestList:
-      type: object
-      description: Docker Manifest List (or OCI Image Index) for multi-arch images
-      properties:
-        schemaVersion:
-          type: integer
-          description: Schema version (always 2)
-          example: 2
-        mediaType:
-          type: string
-          description: Media type
-          example: application/vnd.docker.distribution.manifest.list.v2+json
-        manifests:
-          type: array
-          description: List of platform-specific manifests
-          items:
-            type: object
-            properties:
-              mediaType:
-                type: string
-                description: Media type of the referenced manifest
-              size:
-                type: integer
-                description: Size of the referenced manifest
-              digest:
-                type: string
-                description: Digest of the referenced manifest
-              platform:
-                type: object
-                properties:
-                  architecture:
-                    type: string
-                    description: CPU architecture
-                    example: amd64
-                  os:
-                    type: string
-                    description: Operating system
-                    example: linux
-                  variant:
-                    type: string
-                    description: Architecture variant
-                    example: v8
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-                description: Error code
-              message:
-                type: string
-                description: Error message
-              detail:
-                type: string
-                description: Additional error details
-  responses:
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    Reference:
-      name: reference
-      in: path
-      required: true
-      description: Image tag or digest reference
-      schema:
-        type: string
-        example: latest
     ImageName:
       name: name
       in: path
@@ -258,6 +237,27 @@ components:
       schema:
         type: string
         example: library/nginx
+    Reference:
+      name: reference
+      in: path
+      required: true
+      description: Image tag or digest reference
+      schema:
+        type: string
+        example: latest
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     BearerAuth:
       type: http
