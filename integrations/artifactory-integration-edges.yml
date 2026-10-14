@@ -1,6 +1,27 @@
 edges:
 - partner_name: Open Container Initiative
   partner: open-container-initiative
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: oci-distribution
+  type: contract
+  degree: declared-unqualified
+  evidence: https://github.com/api-evangelist/artifactory/blob/main/openapi/artifactory-artifactory-extensions-api-openapi.yml#L4
+  evidence_kind: own-contract
+  quote: 'description: Docker Registry HTTP API V2 implementation in JFrog Artifactory. Provides endpoints for managing
+    Docker images including pushing and pulling layers and manifests, listing tags, and managing repositories. Artifactory
+    acts as a f'
+  structural_match:
+    file: artifactory/openapi/artifactory-blobs-api-openapi.yml
+    ops:
+    - blobs
+    - uploads
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-13'
+- partner_name: Open Container Initiative
+  partner: open-container-initiative
   partner_match: register
   type: register
   direction: partner-built
@@ -45,7 +66,7 @@ edges:
     registered_name: Artifactory
     register_id: artifactory
     detected_by: sweep-oci-conformance.py
-    detected: '2026-10-13'
+    detected: '2026-10-14'
 - partner_name: Open Container Initiative
   partner: open-container-initiative
   partner_match: register
@@ -61,26 +82,5 @@ edges:
   degree: full
   evidence_kind: conformance-register
   note: the OCI conformance suite was run against this registry and the result submitted to the OCI register
-- partner_name: Open Container Initiative
-  partner: open-container-initiative
-  partner_match: shape-anchor
-  channel: provider-built
-  relationship: compatible
-  direction: provider-built
-  shape: oci-distribution
-  type: contract
-  degree: declared-unqualified
-  evidence: https://github.com/api-evangelist/artifactory/blob/main/openapi/artifactory-artifactory-extensions-api-openapi.yml#L4
-  evidence_kind: own-contract
-  quote: 'description: Docker Registry HTTP API V2 implementation in JFrog Artifactory. Provides endpoints for managing
-    Docker images including pushing and pulling layers and manifests, listing tags, and managing repositories. Artifactory
-    acts as a f'
-  structural_match:
-    file: artifactory/openapi/artifactory-blobs-api-openapi.yml
-    ops:
-    - blobs
-    - uploads
-  detected_by: sweep-shape-compat.py
-  first_seen: '2026-10-13'
 generated: '2026-10-13'
 method: searched
