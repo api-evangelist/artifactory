@@ -327,6 +327,31 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -342,35 +367,6 @@ components:
               message:
                 type: string
                 description: Error message
-    Checksums:
-      type: object
-      properties:
-        sha1:
-          type: string
-          description: SHA-1 checksum
-          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
-        sha256:
-          type: string
-          description: SHA-256 checksum
-          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        md5:
-          type: string
-          description: MD5 checksum
-          example: d41d8cd98f00b204e9800998ecf8427e
-    MoveOrCopyResult:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            type: object
-            properties:
-              level:
-                type: string
-                description: Message level (INFO, WARNING, ERROR)
-              message:
-                type: string
-                description: Result message
     DeployResponse:
       type: object
       properties:
@@ -447,20 +443,6 @@ components:
           type: string
           format: uri
           description: API URI for the folder info
-    ItemProperties:
-      type: object
-      properties:
-        properties:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-          description: Map of property names to arrays of values
-        uri:
-          type: string
-          format: uri
-          description: URI of the item
     FileInfo:
       type: object
       properties:
@@ -506,31 +488,49 @@ components:
           type: string
           format: uri
           description: API URI for the file info
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    ItemProperties:
+      type: object
+      properties:
+        properties:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Map of property names to arrays of values
+        uri:
+          type: string
+          format: uri
+          description: URI of the item
+    MoveOrCopyResult:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: object
+            properties:
+              level:
+                type: string
+                description: Message level (INFO, WARNING, ERROR)
+              message:
+                type: string
+                description: Result message
+    Checksums:
+      type: object
+      properties:
+        sha1:
+          type: string
+          description: SHA-1 checksum
+          example: da39a3ee5e6b4b0d3255bfef95601890afd80709
+        sha256:
+          type: string
+          description: SHA-256 checksum
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        md5:
+          type: string
+          description: MD5 checksum
+          example: d41d8cd98f00b204e9800998ecf8427e
   parameters:
     RepoKey:
       name: repoKey

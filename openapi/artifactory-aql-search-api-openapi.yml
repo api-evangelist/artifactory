@@ -120,20 +120,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: integer
-                description: HTTP status code
-              message:
-                type: string
-                description: Error message
     AqlResult:
       type: object
       properties:
@@ -155,6 +141,20 @@ components:
             total:
               type: integer
               description: Total number of results matching the query (may exceed the returned count if limit was applied)
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: HTTP status code
+              message:
+                type: string
+                description: Error message
     AqlResultItem:
       type: object
       description: A single result item. Fields present depend on the queried domain and the include clause. For the items domain, common fields are shown.
