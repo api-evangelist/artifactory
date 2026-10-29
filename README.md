@@ -1,4 +1,4 @@
-# JFrog Artifactory (artifactory)
+# JFrog Artifactory
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,139 +66,218 @@
 
 JFrog Artifactory is a universal artifact repository manager supporting all major package formats and build tools including Maven, Gradle, npm, NuGet, PyPI, Docker, Helm, RubyGems, CocoaPods, and more. As the central hub of the JFrog Platform, Artifactory stores, manages, and distributes binary artifacts across the entire software development lifecycle. It integrates with CI/CD pipelines through native plugins for Jenkins, GitHub Actions, CircleCI, and other tools. Artifactory provides comprehensive REST APIs for managing repositories, artifacts, builds, security, and system configuration programmatically.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/artifactory/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/artifactory/refs/heads/main/apis.yml)
+**Areas:** Artifacts · DevOps · CI/CD · docker-registry · Maven · Package Management · Repository
 
-## Scope
+## JFrog Artifactory on APIs.io
 
-- **Type:** Index
+Everything profiled for JFrog Artifactory is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/artifactory/](https://apis.io/providers/artifactory/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (17)
 
-- Artifacts
-- DevOps
-- CI/CD
-- Docker Registry
-- Maven
-- Package Management
-- Repository
+- [JFrog Artifactory AQL Search API](https://apis.io/apis/artifactory/artifactory-aql-search-api/) — Execute AQL queries to search for artifacts, builds, and entries
+- [JFrog Artifactory Extensions API](https://apis.io/apis/artifactory/artifactory-artifactory-extensions-api/) — Artifactory-specific Docker API extensions
+- [JFrog Artifactory Artifacts & Storage API](https://apis.io/apis/artifactory/artifactory-artifacts-storage-api/) — Deploy, retrieve, copy, move, and delete artifacts
+- [JFrog Artifactory Base API](https://apis.io/apis/artifactory/artifactory-base-api/) — API version check and health
+- [JFrog Artifactory Blobs API](https://apis.io/apis/artifactory/artifactory-blobs-api/) — Push and pull image layers (blobs)
+- [JFrog Artifactory Build Diff API](https://apis.io/apis/artifactory/artifactory-build-diff-api/) — Compare build versions
+- [JFrog Artifactory Build Info API](https://apis.io/apis/artifactory/artifactory-build-info-api/) — Publish and retrieve build information
+- [JFrog Artifactory Build Management API](https://apis.io/apis/artifactory/artifactory-build-management-api/) — List, delete, and manage builds
+- [JFrog Artifactory Build Promotion API](https://apis.io/apis/artifactory/artifactory-build-promotion-api/) — Promote builds between repositories
+- [JFrog Artifactory Catalog API](https://apis.io/apis/artifactory/artifactory-catalog-api/) — List available repositories
+- [JFrog Artifactory Manifests API](https://apis.io/apis/artifactory/artifactory-manifests-api/) — Push and pull image manifests
+- [JFrog Artifactory Replication API](https://apis.io/apis/artifactory/artifactory-replication-api/) — Repository replication configuration and management
+- [JFrog Artifactory Repositories API](https://apis.io/apis/artifactory/artifactory-repositories-api/) — Create, read, update, and delete repositories
+- [JFrog Artifactory Search API](https://apis.io/apis/artifactory/artifactory-search-api/) — Search for artifacts using various criteria
+- [JFrog Artifactory Security API](https://apis.io/apis/artifactory/artifactory-security-api/) — Users, groups, permissions, and tokens
+- [JFrog Artifactory System & Configuration API](https://apis.io/apis/artifactory/artifactory-system-configuration-api/) — System health, version, and configuration management
+- [JFrog Artifactory Tags API](https://apis.io/apis/artifactory/artifactory-tags-api/) — The Tags API from JFrog Artifactory — 1 operation(s) for tags.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-01-15
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Arazzo workflows (18)
 
-### Artifactory REST API
+Multi-step workflows that chain operations into a business task.
 
-Comprehensive REST API for managing artifacts, repositories, users, groups, permissions, replication, security, and system configuration in JFrog Artifactory.
+- [Artifactory AQL Find and Delete Artifact](https://apis.io/arazzos/artifactory/artifactory-aql-find-and-delete-artifact-workflow/)
+- [Artifactory Checksum Search and Retrieve](https://apis.io/arazzos/artifactory/artifactory-checksum-search-retrieve-workflow/)
+- [Artifactory Compare Build Versions](https://apis.io/arazzos/artifactory/artifactory-compare-build-versions-workflow/)
+- [Artifactory Configure Repository Replication](https://apis.io/arazzos/artifactory/artifactory-configure-repository-replication-workflow/)
+- [Artifactory Create Group-Scoped Access Token](https://apis.io/arazzos/artifactory/artifactory-create-group-scoped-access-token-workflow/)
+- [Artifactory Create User and Verify Membership](https://apis.io/arazzos/artifactory/artifactory-create-user-verify-membership-workflow/)
+- [Artifactory Decommission Repository](https://apis.io/arazzos/artifactory/artifactory-decommission-repository-workflow/)
+- [Artifactory Deploy, Tag, and Search Artifact](https://apis.io/arazzos/artifactory/artifactory-deploy-tag-search-artifact-workflow/)
+- [Artifactory GAVC Search and Tag](https://apis.io/arazzos/artifactory/artifactory-gavc-search-tag-workflow/)
+- [Artifactory Inspect Docker Image Manifest](https://apis.io/arazzos/artifactory/artifactory-inspect-docker-image-manifest-workflow/)
+- [Artifactory Move Artifact and Clean Up](https://apis.io/arazzos/artifactory/artifactory-move-artifact-cleanup-workflow/)
+- [Artifactory Onboard User with Group and Permission](https://apis.io/arazzos/artifactory/artifactory-onboard-user-group-permission-workflow/)
+- [Artifactory Promote Artifact Across Repositories](https://apis.io/arazzos/artifactory/artifactory-promote-artifact-across-repositories-workflow/)
+- [Artifactory Promote Docker Image](https://apis.io/arazzos/artifactory/artifactory-promote-docker-image-workflow/)
+- [Artifactory Provision Repository and Deploy Artifact](https://apis.io/arazzos/artifactory/artifactory-provision-repository-deploy-artifact-workflow/)
+- [Artifactory Publish Build and Set Retention](https://apis.io/arazzos/artifactory/artifactory-publish-build-set-retention-workflow/)
+- [Artifactory Publish and Promote Build](https://apis.io/arazzos/artifactory/artifactory-publish-promote-build-workflow/)
+- [Artifactory Rename Build and Verify](https://apis.io/arazzos/artifactory/artifactory-rename-build-verify-workflow/)
 
-- **Human URL:** [https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis](https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis)
-- **Base URL:** `https://artifactory.example.com/artifactory/api`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Artifacts
-- Repositories
-- REST
+- [jfrog](https://apis.io/servers/artifactory/jfrog/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://jfrog.com/help/r/jfrog-rest-apis/artifactory-rest-apis)
-- [OpenAPI](openapi/artifactory-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/artifactory-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/artifactory-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Authentication](https://jfrog.com/help/r/jfrog-rest-apis/authentication)
-- [JSON Schema](json-schema/artifactory-repository-configuration.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/artifactory-file-info.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/artifactory-permission-target.json) — [JSON Schema](https://json-schema.org/specification)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Artifactory Query Language (AQL) API
+- [Artifactory Agentic Access](https://apis.io/agentic-access/artifactory/artifactory-agentic-access/)
 
-Advanced search API using a SQL-like query language (AQL) for finding artifacts, builds, modules, and entries based on properties, statistics, and metadata.
+#### JSON Schema (4)
 
-- **Human URL:** [https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language](https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language)
-- **Base URL:** `https://artifactory.example.com/artifactory/api/search/aql`
+The data models the API reads and writes.
 
-#### Tags
+- [Artifactory Build Info](https://apis.io/schemas/artifactory/artifactory-build-info/)
+- [Artifactory File Info](https://apis.io/schemas/artifactory/artifactory-file-info/)
+- [Artifactory Permission Target](https://apis.io/schemas/artifactory/artifactory-permission-target/)
+- [Artifactory Repository Configuration](https://apis.io/schemas/artifactory/artifactory-repository-configuration/)
 
-- AQL
-- Query
-- Search
+#### Collections (23)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://jfrog.com/help/r/jfrog-artifactory-documentation/artifactory-query-language)
-- [OpenAPI](openapi/artifactory-aql-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/artifactory-aql-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/artifactory-aql-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Code Examples](https://jfrog.com/help/r/jfrog-artifactory-documentation/aql-examples)
+- [JFrog Artifactory Query Language (AQL) API](https://apis.io/collections/artifactory/open-artifactory-aql-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search API](https://apis.io/collections/artifactory/open-artifactory-aql-search-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Artifactory Extensions API](https://apis.io/collections/artifactory/open-artifactory-artifactory-extensions-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Artifacts & Storage API](https://apis.io/collections/artifactory/open-artifactory-artifacts-storage-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Base API](https://apis.io/collections/artifactory/open-artifactory-base-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Blobs API](https://apis.io/collections/artifactory/open-artifactory-blobs-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Build Diff API](https://apis.io/collections/artifactory/open-artifactory-build-diff-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Build Info API](https://apis.io/collections/artifactory/open-artifactory-build-info-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Build Management API](https://apis.io/collections/artifactory/open-artifactory-build-management-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Build Promotion API](https://apis.io/collections/artifactory/open-artifactory-build-promotion-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Catalog API](https://apis.io/collections/artifactory/open-artifactory-catalog-api/)
+- [JFrog Artifactory Docker Registry API](https://apis.io/collections/artifactory/open-artifactory-docker-registry-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Manifests API](https://apis.io/collections/artifactory/open-artifactory-manifests-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Replication API](https://apis.io/collections/artifactory/open-artifactory-replication-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Repositories API](https://apis.io/collections/artifactory/open-artifactory-repositories-api/)
+- [JFrog Artifactory REST API](https://apis.io/collections/artifactory/open-artifactory-rest-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search API](https://apis.io/collections/artifactory/open-artifactory-search-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Security API](https://apis.io/collections/artifactory/open-artifactory-security-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search System & Configuration API](https://apis.io/collections/artifactory/open-artifactory-system-configuration-api/)
+- [JFrog Artifactory Query Language (AQL) AQL Search Tags API](https://apis.io/collections/artifactory/open-artifactory-tags-api/)
+- [JFrog Artifactory Query Language (AQL) API](https://apis.io/collections/artifactory/postman-artifactory-aql-api/)
+- [JFrog Artifactory Docker Registry API](https://apis.io/collections/artifactory/postman-artifactory-docker-registry-api/)
+- [JFrog Artifactory REST API](https://apis.io/collections/artifactory/postman-artifactory-rest-api/)
 
-### Artifactory Docker Registry API
+#### Overlays (4)
 
-Docker Registry v2 API for pushing, pulling, and managing Docker images stored in JFrog Artifactory acting as a Docker registry.
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- **Human URL:** [https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry](https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry)
-- **Base URL:** `https://artifactory.example.com/artifactory/api/docker`
+- [Artifactory Aql Api Overlay](https://apis.io/overlays/artifactory/artifactory-aql-api-overlay/)
+- [Artifactory Build Integration Api Overlay](https://apis.io/overlays/artifactory/artifactory-build-integration-api-overlay/)
+- [Artifactory Docker Registry Api Overlay](https://apis.io/overlays/artifactory/artifactory-docker-registry-api-overlay/)
+- [Artifactory Rest Api Overlay](https://apis.io/overlays/artifactory/artifactory-rest-api-overlay/)
 
-#### Tags
+#### Governance rules (1)
 
-- Docker
-- Containers
-- Registry
+Spectral rulesets for the provider's contracts.
 
-#### Properties
+- [JFrog Artifactory — jsonschema rules](https://apis.io/rules/artifactory/artifactory-jsonschema-spectral-rules/)
 
-- [Documentation](https://jfrog.com/help/r/jfrog-artifactory-documentation/docker-registry)
-- [OpenAPI](openapi/artifactory-docker-registry-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/artifactory-docker-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/artifactory-docker-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (4)
 
-### Artifactory Build Integration API
+Authentication, trust centre, and vulnerability disclosure.
 
-API for publishing and managing build information from CI/CD systems, enabling traceability between artifact versions and the builds that produced them.
+- [Artifactory Authentication](https://apis.io/security/artifactory/artifactory-authentication/)
+- [Artifactory Domain Security](https://apis.io/security/artifactory/artifactory-domain-security/)
+- [Artifactory Trust Center](https://apis.io/security/artifactory/artifactory-trust-center/)
+- [Artifactory Vulnerability Disclosure](https://apis.io/security/artifactory/artifactory-vulnerability-disclosure/)
 
-- **Human URL:** [https://jfrog.com/help/r/jfrog-rest-apis/builds](https://jfrog.com/help/r/jfrog-rest-apis/builds)
-- **Base URL:** `https://artifactory.example.com/artifactory/api/build`
+#### Plans and pricing (2)
 
-#### Tags
+Published plans, tiers and prices.
 
-- Builds
-- CI/CD
-- Integration
+- [Artifactory Plans Pricing](https://apis.io/plans/artifactory/artifactory-plans-pricing/)
+- [Artifactory Price Estimates](https://apis.io/plans/artifactory/artifactory-price-estimates/)
 
-#### Properties
+#### Rate limits (1)
 
-- [Documentation](https://jfrog.com/help/r/jfrog-rest-apis/builds)
-- [OpenAPI](openapi/artifactory-build-integration-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [JSON Schema](json-schema/artifactory-build-info.json) — [JSON Schema](https://json-schema.org/specification)
+Published request limits.
 
-## Common Properties
+- [Artifactory Rate Limits](https://apis.io/rate-limits/artifactory/artifactory-rate-limits/)
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [Terms of Service](https://jfrog.com/terms-of-service/)
-- [Privacy Policy](https://jfrog.com/privacy-policy/)
-- [Status Page](https://status.jfrog.com/)
-- [Pricing](https://jfrog.com/pricing/)
-- [Blog](https://jfrog.com/blog/)
-- [GitHub Organization](https://github.com/jfrog)
-- [X (Twitter)](https://twitter.com/jfrog)
-- [Support](https://jfrog.com/support/)
-- [Portal](https://jfrog.com/developers/)
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Artifactory Finops](https://apis.io/finops/artifactory/artifactory-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.jfrog.com/)
 - [Documentation](https://jfrog.com/help/)
-- [Getting Started](https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory)
-- [Sign Up](https://jfrog.com/start-free/)
-- [Login](https://my.jfrog.com/login/)
-- [Resources](https://community.jfrog.com/)
-- [YouTube](https://www.youtube.com/@jfrog)
-- [C L I](https://jfrog.com/help/r/jfrog-cli/jfrog-cli)
+- [Getting started](https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory)
+- [Pricing](https://jfrog.com/pricing/)
+- [Support](https://jfrog.com/support/)
 - [Changelog](https://jfrog.com/help/r/jfrog-release-information/jfrog-release-notes)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [Integrations](https://jfrog.com/integrations/)
+- [Blog](https://jfrog.com/blog/)
+- [Terms of service](https://jfrog.com/terms-of-service/)
+- [Privacy policy](https://jfrog.com/privacy-policy/)
+- [GitHub](https://github.com/jfrog)
+- [Status](https://status.jfrog.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 57.8** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 58.1 |
+| Contract governance | 14.4 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 46.4 |
+| Access clarity | 67.1 |
+
+**Agent readiness 33.5** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/artifactory/](https://apis.io/providers/artifactory/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for JFrog Artifactory: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/artifactory/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
