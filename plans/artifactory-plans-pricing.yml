@@ -1,0 +1,70 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://jfrog.com/pricing/
+sources:
+- https://jfrog.com/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T131751
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-09-20'
+  evidence: SaaS Self-Managed
+  managed_tier: Pro
+published: true
+note: Pro listed as $150 / Month with limited time offer price $50 / Month (Save $100/mo). Security/MLOps
+  bundles list base bundle of 200 Devs / 500 Devs without prices.
+plan_count: 3
+currency: USD
+plans:
+- name: Pro
+  price_text: $50 / Month
+  price: 50
+  currency: USD
+  period: month
+  included_quota: DevOps 25 GB Base Consumption
+- name: Enterprise X
+  price_text: $950 / Month
+  price: 950
+  currency: USD
+  period: month
+  included_quota: DevOps 125 GB Base Consumption
+- name: Enterprise +
+  price_text: 'Custom Pricing: Let''s Talk'
+  period: none
+  included_quota: DevOps Custom Consumption
+rate_limit_statements:
+- Unlimited Docker Hub Pulls
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Pro
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise X
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise +
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
